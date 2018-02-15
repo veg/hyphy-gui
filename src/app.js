@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+const ReactMarkdown = require('react-markdown')
+
+import 'bootstrap/dist/css/bootstrap.css';
+
+
+function Table(props){
+  return <table className="table table-striped">{props.children}</table>;
+}
 
 class App extends Component {
   constructor(props){
@@ -17,7 +25,7 @@ class App extends Component {
       <h1>HyPhy</h1>
       <p>Hypothesis testing using phylogenies</p>
       <button onClick={()=>this.accessNodePortal()}>Access node portal</button>
-      <p>{this.state.message}</p>
+      <ReactMarkdown source={this.state.message} renderers={{table: Table}}/>
     </div>);
   }
 }
