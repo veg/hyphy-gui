@@ -1,3 +1,5 @@
 node_modules
 .hyphy
-dist/bundle.js
+bundle.js
+*.log
+data/*.json

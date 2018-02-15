@@ -30,3 +30,4 @@ function render_app(node_portal){
 }
 
 module.exports = render_app;
+
