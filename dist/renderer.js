@@ -1,8 +1,14 @@
-const fs = require('fs');
+const { spawn } = require('child_process');
 
-function node_portal(){
-  fs.readFile('/Users/stephenshank/Documents/hyphy-gui/dist/test.txt', (err, data) => {
-    console.log(data.toString());
+
+function node_portal(react_portal){
+  const a_process = spawn('python',['sleep.py']);
+  a_process.stdout.on('data', (data) => {
+    react_portal(data.toString());
+  });
+
+  a_process.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
   });
 }
 
