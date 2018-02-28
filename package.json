@@ -8,10 +8,14 @@
   "license": "MIT",
   "dependencies": {
     "bootstrap": "3",
+    "hyphy-vision": "^1.1.7",
+    "jquery": "^3.3.1",
+    "phylotree": "^0.1.6",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
-    "react-markdown": "^3.2.0"
+    "react-markdown": "^3.2.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

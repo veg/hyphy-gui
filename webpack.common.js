@@ -31,6 +31,12 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    alias: {
+      "phylotree.css": __dirname + "/node_modules/phylotree/phylotree.css"
+    },
+    modules: ["src", "node_modules"]
+  },
   output: {
     filename: 'bundle.js',
     path: __dirname
