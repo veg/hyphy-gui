@@ -28,6 +28,11 @@ module.exports = {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         loaders: "url-loader",
         options: { limit: 10000, mimetype: "image/svg+xml" }
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: "babel-loader"
       }
     ]
   },

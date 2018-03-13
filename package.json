@@ -39,6 +39,6 @@
   },
   "scripts": {
     "dev": "concurrently \"webpack --config webpack.dev.js -w\" \"electron main.js\"",
-    "lint": "eslint **/*.js"
+    "lint": "eslint **/*.js **/*.jsx"
   }
 }
