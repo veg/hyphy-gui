@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "bootstrap": "3",
+    "eslint": "^4.18.2",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
@@ -21,6 +22,10 @@
     "concurrently": "^3.5.1",
     "css-loader": "^0.28.9",
     "electron": "^1.8.2",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
     "file-loader": "^1.1.6",
     "style-loader": "^0.20.1",
     "uglifyjs-webpack-plugin": "^1.1.8",
@@ -29,6 +34,7 @@
     "webpack-merge": "^4.1.1"
   },
   "scripts": {
-    "dev": "concurrently \"webpack --config webpack.dev.js -w\" \"electron main.js\""
+    "dev": "concurrently \"webpack --config webpack.dev.js -w\" \"electron main.js\"",
+    "lint": "eslint **/*.js"
   }
 }
