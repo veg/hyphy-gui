@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 const ReactMarkdown = require('react-markdown')
-
+const hyphyVision = require('hyphy-vision');
 import 'bootstrap/dist/css/bootstrap.css';
 
+
+const BSREL = hyphyVision.absrel.BSREL;
 
 function Table(props){
   return <table className="table table-striped">{props.children}</table>;
@@ -12,10 +14,14 @@ function Table(props){
 class App extends Component {
   constructor(props){
     super(props);
-    this.state = { message: '' };
+    this.state = { message: '', json: undefined };
   }
-  accessNodePortal(){
-    this.props.node_portal(data => {
+  componentDidMount(){
+    const json = this.props.node_portal.file();
+    this.setState({json: json});
+  }
+  accessHyPhy(){
+    var data = this.props.node_portal.hyphy(data => {
       const new_message = this.state.message + data;
       this.setState({message: new_message});
     });
@@ -24,8 +30,10 @@ class App extends Component {
     return(<div>
       <h1>HyPhy</h1>
       <p>Hypothesis testing using phylogenies</p>
-      <button onClick={()=>this.accessNodePortal()}>Access node portal</button>
+      <button onClick={()=>this.accessHyPhy()}>Access node portal</button>
       <ReactMarkdown source={this.state.message} renderers={{table: Table}}/>
+      <BSREL data={this.state.json} />
+      <div id="absrel"></div>
     </div>);
   }
 }
