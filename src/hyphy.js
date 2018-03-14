@@ -14,7 +14,7 @@ function hyphyPortal(reactPortal) {
   });
 
   process.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+    console.log(`child process exited with code ${code}`); // eslint-disable-line no-console
   });
 }
 
@@ -24,7 +24,7 @@ function filePortal() {
   return JSON.parse(jsonData);
 }
 
-render_app({ // eslint-disable-line no-undef
+renderApp({ // eslint-disable-line no-undef
   hyphy: hyphyPortal,
   file: filePortal,
 });

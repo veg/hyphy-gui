@@ -6,4 +6,4 @@ import 'hyphy-vision/dist/hyphyvision.css';
 
 require('phylotree.css');
 
-window.render_app = require('./app.jsx');
+window.renderApp = require('./app.jsx');

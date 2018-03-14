@@ -18,10 +18,10 @@ class App extends Component {
   }
   componentDidMount() {
     const json = this.props.nodePortal.file();
-    this.setState({ json });
+    this.setState({ json }); // eslint-disable-line
   }
   accessHyPhy() {
-    const data = this.props.nodePortal.hyphy((data) => {
+    const data = this.props.nodePortal.hyphy((data) => { // eslint-disable-line
       const newMessage = this.state.message + data;
       this.setState({ message: newMessage });
     });
@@ -40,12 +40,12 @@ class App extends Component {
   }
 }
 
-function render_app(nodePortal) {
+function renderApp(nodePortal) {
   ReactDOM.render(
     <App nodePortal={nodePortal} />,
-    document.body.appendChild(document.createElement('div')),
+    document.body.appendChild(document.createElement('div')), // eslint-disable-line
   );
 }
 
-module.exports = render_app;
+module.exports = renderApp;
 
