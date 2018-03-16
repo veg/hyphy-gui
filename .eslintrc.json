@@ -1,0 +1,8 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "react/prop-types": 1,
+    "camelcase": 1,
+    "prefer-destructuring": 1
+  }
+}

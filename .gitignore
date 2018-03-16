@@ -2,9 +2,9 @@ node_modules
 .hyphy
 bundle.js
 *.log
-data/*.json
 *.woff
 *.woff2
 *.eot
 *.svg
 *.ttf
+.DS_Store

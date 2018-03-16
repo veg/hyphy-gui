@@ -1,20 +1,30 @@
-const { spawn } = require('child_process'),
-  path = require('path');
+const fs = require('fs');
+const { spawn } = require('child_process');
+const path = require('path');
 
 
-function node_portal(react_portal){
-  const script_path = path.resolve('scripts', 'absrel.sh'),
-    hyphy_directory = path.resolve(__dirname, '.hyphy'),
-    data_path = path.resolve(__dirname, 'data', 'CD2.fna'),
-    process = spawn('bash', [script_path, hyphy_directory, data_path]);
+function hyphyPortal(reactPortal) {
+  const scriptPath = path.resolve('scripts', 'absrel.sh');
+  const hyphyDirectory = path.resolve(__dirname, '.hyphy');
+  const dataPath = path.resolve(__dirname, 'data', 'CD2.fna');
+  const process = spawn('bash', [scriptPath, hyphyDirectory, dataPath]);
 
   process.stdout.on('data', (data) => {
-    react_portal(data.toString());
+    reactPortal(data.toString());
   });
 
   process.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+    console.log(`child process exited with code ${code}`); // eslint-disable-line no-console
   });
 }
 
-render_app(node_portal);
+function filePortal() {
+  const jsonPath = path.resolve(__dirname, 'data', 'CD2.fna.ABSREL.json');
+  const jsonData = fs.readFileSync(jsonPath).toString();
+  return JSON.parse(jsonData);
+}
+
+renderApp({ // eslint-disable-line no-undef
+  hyphy: hyphyPortal,
+  file: filePortal,
+});

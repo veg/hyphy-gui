@@ -28,8 +28,19 @@ module.exports = {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         loaders: "url-loader",
         options: { limit: 10000, mimetype: "image/svg+xml" }
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: "babel-loader"
       }
     ]
+  },
+  resolve: {
+    alias: {
+      "phylotree.css": __dirname + "/node_modules/phylotree/phylotree.css"
+    },
+    modules: ["src", "node_modules"]
   },
   output: {
     filename: 'bundle.js',

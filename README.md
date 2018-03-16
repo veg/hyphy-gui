@@ -9,8 +9,9 @@ Requirements:
 * `make`
 * `cmake`
 * `yarn`
+* `MPI`
 
-After cloning this repository, run
+After cloning this repository and installing the above requirements, run
 
 ```
 make all
