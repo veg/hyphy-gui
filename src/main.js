@@ -1,12 +1,15 @@
+/* eslint-disable */
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+const ipcMain = require('electron').ipcMain;
 
 const path = require('path')
 const url = require('url')
 const fs = require('fs');
+const { spawn } = require('child_process');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -22,7 +25,7 @@ function createWindow () {
   }
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1100, height: 800})
+  mainWindow = new BrowserWindow({width: 1400, height: 800})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -41,6 +44,7 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
 }
 
 // This method will be called when Electron has finished
@@ -67,3 +71,33 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+/**
+ * =====================================================================================
+ * End of Boilerplate file from electron-quick-start.
+ * The code below is for communicating between the main and render processes.
+ * =====================================================================================
+ */
+
+// Run an analysis, just aBSREL for now.
+ipcMain.on('runAnalysis', function(event, arg) {
+  arg.method === 'absrel' ? runAbsrel() : null;
+});
+
+function runAbsrel() {
+  // Run a script that runs some test data in absrel.
+  const script_path = path.resolve('./scripts', 'absrel.sh');
+  const hyphy_directory = path.resolve('./', '.hyphy');
+  const data_path = path.resolve('./', 'data', 'CD2.fna');
+  const process = spawn('bash', [script_path, hyphy_directory, data_path]);
+
+  // Send the stdout to the render window which can listen for 'stdout'.
+  process.stdout.on('data', (data) => {
+    mainWindow.webContents.send('stdout', {msg: data.toString()});
+  });
+
+  // Let the render window know when the analysis is done.
+  process.on('close', (code) => {
+    mainWindow.webContents.send('analysisComplete', {msg: 'path to resuls data could go here'});
+  });
+}
