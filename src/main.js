@@ -18,10 +18,13 @@ let mainWindow
 function createWindow () {
 
   // Add the React DevTools (currently has path hard coded).
-  if (fs.existsSync('/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.1.0_0')) {
+  if (fs.existsSync('/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.0_0')) {
+    console.log('reactDEVTOOLS!');
     BrowserWindow.addDevToolsExtension(
-      '/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.1.0_0'
+      '/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.0_0'
     );
+  } else {
+    console.log('no tools');
   }
 
   // Create the browser window.
