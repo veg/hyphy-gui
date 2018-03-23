@@ -5,7 +5,7 @@ const ipcRenderer = require('electron').ipcRenderer;
 
 import { HyPhyGUINavBar } from './components/navbar.jsx';
 import { Home } from './components/home.jsx';
-import { JobSubmittal } from './components/job_submittal.jsx';
+import { GUIJobSubmittal } from './components/gui_job_submittal.jsx';
 import { JobProgress } from './components/job_progress.jsx';
 import { Results } from './components/results.jsx';
 const hyphyVision = require('hyphy-vision'); // TODO: I don't think I'm using hyphyVision but when I remove this line the navbar drop down menues don't appear anymore...
@@ -17,7 +17,8 @@ class App extends Component {
     this.state = {
       page: 'home',
       method: null,
-      resultsFileName: 'CD2.fna.ABSREL.json', // TODO: set to null originally and change dynamically
+      jobRunning: false,
+      resultsFileName: 'CD2.fna.ABSREL.json'
     };
   }
 
@@ -29,7 +30,10 @@ class App extends Component {
     const self = this;
     ipcRenderer.on('analysisComplete', (event, arg) => {
       self.setState({
+        method: arg.msg.method,
+        resultsFileName: (arg.msg.msaPath + '.' + arg.msg.method.toUpperCase() + '.json'),
         page: 'results',
+        jobRunning: false
       })
     }); 
   }
@@ -58,9 +62,9 @@ class App extends Component {
       <div>
         <HyPhyGUINavBar changeAppState={ self.changeAppState } />
         {this.state.page === 'home' ? <Home /> : null}
-        {this.state.page === 'jobSubmittal' ? <JobSubmittal method={ self.state.method } changeAppState={ self.changeAppState } /> : null}
+        {this.state.page === 'jobSubmittal' ? <GUIJobSubmittal appState={ self.state } changeAppState={ self.changeAppState } /> : null}
         {this.state.page === 'jobProgress' ? <JobProgress changeAppState={ self.changeAppState } /> : null}
-        {this.state.page === 'results' ? <Results method={ self.state.method } resultsFileName={ self.state.resultsFileName}/>: null}
+        {this.state.page === 'results' ? <Results method={ self.state.method } resultsFileName={ self.state.resultsFileName }/>: null}
       </div>
     );
   }

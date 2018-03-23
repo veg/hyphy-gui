@@ -79,25 +79,29 @@ app.on('activate', function () {
  * =====================================================================================
  */
 
-// Run an analysis, just aBSREL for now.
+// Run an analysis.
 ipcMain.on('runAnalysis', function(event, arg) {
-  arg.method === 'absrel' ? runAbsrel() : null;
+  runAnalysisScript(arg.jobInfo);
 });
 
-function runAbsrel() {
-  // Run a script that runs some test data in absrel.
-  const script_path = path.resolve('./scripts', 'absrel.sh');
-  const hyphy_directory = path.resolve('./', '.hyphy');
-  const data_path = path.resolve('./', 'data', 'CD2.fna');
-  const process = spawn('bash', [script_path, hyphy_directory, data_path]);
+function runAnalysisScript(jobInfo) {
+  const scriptPath = path.resolve('./scripts', (jobInfo.method + '.sh'));
+  const hyphyDirectory = path.resolve('./', '.hyphy');
+  let process = null;
+  if (jobInfo.method === 'relax') {
+    process = spawn('bash', [scriptPath, hyphyDirectory, jobInfo.msaPath, jobInfo.geneticCode, jobInfo.analysisType]);
+  } else {
+    process = spawn('bash', [scriptPath, hyphyDirectory, jobInfo.msaPath, jobInfo.geneticCode]);
+  }
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on('data', (data) => {
+    console.log(data.toString());
     mainWindow.webContents.send('stdout', {msg: data.toString()});
   });
 
   // Let the render window know when the analysis is done.
   process.on('close', (code) => {
-    mainWindow.webContents.send('analysisComplete', {msg: 'path to resuls data could go here'});
+    mainWindow.webContents.send('analysisComplete', {msg: jobInfo});
   });
 }

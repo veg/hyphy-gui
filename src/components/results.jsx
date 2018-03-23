@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const hyphyVision = require('hyphy-vision'); 
 const BSREL = hyphyVision.absrel.BSREL;
+const RELAX = hyphyVision.relax.RELAX;
 
 class Results extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class Results extends Component {
       <div>
         <h2>Results Page</h2>
         {self.props.method === 'absrel' ? <BSREL data={self.state.jsonData}/> : null}
+        {self.props.method === 'relax' ? <RELAX data={self.state.jsonData}/> : null}
       </div>
     );
   }
