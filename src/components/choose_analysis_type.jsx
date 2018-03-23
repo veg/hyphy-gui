@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 
-/** TODO: 
- * 1. Restyle... currently using what was on datamonkey.org.
- * 2. Get the file set to state
- */
 class ChooseAnalysisType extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +10,7 @@ class ChooseAnalysisType extends Component {
     // Set the analysis type of the parent JobSubmittal component to 1 (all) when ChooseAnalysisType mounts.
     this.props.updateJobInfo('analysisType', '1')
   }
+
   handleChange = (event) => {
     this.props.updateJobInfo('analysisType', event.target.value)
   }

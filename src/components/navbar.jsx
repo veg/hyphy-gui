@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 const headerLogo = require('../../images/header-logo.svg');
+
 
 class HyPhyGUINavBar extends Component {
   constructor(props) {

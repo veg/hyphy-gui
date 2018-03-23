@@ -20,12 +20,16 @@ class JobSubmittal extends Component {
         // Note that initial/default value for other job info fields (i.e. the analysis type for RELAX) are set by
         // the those specific field/button components (ChooseAnalysisType for RELAX) when those components mount.
         // This was done to allow for initial/default value for the fields to be set without creating an entry
-        // in the state of methods that don't need/use this info.
+        // in the state of methods that don't need/use the info.
       }
     };
   }
 
   updateJobInfo = (key, value) => {
+    /**
+     * This method is passed down to the individual fields/button components so that they can
+     * set the jobInfo property of the JobSubmittal components state.
+     */
     this.setState({})
     this.state.jobInfo[key] = value;
   }

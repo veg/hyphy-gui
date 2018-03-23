@@ -1,10 +1,6 @@
-import React, {Component } from 'react';
+import React, { Component } from 'react';
 
 
-/** TODO: 
- * 1. Restyle... currently using what was on datamonkey.org.
- * 2. I changed these to be numbered from 1 instead of 0 because hyphy expects universal code to be 1.
- */
 class ChooseGeneticCode extends Component {
   constructor(props) {
     super(props);
@@ -14,11 +10,11 @@ class ChooseGeneticCode extends Component {
     this.props.updateJobInfo('geneticCode', event.target.value)
   }
 
-  render () {
+  render() {
     return (
       <div className="upload-div">
         <label id="geneticcode-content">Genetic Code<a href="/help#genetic-code" target="_blank"><sup>?</sup></a></label>
-        <select name="gencodeid" onChange={this.handleChange} >
+        <select name="gencodeid" value="1" onChange={this.handleChange} >
 
           <option value="1">
             Universal code

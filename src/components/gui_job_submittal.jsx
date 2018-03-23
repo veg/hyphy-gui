@@ -4,7 +4,7 @@ import { JobSubmittal } from './job_submittal.jsx' // This will be replaced by a
 
 
 /**
- * GUIJobSubmittal is a component that will wrap the generic JobSubmittal component (still to be written in vision)
+ * GUIJobSubmittal is a component that wraps the generic JobSubmittal component (to be impored from vision)
  * and provide the funcitionality unique to the GUI.
  */
 class GUIJobSubmittal extends Component {
@@ -18,9 +18,6 @@ class GUIJobSubmittal extends Component {
      * ipcRenderer sends "runAnalysis" to main.
      * A listener ("ipcMain.on") is listening for "runAnalysis" on the Main side.
      * tellMainToRunAnalysis also changes the state of App to {page: jobProgress} and {jobRunning: true}.
-     *
-     * TODO: need to add the ability to que analyses if there is an analysis running.
-     *       It currently just sends an alert.
      */
     if (this.props.appState.jobRunning === false) {
       ipcRenderer.send('runAnalysis', {method: this.props.appState.method, jobInfo: jobInfo});

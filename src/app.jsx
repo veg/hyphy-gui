@@ -18,7 +18,7 @@ class App extends Component {
       page: 'home',
       method: null,
       jobRunning: false,
-      resultsFileName: 'CD2.fna.ABSREL.json'
+      resultsFileName: null
     };
   }
 
