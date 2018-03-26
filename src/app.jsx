@@ -8,7 +8,6 @@ import { Home } from './components/home.jsx';
 import { GUIJobSubmittal } from './components/gui_job_submittal.jsx';
 import { JobProgress } from './components/job_progress.jsx';
 import { Results } from './components/results.jsx';
-const hyphyVision = require('hyphy-vision'); // TODO: I don't think I'm using hyphyVision but when I remove this line the navbar drop down menues don't appear anymore...
 
 
 class App extends Component {
@@ -45,15 +44,8 @@ class App extends Component {
      * changeAppState is pased down as a prop to components and should be called with an arrow 
      * function if in the render method to allow the passing of arguments.
      * For example: `onClick={() => self.props.changeAppState('exampleKeyForAppState', 'exampleValue')}
-     *
-     * The React docs discourage setting state without using the "setState" method... 
-     * I'm using "this.state[stateToSet]" below because I haven't been able to  pass a variable as a key to
-     * "setState". "this.setState({})" simply calls the setState method without actually changing the state... 
-     * I'm not exaclty sure why but this seems to be necessary 
-     * (the function doesn't do anything when that line is removed).
      */
-    this.setState({});
-    this.state[stateToSet] = valueToSet;
+    this.setState({ [stateToSet]: valueToSet });
   }
 
   render() {

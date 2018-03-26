@@ -19,8 +19,8 @@ class ChooseAnalysisType extends Component {
     return (
       <div className="select-element">
         <label id="analysis-content">Analysis Type<a href="/help#relax-analysis-types" target="_blank"><sup>?</sup></a></label>
-        <select id="analysis-type" onChange={this.handleChange} >
-          <option selected="" value="1">
+        <select id="analysis-type" value="1" onChange={this.handleChange} >
+          <option value="1">
             All
           </option>
           <option value="2">

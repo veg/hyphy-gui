@@ -30,8 +30,7 @@ class JobSubmittal extends Component {
      * This method is passed down to the individual fields/button components so that they can
      * set the jobInfo property of the JobSubmittal components state.
      */
-    this.setState({})
-    this.state.jobInfo[key] = value;
+    this.state.jobInfo[key] = value
   }
   
   render() {
