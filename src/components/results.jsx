@@ -19,7 +19,7 @@ class Results extends Component {
   }
 
   setResultsDataToState = () => {
-    const jsonPath = path.resolve('./data', this.props.resultsFileName);
+    const jsonPath = path.resolve('./data', this.props.jobInfo.resultsFileName);
     const jsonData = fs.readFileSync(jsonPath).toString();
     this.setState({jsonData: JSON.parse(jsonData)});
   }
@@ -28,8 +28,8 @@ class Results extends Component {
     var self = this;
     return (
       <div>
-        {self.props.method === 'absrel' ? <BSREL data={self.state.jsonData}/> : null}
-        {self.props.method === 'relax' ? <RELAX data={self.state.jsonData}/> : null}
+        {self.props.jobInfo.method === 'absrel' ? <BSREL data={self.state.jsonData}/> : null}
+        {self.props.jobInfo.method === 'relax' ? <RELAX data={self.state.jsonData}/> : null}
       </div>
     );
   }

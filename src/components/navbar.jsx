@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 const headerLogo = require('../../images/header-logo.svg');
+import { ResultsDropDownItems } from './results_drop_down_items.jsx';
 
 
 class HyPhyGUINavBar extends Component {
   constructor(props) {
     super(props);
+  }
+
+  goHome = () => {
+    this.props.changeAppState('page', 'home');
+    this.props.changeAppState('method', null);
+    this.props.changeAppState('jobInFocus', null);
   }
 
   openNewJobSubmittalPage = (method) => {
@@ -14,13 +21,14 @@ class HyPhyGUINavBar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          <img src={headerLogo} height="30px" onClick={() => this.props.changeAppState('page', 'home')} />
+          <img src={headerLogo} height="30px" onClick={this.goHome} />
         </a>
         
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
+            <ResultsDropDownItems changeAppState={this.props.changeAppState} resultsList={this.props.appState.jobInfoList} /> 
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tools and Methods
@@ -33,6 +41,7 @@ class HyPhyGUINavBar extends Component {
                 <a className="dropdown-item" href="#">All Methods</a>
               </div>
             </li>
+
             <li className="nav-item">
               <a className="nav-link" href="#">Citations</a>
             </li>

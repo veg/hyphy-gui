@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 const ipcRenderer = require('electron').ipcRenderer;
+const _ = require('underscore');
 
 import { HyPhyGUINavBar } from './components/navbar.jsx';
 import { Home } from './components/home.jsx';
@@ -16,8 +17,10 @@ class App extends Component {
     this.state = {
       page: 'home',
       method: null,
-      jobIsRunning: false,
-      resultsFileName: null
+      jobsQueued: [],
+      jobRunning: {},
+      jobsCompleted: {},
+      jobInFocus: null
     };
   }
 
@@ -28,12 +31,15 @@ class App extends Component {
   setEventListeners = () => {
     const self = this;
     ipcRenderer.on('analysisComplete', (event, arg) => {
-      self.setState({
-        method: arg.msg.method,
-        resultsFileName: (arg.msg.msaPath + '.' + arg.msg.method.toUpperCase() + '.json'),
-        page: 'results',
-        jobRunning: false
-      })
+      let jobsCompletedUpdated = self.state.jobsCompleted;
+      jobsCompletedUpdated[self.state.jobRunning.jobID] = self.state.jobRunning;
+      self.setState({ jobsCompleted: jobsCompletedUpdated });
+
+      if (!_.isEmpty(this.state.jobsQueued)) {
+        let nextJob = self.state.jobsQueued.shift();
+        self.setState({ jobRunning: nextJob });
+        ipcRenderer.send('runAnalysis', {jobInfo: nextJob});
+      }
     }); 
   }
 
@@ -51,12 +57,12 @@ class App extends Component {
   render() {
     var self = this;
     return (
-      <div>
-        <HyPhyGUINavBar changeAppState={ self.changeAppState } />
+      <div style={{paddingTop: '70px'}}>
+        <HyPhyGUINavBar appState={ self.state } changeAppState={ self.changeAppState } />
         {this.state.page === 'home' ? <Home /> : null}
         {this.state.page === 'jobSubmittal' ? <GUIJobSubmittal appState={ self.state } changeAppState={ self.changeAppState } /> : null}
         {this.state.page === 'jobProgress' ? <JobProgress changeAppState={ self.changeAppState } /> : null}
-        {this.state.page === 'results' ? <Results method={ self.state.method } resultsFileName={ self.state.resultsFileName }/>: null}
+        {this.state.page === 'results' ? <Results jobInfo={ self.state.jobInfoList[self.state.jobInFocus] } resultsFileName={ self.state.resultsFileName }/>: null}
       </div>
     );
   }

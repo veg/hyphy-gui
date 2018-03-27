@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 const ipcRenderer = require('electron').ipcRenderer;
 import { JobSubmittal } from './job_submittal.jsx' // This will be replaced by an import from hyphy-vision when ready.
+const _ = require('underscore');
 
 
 /**
@@ -17,14 +18,32 @@ class GUIJobSubmittal extends Component {
      * A function to send a message to the main process telling it to run a hyphy job.
      * ipcRenderer sends "runAnalysis" to main.
      * A listener ("ipcMain.on") is listening for "runAnalysis" on the Main side.
-     * tellMainToRunAnalysis also changes the state of App to {page: jobProgress} and {jobRunning: true}.
      */
-    if (this.props.appState.jobIsRunning === false) {
-      ipcRenderer.send('runAnalysis', {method: this.props.appState.method, jobInfo: jobInfo});
+
+    // Add timeSubmitted to jobInfo.
+    let currentDate = new Date();
+    let timeSubmitted = currentDate.getDate() +
+      "/"+ (currentDate.getMonth() + 1) + 
+      "/" + currentDate.getFullYear() + "_" + 
+      currentDate.getHours() + ":" + 
+      currentDate.getMinutes() + ":" +
+      currentDate.getSeconds();
+    jobInfo['timeSubmitted'] = timeSubmitted;
+
+    // Add jobID to jobInfo.
+    let jobID = jobInfo.msaName + "_" + jobInfo.method + "_" + timeSubmitted;
+    jobInfo['jobID'] = jobID; 
+
+    // Send the message to run the job or add the queue to the queued job list.
+    if (_.isEmpty(this.props.appState.jobRunning)) {
+      ipcRenderer.send('runAnalysis', {jobInfo: jobInfo});
       this.props.changeAppState('page', 'jobProgress');
-      this.props.changeAppState('jobIsRunning', true);
+      this.props.changeAppState('jobRunning', jobInfo);
     } else {
-      alert('Another job is already running... the GUI does not support queueing yet');
+      let QueuedJobsUpdated = this.props.appState.jobsQueued;
+      QueuedJobsUpdated.push(jobInfo);
+      this.props.changeAppState('jobsQueued', QueuedJobsUpdated);
+      this.props.changeAppState('page', 'home');
     }
   }
 
