@@ -19,10 +19,10 @@ class GUIJobSubmittal extends Component {
      * A listener ("ipcMain.on") is listening for "runAnalysis" on the Main side.
      * tellMainToRunAnalysis also changes the state of App to {page: jobProgress} and {jobRunning: true}.
      */
-    if (this.props.appState.jobRunning === false) {
+    if (this.props.appState.jobIsRunning === false) {
       ipcRenderer.send('runAnalysis', {method: this.props.appState.method, jobInfo: jobInfo});
       this.props.changeAppState('page', 'jobProgress');
-      this.props.changeAppState('jobRunning', true);
+      this.props.changeAppState('jobIsRunning', true);
     } else {
       alert('Another job is already running... the GUI does not support queueing yet');
     }

@@ -16,7 +16,7 @@ class App extends Component {
     this.state = {
       page: 'home',
       method: null,
-      jobRunning: false,
+      jobIsRunning: false,
       resultsFileName: null
     };
   }
