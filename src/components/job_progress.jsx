@@ -16,9 +16,10 @@ class JobProgress extends Component {
   }
 
   componentWillMount() {
-    this.setEventListeners();
+    // this.setEventListeners();
   }
 
+    /*
   setEventListeners = () => {
     const self = this;
     ipcRenderer.on('stdout', (event, arg) => {
@@ -28,13 +29,13 @@ class JobProgress extends Component {
       }
     }); 
   }
+  */
 
   render() {
     return (
       <div>
         <h2>Job Progress Page</h2>
-        <p>Placeholcer for the job progress page</p>
-        <ReactMarkdown source={this.state.message} renders={{table: Table}} />
+        <ReactMarkdown source={this.props.appState.jobRunning.stdOut} renders={{table: Table}} />
       </div>
     );
   }

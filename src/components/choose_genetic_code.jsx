@@ -14,7 +14,7 @@ class ChooseGeneticCode extends Component {
     return (
       <div className="upload-div">
         <label id="geneticcode-content">Genetic Code<a href="/help#genetic-code" target="_blank"><sup>?</sup></a></label>
-        <select name="gencodeid" value="1" onChange={this.handleChange} >
+        <select name="gencodeid" defaultValue="1" onChange={this.handleChange} >
 
           <option value="1">
             Universal code

@@ -5,7 +5,7 @@ const _ = require('underscore');
 
 
 /**
- * GUIJobSubmittal is a component that wraps the generic JobSubmittal component (to be impored from vision)
+ * GUIJobSubmittal wraps the generic JobSubmittal component (to be impored from vision)
  * and provide the funcitionality unique to the GUI.
  */
 class GUIJobSubmittal extends Component {
@@ -22,8 +22,8 @@ class GUIJobSubmittal extends Component {
 
     // Add timeSubmitted to jobInfo.
     let currentDate = new Date();
-    let timeSubmitted = currentDate.getDate() +
-      "/"+ (currentDate.getMonth() + 1) + 
+    let timeSubmitted = (currentDate.getMonth() + 1) +
+      "/"+ currentDate.getDate() + 
       "/" + currentDate.getFullYear() + "_" + 
       currentDate.getHours() + ":" + 
       currentDate.getMinutes() + ":" +
@@ -34,16 +34,21 @@ class GUIJobSubmittal extends Component {
     let jobID = jobInfo.msaName + "_" + jobInfo.method + "_" + timeSubmitted;
     jobInfo['jobID'] = jobID; 
 
-    // Send the message to run the job or add the queue to the queued job list.
+    // Add jsonPath to jobInfo.
+    jobInfo['jsonPath'] = jobInfo.msaPath + '.' + jobInfo.method.toUpperCase() + '.json';
+
+    // Send the message to run the job or add to the queued job list.
     if (_.isEmpty(this.props.appState.jobRunning)) {
       ipcRenderer.send('runAnalysis', {jobInfo: jobInfo});
       this.props.changeAppState('page', 'jobProgress');
       this.props.changeAppState('jobRunning', jobInfo);
+      this.props.changeAppState('jobInFocus', jobInfo.jobID);
     } else {
       let QueuedJobsUpdated = this.props.appState.jobsQueued;
       QueuedJobsUpdated.push(jobInfo);
+      this.props.changeAppState('page', 'jobQueue');
       this.props.changeAppState('jobsQueued', QueuedJobsUpdated);
-      this.props.changeAppState('page', 'home');
+      this.props.changeAppState('method', null);
     }
   }
 

@@ -8,6 +8,7 @@ import { HyPhyGUINavBar } from './components/navbar.jsx';
 import { Home } from './components/home.jsx';
 import { GUIJobSubmittal } from './components/gui_job_submittal.jsx';
 import { JobProgress } from './components/job_progress.jsx';
+import { JobQueue } from './components/job_queue.jsx';
 import { Results } from './components/results.jsx';
 
 
@@ -26,6 +27,7 @@ class App extends Component {
 
   componentWillMount() {
     this.setEventListeners();
+    this.setState({method: null, jobInFocus: null})
   }
 
   setEventListeners = () => {
@@ -39,6 +41,17 @@ class App extends Component {
         let nextJob = self.state.jobsQueued.shift();
         self.setState({ jobRunning: nextJob });
         ipcRenderer.send('runAnalysis', {jobInfo: nextJob});
+      } else {
+        self.setState({ jobRunning: {} });
+      }
+    }); 
+    ipcRenderer.on('stdout', (event, arg) => {
+      if (arg.msg !== self.tempMessageForChecking) {
+        let appendedStdOut = self.state.jobRunning.stdOut + arg.msg;
+        let jobRunningInfo = self.state.jobRunning;
+        jobRunningInfo.stdOut = appendedStdOut;
+        self.setState({jobRunning: jobRunningInfo})
+        self.tempMessageForChecking = arg.msg;
       }
     }); 
   }
@@ -61,8 +74,9 @@ class App extends Component {
         <HyPhyGUINavBar appState={ self.state } changeAppState={ self.changeAppState } />
         {this.state.page === 'home' ? <Home /> : null}
         {this.state.page === 'jobSubmittal' ? <GUIJobSubmittal appState={ self.state } changeAppState={ self.changeAppState } /> : null}
-        {this.state.page === 'jobProgress' ? <JobProgress changeAppState={ self.changeAppState } /> : null}
-        {this.state.page === 'results' ? <Results jobInfo={ self.state.jobInfoList[self.state.jobInFocus] } resultsFileName={ self.state.resultsFileName }/>: null}
+        {this.state.page === 'jobProgress' ? <JobProgress appState={ self.state } changeAppState={ self.changeAppState } /> : null}
+        {this.state.page === 'jobQueue' ? <JobQueue appState={ self.state } changeAppState={ self.changeAppState } /> : null}
+        {this.state.page === 'results' ? <Results appState={ self.state } changeAppState= { self.changeAppState } />: null}
       </div>
     );
   }

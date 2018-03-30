@@ -47,7 +47,7 @@ class JobSubmittal extends Component {
         { self.props.platform === 'electron' ? <GetMSAPath updateJobInfo={self.updateJobInfo} /> : null } 
         <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
         {self.props.method === 'relax' ? <ChooseAnalysisType updateJobInfo={self.updateJobInfo} /> : null}
-        <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>Run Analysis on Test Data</button>
+        <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>Submit Analysis</button>
       </div>
     );
   }

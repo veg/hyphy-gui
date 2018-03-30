@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 const headerLogo = require('../../images/header-logo.svg');
-import { ResultsDropDownItems } from './results_drop_down_items.jsx';
 
 
 class HyPhyGUINavBar extends Component {
@@ -8,7 +7,7 @@ class HyPhyGUINavBar extends Component {
     super(props);
   }
 
-  goHome = () => {
+  openHomePage = () => {
     this.props.changeAppState('page', 'home');
     this.props.changeAppState('method', null);
     this.props.changeAppState('jobInFocus', null);
@@ -17,18 +16,24 @@ class HyPhyGUINavBar extends Component {
   openNewJobSubmittalPage = (method) => {
     this.props.changeAppState('page', 'jobSubmittal');
     this.props.changeAppState('method', method);
+    this.props.changeAppState('jobInFocus', null);
+  }
+
+  openJobQueuePage = () => {
+    this.props.changeAppState('page', 'jobQueue');
+    this.props.changeAppState('method', null);
+    this.props.changeAppState('jobInFocus', null);
   }
 
   render() {
     return (
       <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          <img src={headerLogo} height="30px" onClick={this.goHome} />
+          <img src={headerLogo} height="30px" onClick={this.openHomePage} />
         </a>
         
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
-            <ResultsDropDownItems changeAppState={this.props.changeAppState} resultsList={this.props.appState.jobInfoList} /> 
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tools and Methods
@@ -40,6 +45,10 @@ class HyPhyGUINavBar extends Component {
                 <div className="dropdown-divider"></div>
                 <a className="dropdown-item" href="#">All Methods</a>
               </div>
+            </li>
+
+            <li className="nav-item">
+              <a className="nav-link" onClick={this.openJobQueuePage} href="#">Jobs</a>
             </li>
 
             <li className="nav-item">

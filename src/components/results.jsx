@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-const path = require('path');
 const fs = require('fs');
 const hyphyVision = require('hyphy-vision'); 
 const BSREL = hyphyVision.absrel.BSREL;
@@ -19,17 +18,18 @@ class Results extends Component {
   }
 
   setResultsDataToState = () => {
-    const jsonPath = path.resolve('./data', this.props.jobInfo.resultsFileName);
+    const jsonPath = this.props.appState.jobsCompleted[this.props.appState.jobInFocus].jsonPath;
     const jsonData = fs.readFileSync(jsonPath).toString();
     this.setState({jsonData: JSON.parse(jsonData)});
   }
 
   render() {
-    var self = this;
+    const self = this;
+    let method = self.props.appState.jobsCompleted[this.props.appState.jobInFocus].method;
     return (
       <div>
-        {self.props.jobInfo.method === 'absrel' ? <BSREL data={self.state.jsonData}/> : null}
-        {self.props.jobInfo.method === 'relax' ? <RELAX data={self.state.jsonData}/> : null}
+        {method === 'absrel' ? <BSREL data={self.state.jsonData}/> : null}
+        {method === 'relax' ? <RELAX data={self.state.jsonData}/> : null}
       </div>
     );
   }
