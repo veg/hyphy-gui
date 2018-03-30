@@ -27,7 +27,6 @@ class App extends Component {
 
   componentWillMount() {
     this.setEventListeners();
-    this.setState({method: null, jobInFocus: null})
   }
 
   setEventListeners = () => {
