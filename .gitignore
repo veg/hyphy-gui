@@ -8,3 +8,5 @@ bundle.js
 *.svg
 *.ttf
 .DS_Store
+.appState.json
+data/*.json

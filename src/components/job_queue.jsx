@@ -61,6 +61,7 @@ class JobQueue extends Component {
     let rows = [];
     for (var key in jobsCompleted) {
       let job = jobsCompleted[key];
+      // TODO: The onClick event below only passes the key (jobID) for the last row of the table...
       rows.push(
         <tr onClick={() => this.clickCompletedJob(key)}>
           <td>{job.msaName}</td>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 const ipcRenderer = require('electron').ipcRenderer;
 import { JobSubmittal } from './job_submittal.jsx' // This will be replaced by an import from hyphy-vision when ready.
 const _ = require('underscore');
+const path = require('path');
 
 
 /**
@@ -33,6 +34,10 @@ class GUIJobSubmittal extends Component {
     // Add jobID to jobInfo.
     let jobID = jobInfo.msaName + "_" + jobInfo.method + "_" + timeSubmitted;
     jobInfo['jobID'] = jobID; 
+
+    // Add msaPath.
+    // TODO: get math to .data (currrently hard coded).
+    jobInfo['msaPath'] = path.join("/Users/ryanvelazquez/Documents/hyphy-gui/.data", jobInfo.msaName);
 
     // Add jsonPath to jobInfo.
     jobInfo['jsonPath'] = jobInfo.msaPath + '.' + jobInfo.method.toUpperCase() + '.json';

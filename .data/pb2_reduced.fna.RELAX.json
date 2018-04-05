@@ -1,0 +1,755 @@
+{
+ "analysis":{
+   "info":"RELAX (a random effects test of selection relaxation) uses a random effects branch-site model framework to test whether a set of 'Test' branches evolves under relaxed selection relative to a set of 'Reference' branches (R), as measured by the relaxation parameter (K).",
+   "version":"2.0",
+   "citation":"RELAX: Detecting Relaxed Selection in a Phylogenetic Framework (2015). Mol Biol Evol 32 (3): 820-832",
+   "authors":"Sergei L Kosakovsky Pond, Ben Murrell, Steven Weaver and Temple iGEM / UCSD viral evolution group",
+   "contact":"spond@temple.edu",
+   "requirements":"in-frame codon alignment and a phylogenetic tree, with at least two groups of branches defined using the {} notation (one group can be defined as all unlabeled branches)"
+  },
+ "input":{
+   "file name":"/Users/ryanvelazquez/Documents/hyphy-gui/.data/pb2_reduced.fna",
+   "number of sequences":35,
+   "number of sites":6,
+   "partition count":1,
+   "trees":{
+     "0":"((((((Av_ABC66473:0.045949,Av_ABJ96574:0.031552)Node6:0.02814,((Av_AAY52745:0.141366,Av_AAY52761:0.048115)Node10:0.180843,((Av_AAY52751:0.112402,Av_ABB90192:0.034326)Node14:0.044822,Av_ABI94746:0.030777)Node13:0.04108)Node9:0.012085)Node5:0.016435,Av_AAT12009:0.072772)Node4:0.03242,(Av_ABD35787:0.114701,(Av_ABJ51683:0.123626,Av_AAT12010:0.056119)Node21:0.019073)Node19:0.024954)Node3:0.013721,Av_ABB88297:0.055049)Node2:0.153994,(Av_AAY52756:0.47258,(Av_ABB20293:0.040069,Av_ABB88341:0.123112)Node27:0.127339)Node25:0.01086,(((((Av_ABB19866:0.05611,Av_ABB18090:0.101705)Node34:0.017978,Av_ABI92279:0.104957)Node33:0.053878,Av_ABI95161:0.082436)Node32:0.007775,Av_ABB21803:0.070929)Node31:0.267348,(((((((((Hu_AAY98236:0.013554,Hu_AAZ83322:0.008106)Node48:1e-10,Hu_ABD79166:0.027317)Node47:0.004193,Hu_ABD59810:0.040865)Node46:0.088022,Hu_AAK18016:0.062666)Node45:0.037501,Hu_ABB04304:0.020115)Node44:1e-10,Hu_ABC40554:0.011987)Node43:0.132231,Hu_AAA43648:0.018738)Node42:0.095239,((((Hu_ABB02813:0.024775,Hu_ABD63073:0.004869)Node60:0.119142,Hu_ABI30388:0.021278)Node59:0.002595,(Hu_ABM22256:0.012339,Hu_ABF21232:0.003797)Node64:0.041478)Node58:0.001479,Hu_ABI92312:0.03642)Node57:0.085679)Node41:0.064268,Hu_CAA23855:0.044636)Node40:0.232812)Node30:0.160917)"
+    }
+  },
+ "fits":{
+   "Nucleotide GTR":{
+     "Log Likelihood":-27.59828727605025,
+     "estimated parameters":75,
+     "AIC-c":290.2712014177721,
+     "Equilibrium frequencies":[
+      [0.6238095238095238],
+      [0],
+      [0.2650793650793651],
+      [0.1111111111111111]
+      ],
+     "Rate Distributions":{
+       "Substitution rate from nucleotide A to nucleotide C":0.25,
+       "Substitution rate from nucleotide A to nucleotide G":1,
+       "Substitution rate from nucleotide A to nucleotide T":0,
+       "Substitution rate from nucleotide C to nucleotide G":0.25,
+       "Substitution rate from nucleotide C to nucleotide T":1,
+       "Substitution rate from nucleotide G to nucleotide T":3.435695030443735e-15
+      },
+     "display order":0
+    },
+   "MG94xREV with separate rates for branch sets":{
+     "Log Likelihood":-20.02466416842065,
+     "estimated parameters":83,
+     "AIC-c":40.0493283368413,
+     "Equilibrium frequencies":[
+      [0.234956777059618],
+      [0],
+      [0.09844300566937247],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0.07813374692342745],
+      [0],
+      [0.03273674838245071],
+      [0],
+      [0.1561131782654643],
+      [0],
+      [0.06540884108718988],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0.1175566849208536],
+      [0],
+      [0.04925430772826688],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0.03909291055023465],
+      [0],
+      [0.01637928330091334],
+      [0],
+      [0.07810861188604723],
+      [0],
+      [0.03272621721727945],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0],
+      [0.0001403011968600617],
+      [0],
+      [0.0006690605157357148],
+      [0],
+      [0.0002803252962863541],
+      [0]
+      ],
+     "Rate Distributions":{
+       "non-synonymous/synonymous rate ratio for *Reference*":[
+        [0, 1]
+        ],
+       "non-synonymous/synonymous rate ratio for *Test*":[
+        [0, 1]
+        ]
+      },
+     "display order":1
+    },
+   "RELAX alternative":{
+     "Log Likelihood":-20.02466416840566,
+     "estimated parameters":87,
+     "AIC-c":339.5575250581227,
+     "Rate Distributions":{
+       "Test":{
+         "0":{
+           "omega":0,
+           "proportion":0.2999994313811221
+          },
+         "1":{
+           "omega":0,
+           "proportion":0.7000005686188779
+          },
+         "2":{
+           "omega":363.7647064192116,
+           "proportion":0
+          }
+        },
+       "Reference":{
+         "0":{
+           "omega":0,
+           "proportion":0.2999994313811221
+          },
+         "1":{
+           "omega":0,
+           "proportion":0.7000005686188779
+          },
+         "2":{
+           "omega":9.216588881301393,
+           "proportion":0
+          }
+        }
+      },
+     "display order":2
+    },
+   "RELAX null":{
+     "Log Likelihood":-20.024664168404,
+     "estimated parameters":86,
+     "AIC-c":333.7078649221738,
+     "Rate Distributions":{
+       "Test":{
+         "0":{
+           "omega":0,
+           "proportion":0.2999994313811221
+          },
+         "1":{
+           "omega":0,
+           "proportion":0.7000005686188779
+          },
+         "2":{
+           "omega":9.216588881301393,
+           "proportion":0
+          }
+        },
+       "Reference":{
+         "0":{
+           "omega":0,
+           "proportion":0.2999994313811221
+          },
+         "1":{
+           "omega":0,
+           "proportion":0.7000005686188779
+          },
+         "2":{
+           "omega":9.216588881301393,
+           "proportion":0
+          }
+        }
+      },
+     "display order":3
+    }
+  },
+ "timers":{
+   "Overall":{
+     "timer":27,
+     "order":0
+    },
+   "Preliminary model fitting":{
+     "timer":5,
+     "order":1
+    },
+   "RELAX alternative model fitting":{
+     "timer":16,
+     "order":3
+    },
+   "RELAX null model fitting":{
+     "timer":6,
+     "order":4
+    }
+  },
+ "test results":{
+   "LRT":-3.311129148642067e-12,
+   "p-value":1,
+   "relaxation or intensification parameter":2.654882473784731
+  },
+ "tested":{
+   "0":{
+     "Av_ABC66473":"Test",
+     "Av_ABJ96574":"Test",
+     "Node6":"Test",
+     "Av_AAY52745":"Test",
+     "Av_AAY52761":"Test",
+     "Node10":"Test",
+     "Av_AAY52751":"Test",
+     "Av_ABB90192":"Test",
+     "Node14":"Test",
+     "Av_ABI94746":"Test",
+     "Node13":"Test",
+     "Node9":"Test",
+     "Node5":"Test",
+     "Av_AAT12009":"Test",
+     "Node4":"Test",
+     "Av_ABD35787":"Test",
+     "Av_ABJ51683":"Test",
+     "Av_AAT12010":"Test",
+     "Node21":"Test",
+     "Node19":"Test",
+     "Node3":"Test",
+     "Av_ABB88297":"Test",
+     "Node2":"Test",
+     "Av_AAY52756":"Test",
+     "Av_ABB20293":"Test",
+     "Av_ABB88341":"Test",
+     "Node27":"Test",
+     "Node25":"Test",
+     "Av_ABB19866":"Test",
+     "Av_ABB18090":"Test",
+     "Node34":"Test",
+     "Av_ABI92279":"Test",
+     "Node33":"Test",
+     "Av_ABI95161":"Test",
+     "Node32":"Test",
+     "Av_ABB21803":"Test",
+     "Node31":"Test",
+     "Hu_AAY98236":"Reference",
+     "Hu_AAZ83322":"Reference",
+     "Node48":"Reference",
+     "Hu_ABD79166":"Reference",
+     "Node47":"Reference",
+     "Hu_ABD59810":"Reference",
+     "Node46":"Reference",
+     "Hu_AAK18016":"Reference",
+     "Node45":"Reference",
+     "Hu_ABB04304":"Reference",
+     "Node44":"Reference",
+     "Hu_ABC40554":"Reference",
+     "Node43":"Reference",
+     "Hu_AAA43648":"Reference",
+     "Node42":"Reference",
+     "Hu_ABB02813":"Reference",
+     "Hu_ABD63073":"Reference",
+     "Node60":"Reference",
+     "Hu_ABI30388":"Reference",
+     "Node59":"Reference",
+     "Hu_ABM22256":"Reference",
+     "Hu_ABF21232":"Reference",
+     "Node64":"Reference",
+     "Node58":"Reference",
+     "Hu_ABI92312":"Reference",
+     "Node57":"Reference",
+     "Node41":"Reference",
+     "Hu_CAA23855":"Reference",
+     "Node40":"Reference",
+     "Node30":"Test"
+    }
+  },
+ "data partitions":{
+   "0":{
+     "name":"relax.filter.default",
+     "coverage":[
+      [0, 1, 2, 3, 4, 5]
+      ]
+    }
+  },
+ "branch attributes":{
+   "0":{
+     "Hu_AAA43648":{
+       "original name":"Hu_AAA43648",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_AAK18016":{
+       "original name":"Hu_AAK18016",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_AAT12009":{
+       "original name":"Av_AAT12009",
+       "Nucleotide GTR":0.0572321163364648,
+       "MG94xREV with separate rates for branch sets":0.08439533796736104,
+       "RELAX alternative":0.08439614322823678,
+       "RELAX null":0.08439595243896821
+      },
+     "Av_AAT12010":{
+       "original name":"Av_AAT12010",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_AAY52745":{
+       "original name":"Av_AAY52745",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_AAY52751":{
+       "original name":"Av_AAY52751",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_AAY52756":{
+       "original name":"Av_AAY52756",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_AAY52761":{
+       "original name":"Av_AAY52761",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_AAY98236":{
+       "original name":"Hu_AAY98236",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_AAZ83322":{
+       "original name":"Hu_AAZ83322",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABB02813":{
+       "original name":"Hu_ABB02813",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABB04304":{
+       "original name":"Hu_ABB04304",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABB18090":{
+       "original name":"Av_ABB18090",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABB19866":{
+       "original name":"Av_ABB19866",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABB20293":{
+       "original name":"Av_ABB20293",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABB21803":{
+       "original name":"Av_ABB21803",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABB88297":{
+       "original name":"Av_ABB88297",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABB88341":{
+       "original name":"Av_ABB88341",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABB90192":{
+       "original name":"Av_ABB90192",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABC40554":{
+       "original name":"Hu_ABC40554",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABC66473":{
+       "original name":"Av_ABC66473",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABD35787":{
+       "original name":"Av_ABD35787",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABD59810":{
+       "original name":"Hu_ABD59810",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABD63073":{
+       "original name":"Hu_ABD63073",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABD79166":{
+       "original name":"Hu_ABD79166",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABF21232":{
+       "original name":"Hu_ABF21232",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABI30388":{
+       "original name":"Hu_ABI30388",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABI92279":{
+       "original name":"Av_ABI92279",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABI92312":{
+       "original name":"Hu_ABI92312",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABI94746":{
+       "original name":"Av_ABI94746",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABI95161":{
+       "original name":"Av_ABI95161",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABJ51683":{
+       "original name":"Av_ABJ51683",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Av_ABJ96574":{
+       "original name":"Av_ABJ96574",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_ABM22256":{
+       "original name":"Hu_ABM22256",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Hu_CAA23855":{
+       "original name":"Hu_CAA23855",
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node10":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node13":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node14":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node19":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node2":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node21":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node25":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node27":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node3":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node30":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node31":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node32":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node33":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node34":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node4":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node40":{
+       "Nucleotide GTR":0.06134749386034118,
+       "MG94xREV with separate rates for branch sets":0.2024774051651481,
+       "RELAX alternative":0.2024774258585218,
+       "RELAX null":0.2024773515546878
+      },
+     "Node41":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node42":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node43":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node44":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node45":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node46":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node47":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node48":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node5":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node57":{
+       "Nucleotide GTR":0.06134729160669381,
+       "MG94xREV with separate rates for branch sets":0.2024774046395696,
+       "RELAX alternative":0.2024774292675372,
+       "RELAX null":0.2024773543272664
+      },
+     "Node58":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node59":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node6":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node60":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node64":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      },
+     "Node9":{
+       "Nucleotide GTR":0,
+       "MG94xREV with separate rates for branch sets":0,
+       "RELAX alternative":0,
+       "RELAX null":0
+      }
+    },
+   "attributes":{
+     "original name":{
+       "attribute type":"node label",
+       "display order":-1
+      },
+     "Nucleotide GTR":{
+       "attribute type":"branch length",
+       "display order":0
+      },
+     "MG94xREV with separate rates for branch sets":{
+       "attribute type":"branch length",
+       "display order":1
+      },
+     "RELAX alternative":{
+       "attribute type":"branch length",
+       "display order":2
+      },
+     "RELAX null":{
+       "attribute type":"branch length",
+       "display order":3
+      }
+    }
+  }
+}

@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 const ipcRenderer = require('electron').ipcRenderer;
 const _ = require('underscore');
+const remote = require('electron').remote; // remote allows for using node modules within render process.
+const electronFs = remote.require('fs');
 
 import { HyPhyGUINavBar } from './components/navbar.jsx';
 import { Home } from './components/home.jsx';
@@ -25,8 +27,21 @@ class App extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setEventListeners();
+    // TODO: Use the async version of fs.exists and fs.readfile.
+    if (electronFs.existsSync('.appstate.json')) {
+      const savedAppState = JSON.parse(electronFs.readFileSync('.appstate.json', 'utf8'));
+      delete savedAppState.page;
+      delete savedAppState.method;
+      delete savedAppState.jobInFocus;
+      this.setState(savedAppState);
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    // TODO: Have it only save the state when a job is submitted or completed.
+    this.saveAppState();
   }
 
   setEventListeners = () => {
@@ -64,6 +79,14 @@ class App extends Component {
      * For example: `onClick={() => self.props.changeAppState('exampleKeyForAppState', 'exampleValue')}
      */
     this.setState({ [stateToSet]: valueToSet });
+  }
+
+  saveAppState = () => {
+    /**
+     * Save the state of the app in the .state folder for reloading when the app is closed and reopened.
+     * TODO: Use the async version of fs.writefile.
+     */
+    electronFs.writeFileSync('.appstate.json', JSON.stringify(this.state));  
   }
 
   render() {

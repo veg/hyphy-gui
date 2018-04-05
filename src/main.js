@@ -81,8 +81,17 @@ app.on('activate', function () {
 
 // Run an analysis.
 ipcMain.on('runAnalysis', function(event, arg) {
+  changeMSALocation(arg.jobInfo);
   runAnalysisScript(arg.jobInfo);
 });
+
+function changeMSALocation(jobInfo) {
+  // TODO: The file should probably be moved when the job is submitted, not when the analysis is run.
+  fs.createReadStream(jobInfo.msaPathOriginal).pipe(fs.createWriteStream(jobInfo.msaPath));
+    //fs.rename(jobInfo.msaPathOriginal, jobInfo.msaPath, (err) => {
+    //if (err) throw err;
+    //});
+}
 
 function runAnalysisScript(jobInfo) {
   const scriptPath = path.resolve('./scripts', (jobInfo.method + '.sh'));

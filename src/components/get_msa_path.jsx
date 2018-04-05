@@ -9,7 +9,7 @@ class GetMSAPath extends Component {
 
   getFilePath = () => {
     var filePath = dialog.showOpenDialog()[0];
-    this.props.updateJobInfo('msaPath', filePath);
+    this.props.updateJobInfo('msaPathOriginal', filePath);
     this.props.updateJobInfo('msaName', filePath.replace(/^.*[\\\/]/, ''));
   }
 
