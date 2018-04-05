@@ -4,6 +4,29 @@ const _ = require('underscore');
 import { JobsTable } from './jobs_table.jsx';
 
 
+class TableRow extends Component {
+  /**
+   *  This component is needed to be able to pass different onClick functions (with a parameter) to each row.
+   */
+  constructor(props) {
+    super(props)
+  }
+
+  handleClick = () => {
+    this.props.onClick(this.props.jobID)
+  }
+
+  render() {
+    return(
+      <tr onClick={this.handleClick}>
+        <td>{this.props.cells[0]}</td>
+        <td>{this.props.cells[1]}</td>
+        <td>{this.props.cells[2]}</td>
+      </tr>
+    )
+  }
+}
+
 class JobQueue extends Component {
   constructor(props) {
     super(props);
@@ -61,14 +84,13 @@ class JobQueue extends Component {
     let rows = [];
     for (var key in jobsCompleted) {
       let job = jobsCompleted[key];
-      // TODO: The onClick event below only passes the key (jobID) for the last row of the table...
       rows.push(
-        <tr onClick={() => this.clickCompletedJob(key)}>
-          <td>{job.msaName}</td>
-          <td>{job.method}</td>
-          <td>{job.timeSubmitted}</td>
-        </tr>
-        )
+        <TableRow
+          onClick={this.clickCompletedJob}
+          jobID={key}
+          cells={[job.msaName, job.method, job.timeSubmitted]}
+        />
+      )
     }
     if (_.isEmpty(jobsCompleted)) {
       return(null) 

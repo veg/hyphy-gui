@@ -3,6 +3,16 @@ const ipcRenderer = require('electron').ipcRenderer;
 import { JobSubmittal } from './job_submittal.jsx' // This will be replaced by an import from hyphy-vision when ready.
 const _ = require('underscore');
 const path = require('path');
+const remote = require('electron').remote; // remote allows for using node modules within render process.
+const electronProcess = remote.require('process');
+
+/*
+const remote = require('electron').remote;
+const app = remote.require('app');
+
+const basepath = app.getAppPath();
+console.log(basepath);
+*/
 
 
 /**
@@ -36,8 +46,7 @@ class GUIJobSubmittal extends Component {
     jobInfo['jobID'] = jobID; 
 
     // Add msaPath.
-    // TODO: get math to .data (currrently hard coded).
-    jobInfo['msaPath'] = path.join("/Users/ryanvelazquez/Documents/hyphy-gui/.data", jobInfo.msaName);
+    jobInfo['msaPath'] = path.join(process.cwd(), ".data", jobInfo.msaName);
 
     // Add jsonPath to jobInfo.
     jobInfo['jsonPath'] = jobInfo.msaPath + '.' + jobInfo.method.toUpperCase() + '.json';

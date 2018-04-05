@@ -10,3 +10,4 @@ bundle.js
 .DS_Store
 .appState.json
 data/*.json
+.data
