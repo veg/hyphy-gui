@@ -5,7 +5,6 @@ bundle.js
 *.woff
 *.woff2
 *.eot
-*.svg
 *.ttf
 .DS_Store
 .appState.json
