@@ -1,0 +1,24 @@
+Language: node_js
+
+node_js:
+  - "8"
+
+notifications:
+    email:
+        recipients:
+            - ryan.velazquez0001@temple.edu
+            - steven@stevenweaver.org
+            - sshank@temple.edu
+        on_success: always
+        on_failure: always
+
+branches:
+  only:
+  - master
+  - develop
+
+cache:
+  yarn: true
+  directories:
+    - ".eslintcache"
+    - "node_modules"
