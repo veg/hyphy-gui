@@ -2,8 +2,8 @@
 
 hyphy:
 	echo "installing hyphy"
-	@if ! test -d ./.hyphy; then git clone http://github.com/veg/hyphy.git ./.hyphy/; fi
-	@cd ./.hyphy && git checkout master && git pull && git checkout 2.3.10 && cmake . && make -j 4 HYPHYMP && make -j 4 HYPHYMPI && cd ../
+	@rm -rf .hyphy && wget http://github.com/veg/hyphy/archive/2.2.6.tar.gz && tar xvzf 2.2.6.tar.gz && mv hyphy-2.2.6 .hyphy;
+	@cd ./.hyphy/ && cmake . && make HYPHYMP && cd ../
 
 yarn:
 	yarn
