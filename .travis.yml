@@ -22,3 +22,6 @@ cache:
   directories:
     - ".eslintcache"
     - "node_modules"
+
+script:
+  - make all
