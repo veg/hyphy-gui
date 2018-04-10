@@ -24,4 +24,4 @@ cache:
     - "node_modules"
 
 script:
-  - make all
+  - make yarn
