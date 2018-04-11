@@ -9,7 +9,6 @@ Requirements:
 * `make`
 * `cmake`
 * `yarn`
-* `MPI`
 
 After cloning this repository and installing the above requirements, run
 
