@@ -1,0 +1,39 @@
+language: node_js
+
+node_js:
+  - "8"
+
+notifications:
+    email:
+        recipients:
+            - ryan.velazquez0001@temple.edu
+            - steven@stevenweaver.org
+            - sshank@temple.edu
+        on_success: always
+        on_failure: always
+
+branches:
+  only:
+  - master
+  - develop
+  - testCI
+
+cache:
+  yarn: true
+  directories:
+    - ".eslintcache"
+    - "node_modules"
+    
+addons:
+  apt:
+    sources:
+        - llvm-toolchain-precise
+        - ubuntu-toolchain-r-test
+        - george-edison55-precise-backports
+    packages:
+        - g++-7
+        - gcc-7
+
+install:
+  - export CXX="g++-7" CC="gcc-7"
+  - make all
