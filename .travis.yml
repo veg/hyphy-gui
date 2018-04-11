@@ -16,7 +16,6 @@ branches:
   only:
   - master
   - develop
-  - testCI
 
 cache:
   yarn: true

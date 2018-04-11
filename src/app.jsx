@@ -30,11 +30,18 @@ class App extends Component {
   componentDidMount() {
     this.setEventListeners();
     // TODO: Use the async version of fs.exists and fs.readfile.
+    // TODO: Do something about the prevous running job (i.e. show that it did not complete because the application closed.
     if (electronFs.existsSync('.appstate.json')) {
       const savedAppState = JSON.parse(electronFs.readFileSync('.appstate.json', 'utf8'));
       delete savedAppState.page;
       delete savedAppState.method;
       delete savedAppState.jobInFocus;
+      delete savedAppState.jobRunning;
+      if (!_.isEmpty(savedAppState.jobsQueued)) {
+        let nextJob = savedAppState.jobsQueued.shift();
+        savedAppState.jobRunning = nextJob;
+        ipcRenderer.send('runAnalysis', {jobInfo: nextJob});
+      }
       this.setState(savedAppState);
     }
   }
@@ -92,7 +99,7 @@ class App extends Component {
   render() {
     var self = this;
     return (
-      <div style={{paddingTop: '70px'}}>
+      <div style={{paddingTop: '25px'}}>
         <HyPhyGUINavBar appState={ self.state } changeAppState={ self.changeAppState } />
         {this.state.page === 'home' ? <Home /> : null}
         {this.state.page === 'jobSubmittal' ? <GUIJobSubmittal appState={ self.state } changeAppState={ self.changeAppState } /> : null}
