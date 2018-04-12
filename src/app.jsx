@@ -99,7 +99,7 @@ class App extends Component {
   render() {
     var self = this;
     return (
-      <div style={{paddingTop: '25px'}}>
+      <div style={{paddingTop: '70px'}}>
         <HyPhyGUINavBar appState={ self.state } changeAppState={ self.changeAppState } />
         {this.state.page === 'home' ? <Home /> : null}
         {this.state.page === 'jobSubmittal' ? <GUIJobSubmittal appState={ self.state } changeAppState={ self.changeAppState } /> : null}
