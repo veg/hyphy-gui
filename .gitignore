@@ -10,3 +10,4 @@ bundle.js
 .appState.json
 data/*.json
 .data
+hyphy-vision/
