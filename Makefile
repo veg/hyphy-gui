@@ -7,7 +7,7 @@ hyphy:
 
 yarn:
 	git clone https://github.com/veg/hyphy-vision
-	cd hyphy-vision; git status; git checkout develop; webpack --config webpack.config.library.js; yarn link
+	cd hyphy-vision; git checkout develop; yarn; webpack --config webpack.config.library.js; yarn link
 	yarn link "hyphy-vision"
 	yarn
 	webpack --config webpack.dev.js
