@@ -8,28 +8,6 @@ function Table(props) {
 }
 
 class JobProgress extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: '',
-    };
-  }
-
-  componentWillMount() {
-    // this.setEventListeners();
-  }
-
-    /*
-  setEventListeners = () => {
-    const self = this;
-    ipcRenderer.on('stdout', (event, arg) => {
-      if (arg.msg !== self.tempMessageForChecking) {
-        self.setState({message: self.state.message + arg.msg})
-        self.tempMessageForChecking = arg.msg;
-      }
-    }); 
-  }
-  */
 
   render() {
     return (

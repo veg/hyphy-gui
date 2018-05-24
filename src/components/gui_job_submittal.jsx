@@ -45,9 +45,6 @@ class GUIJobSubmittal extends Component {
     let jobID = jobInfo.msaName + "_" + jobInfo.method + "_" + timeSubmitted;
     jobInfo['jobID'] = jobID; 
 
-    // Add msaPath.
-    jobInfo['msaPath'] = path.join(process.cwd(), ".data", jobInfo.msaName);
-
     // Add jsonPath to jobInfo.
     jobInfo['jsonPath'] = jobInfo.msaPath + '.' + jobInfo.method.toUpperCase() + '.json';
 

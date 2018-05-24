@@ -18,9 +18,9 @@ let mainWindow
 function createWindow () {
 
   // Add the React DevTools (currently has path hard coded).
-  if (fs.existsSync('/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.0_0')) {
+  if (fs.existsSync('/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.1_0')) {
     BrowserWindow.addDevToolsExtension(
-      '/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.0_0'
+      '/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.1_0'
     );
   }
 
@@ -79,19 +79,29 @@ app.on('activate', function () {
  * =====================================================================================
  */
 
-// Run an analysis.
-ipcMain.on('runAnalysis', function(event, arg) {
-  changeMSALocation(arg.jobInfo);
-  runAnalysisScript(arg.jobInfo);
+// Move the msa file from it's original location to the .data folder.
+ipcMain.on('moveMSA', function(event, arg) {
+  fs.createReadStream(arg.msaPathOriginal).pipe(fs.createWriteStream(arg.msaPath));
 });
 
-function changeMSALocation(jobInfo) {
-  // TODO: The file should probably be moved when the job is submitted, not when the analysis is run.
-  fs.createReadStream(jobInfo.msaPathOriginal).pipe(fs.createWriteStream(jobInfo.msaPath));
-    //fs.rename(jobInfo.msaPathOriginal, jobInfo.msaPath, (err) => {
-    //if (err) throw err;
-    //});
-}
+// Validate an uploaded msa file.
+ipcMain.on('validateMSA', function(event, arg) {
+  let geneticCodeLessOne = parseInt(arg.jobInfo.geneticCode) - 1 // The batch file counts from zero, everything else seems to count from one.
+  // The file is validated with the `datareader.bf` HBL script.
+  let validationProcess = spawn('HYPHYMP', ['./src/bfs/datareader.bf', arg.jobInfo.msaPath, geneticCodeLessOne] )
+  validationProcess.stdout.on('data', (data) => {
+    // The output of the `datareader.bf` script gets sent to the render process and set to the jobInfo object.
+    mainWindow.webContents.send('validationOutput', {msg: data.toString()});
+  });
+  validationProcess.on('close', (code) => {
+    mainWindow.webContents.send('validationComplete', {msg: ''})
+    });
+});
+
+// Run an analysis.
+ipcMain.on('runAnalysis', function(event, arg) {
+  runAnalysisScript(arg.jobInfo);
+});
 
 function runAnalysisScript(jobInfo) {
   const scriptPath = path.resolve('./scripts', (jobInfo.method + '.sh'));
@@ -108,7 +118,6 @@ function runAnalysisScript(jobInfo) {
   } else {
     process = spawn('bash', [scriptPath, hyphyDirectory, jobInfo.msaPath, jobInfo.geneticCode]);
   }
-
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on('data', (data) => {
