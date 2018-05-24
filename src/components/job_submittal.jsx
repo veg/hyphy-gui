@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-const ipcRenderer = require('electron').ipcRenderer;
 import { GetMSAPath } from './get_msa_path.jsx'
 import { ChooseGeneticCode } from './choose_genetic_code.jsx'
 import { ChooseAnalysisType } from './choose_analysis_type.jsx'
