@@ -11,6 +11,8 @@ const url = require('url')
 const fs = require('fs');
 const { spawn } = require('child_process');
 
+const validateMSA = require('./helpers/validateMSA.js');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -18,9 +20,9 @@ let mainWindow
 function createWindow () {
 
   // Add the React DevTools (currently has path hard coded).
-  if (fs.existsSync('/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.1_0')) {
+  if (fs.existsSync('/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.3_0')) {
     BrowserWindow.addDevToolsExtension(
-      '/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.1_0'
+      '/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.3_0'
     );
   }
 
@@ -84,19 +86,18 @@ ipcMain.on('moveMSA', function(event, arg) {
   fs.createReadStream(arg.msaPathOriginal).pipe(fs.createWriteStream(arg.msaPath));
 });
 
-// Validate an uploaded msa file.
+// Validate an MSA file.
 ipcMain.on('validateMSA', function(event, arg) {
-  let geneticCodeLessOne = parseInt(arg.jobInfo.geneticCode) - 1 // The batch file counts from zero, everything else seems to count from one.
-  // The file is validated with the `datareader.bf` HBL script.
-  let validationProcess = spawn('HYPHYMP', ['./src/bfs/datareader.bf', arg.jobInfo.msaPath, geneticCodeLessOne] )
-  validationProcess.stdout.on('data', (data) => {
-    // The output of the `datareader.bf` script gets sent to the render process and set to the jobInfo object.
-    mainWindow.webContents.send('validationOutput', {msg: data.toString()});
-  });
-  validationProcess.on('close', (code) => {
-    mainWindow.webContents.send('validationComplete', {msg: ''})
-    });
+  validateMSA(
+    arg.jobInfo.msaPath,
+    arg.jobInfo.geneticCode,
+    sendValidationToRender
+  )
 });
+// Helper function passed as a callback to validateMSA {which is called above}.
+function sendValidationToRender(validationResponse){
+  mainWindow.webContents.send('validationComplete', validationResponse)
+}
 
 // Run an analysis.
 ipcMain.on('runAnalysis', function(event, arg) {
@@ -130,3 +131,4 @@ function runAnalysisScript(jobInfo) {
     mainWindow.webContents.send('analysisComplete', {msg: jobInfo});
   });
 }
+

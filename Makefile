@@ -3,7 +3,7 @@
 hyphy:
 	echo "installing hyphy"
 	@if ! test -d ./.hyphy; then git clone http://github.com/veg/hyphy.git ./.hyphy/; fi
-	@cd ./.hyphy && git checkout master && git pull && git checkout 2.3.10 && cmake . && make -j 4 HYPHYMP && cd ../
+	@cd ./.hyphy && git checkout master && git pull && git checkout 2.3.10 && cmake . && make HYPHYMP && cd ../
 
 yarn:
 	git clone https://github.com/veg/hyphy-vision
@@ -18,4 +18,6 @@ clean:
 	rm -rf node_modules
 	rm -rf .hyphy
 	rm -rf hyphy-vision
+	rm .appstate.json
+	rm -rf .data
 
