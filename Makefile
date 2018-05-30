@@ -19,5 +19,3 @@ clean:
 	rm -rf .hyphy
 	rm -rf hyphy-vision
 	rm .appstate.json
-	rm -rf .data
-
