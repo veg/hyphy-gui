@@ -19,18 +19,10 @@ let mainWindow
 
 function createWindow () {
 
-  // Add the React DevTools (currently has path hard coded).
+  // Add the React DevTools.
   installExtension(REACT_DEVELOPER_TOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log('An error occurred: ', err));
-
-  /*
-  if (fs.existsSync('/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.3_0')) {
-    BrowserWindow.addDevToolsExtension(
-      '/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.3_0'
-    );
-  }
-  */
 
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1400, height: 800})

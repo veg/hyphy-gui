@@ -37,15 +37,3 @@ test('Returns expected output message when a stop codon is incountered', () => {
     expect(validationOutput.message).toBe("1 stop codons found (detailed report below). Please double-check your alignment and ensure that only coding data are present and that the correct genetic code is selected.")
   })
 })
-
-
-
-
-// Example of async testing.
-const foo = (n, cb) => cb(n)
-
-test('foo', () => {
-  foo(7, (n) => {
-    expect(n).toBe(7)
-  })
-})
