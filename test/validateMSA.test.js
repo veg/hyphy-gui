@@ -26,12 +26,6 @@ test('Fails with incorrect path', () => {
 })
 
 // Test validation output messages.
-test('Returns valid output message with the correct number of items', () => {
-  validateMSA(validMSAPath, '1', (validationOutput) => {
-    expect(Object.keys(validationOutput.message).length).toBe(3)
-  })
-})
-
 test('Returns expected output message when a stop codon is incountered', () => {
   validateMSA(stopCodonMSAPath, '1', (validationOutput) => {
     expect(validationOutput.message).toBe("1 stop codons found (detailed report below). Please double-check your alignment and ensure that only coding data are present and that the correct genetic code is selected.")
