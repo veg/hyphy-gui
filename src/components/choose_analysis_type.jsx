@@ -6,7 +6,7 @@ class ChooseAnalysisType extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // Set the analysis type of the parent JobSubmittal component to 1 (all) when ChooseAnalysisType mounts.
     this.props.updateJobInfo('analysisType', '1')
   }

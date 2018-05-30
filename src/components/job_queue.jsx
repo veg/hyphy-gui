@@ -84,7 +84,7 @@ class JobQueue extends Component {
     let rows = [];
     for (var key in jobsCompleted) {
       let job = jobsCompleted[key];
-      rows.push(
+      rows.unshift(
         <TableRow
           onClick={this.clickCompletedJob}
           jobID={key}
