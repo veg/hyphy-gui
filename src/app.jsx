@@ -5,6 +5,8 @@ const ipcRenderer = require('electron').ipcRenderer;
 const _ = require('underscore');
 const remote = require('electron').remote; // remote allows for using node modules within render process.
 const electronFs = remote.require('fs');
+const hyphyVision = require('hyphy-vision');
+require("style-loader!css-loader!sass-loader!hyphy-vision/dist/application.scss");
 
 import { HyPhyGUINavBar } from './components/navbar.jsx';
 import { Home } from './components/home.jsx';
@@ -67,6 +69,7 @@ class App extends Component {
       }
     }); 
     ipcRenderer.on('stdout', (event, arg) => {
+      // Check if the message being sent is new (the same message often gets sent more than once).
       if (arg.msg !== self.tempMessageForChecking) {
         let appendedStdOut = self.state.jobRunning.stdOut + arg.msg;
         let jobRunningInfo = self.state.jobRunning;

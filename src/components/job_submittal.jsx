@@ -6,13 +6,14 @@ import { ChooseSynRateVariation } from './choose_syn_rate_variation.jsx'
 import { ChooseSiteRateVariation } from './choose_site_rate_variation.jsx'
 import { ChooseNumRateClasses } from './choose_num_rate_classes.jsx'
 import { AdvancedFubarOptions } from './advanced_fubar_options.jsx'
+import { ValidateFile } from './validateFile.jsx'
+import { BranchSelection } from './branch_selection.jsx';
 
 
 /**
- * JobSubmittal takes an MSA (tree optional?) and some parameters and returns a JSON object "jobInfo" for consumption.
+ * JobSubmittal takes an MSA and some parameters and returns a JSON object "jobInfo" for consumption.
  * This component should recieve an "onSubmit" function as a prop which will likely be different for the GUI and
  * datamonkey.org.
- * This component will eventually be moved to hyphy-vision and be imported.
  */
 class JobSubmittal extends Component {
   constructor(props) {
@@ -22,10 +23,11 @@ class JobSubmittal extends Component {
         method: this.props.method,
         geneticCode: '1',
         // Note that initial/default value for other job info fields (i.e. the analysis type for RELAX) are set by
-        // the those specific field/button components (ChooseAnalysisType for RELAX) when those components mount.
+        // those specific field/button components (ChooseAnalysisType for RELAX) when those components mount.
         // This was done to allow for initial/default value for the fields to be set without creating an entry
         // in the state of methods that don't need/use the info.
-      }
+      },
+      filePassedValidation: false,
     };
   }
 
@@ -36,6 +38,14 @@ class JobSubmittal extends Component {
      */
     this.setState({});
     this.state.jobInfo[key] = value
+
+    if (key == 'geneticCode' || 'msaPath') {
+      this.setState({filePassedValidation: false})
+    }
+  }
+
+  changeJobSubmittalState = (key, value) => {
+    this.setState({ [key]: value });
   }
   
   render() {
@@ -57,6 +67,8 @@ class JobSubmittal extends Component {
         <p>{methodNameandDescription[self.props.method].description}</p>
         { self.props.platform === 'electron' ? <GetMSAPath updateJobInfo={self.updateJobInfo} /> : null } 
         <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
+
+        {/* Method Specific Options */}
         {self.props.method === 'fel' ? <ChooseSynRateVariation updateJobInfo={self.updateJobInfo} /> : null}
         {self.props.method === 'gard' ? [ 
             <ChooseSiteRateVariation updateJobInfo={self.updateJobInfo} />,
@@ -65,7 +77,10 @@ class JobSubmittal extends Component {
             null}
         {self.props.method === 'fubar' ? <AdvancedFubarOptions updateJobInfo={self.updateJobInfo} /> : null}
         {self.props.method === 'relax' ? <ChooseAnalysisType updateJobInfo={self.updateJobInfo} /> : null}
-        <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>Submit Analysis</button>
+
+        {self.state.filePassedValidation == false ? <ValidateFile jobInfo={self.state.jobInfo} changeJobSubmittalState={self.changeJobSubmittalState}/> : null }
+        {self.state.filePassedValidation == true ? <BranchSelection /> : null }
+        {self.state.filePassedValidation == true ? <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>Submit Analysis</button> : null }
       </div>
     );
   }

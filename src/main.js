@@ -5,11 +5,13 @@ const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 const ipcMain = require('electron').ipcMain;
-
 const path = require('path')
 const url = require('url')
 const fs = require('fs');
 const { spawn } = require('child_process');
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+
+const validateMSA = require('./helpers/validateMSA.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,12 +19,10 @@ let mainWindow
 
 function createWindow () {
 
-  // Add the React DevTools (currently has path hard coded).
-  if (fs.existsSync('/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.0_0')) {
-    BrowserWindow.addDevToolsExtension(
-      '/Users/ryanvelazquez/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.2.0_0'
-    );
-  }
+  // Add the React DevTools.
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
 
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1400, height: 800})
@@ -79,19 +79,28 @@ app.on('activate', function () {
  * =====================================================================================
  */
 
-// Run an analysis.
-ipcMain.on('runAnalysis', function(event, arg) {
-  changeMSALocation(arg.jobInfo);
-  runAnalysisScript(arg.jobInfo);
+// Move the msa file from it's original location to the .data folder.
+ipcMain.on('moveMSA', function(event, arg) {
+  fs.createReadStream(arg.msaPathOriginal).pipe(fs.createWriteStream(arg.msaPath));
 });
 
-function changeMSALocation(jobInfo) {
-  // TODO: The file should probably be moved when the job is submitted, not when the analysis is run.
-  fs.createReadStream(jobInfo.msaPathOriginal).pipe(fs.createWriteStream(jobInfo.msaPath));
-    //fs.rename(jobInfo.msaPathOriginal, jobInfo.msaPath, (err) => {
-    //if (err) throw err;
-    //});
+// Validate an MSA file.
+ipcMain.on('validateMSA', function(event, arg) {
+  validateMSA(
+    arg.jobInfo.msaPath,
+    arg.jobInfo.geneticCode,
+    sendValidationToRender
+  )
+});
+// Helper function passed as a callback to validateMSA {which is called above}.
+function sendValidationToRender(validationResponse){
+  mainWindow.webContents.send('validationComplete', validationResponse)
 }
+
+// Run an analysis.
+ipcMain.on('runAnalysis', function(event, arg) {
+  runAnalysisScript(arg.jobInfo);
+});
 
 function runAnalysisScript(jobInfo) {
   const scriptPath = path.resolve('./scripts', (jobInfo.method + '.sh'));
@@ -109,7 +118,6 @@ function runAnalysisScript(jobInfo) {
     process = spawn('bash', [scriptPath, hyphyDirectory, jobInfo.msaPath, jobInfo.geneticCode]);
   }
 
-
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on('data', (data) => {
     console.log(data.toString());
@@ -121,3 +129,4 @@ function runAnalysisScript(jobInfo) {
     mainWindow.webContents.send('analysisComplete', {msg: jobInfo});
   });
 }
+
