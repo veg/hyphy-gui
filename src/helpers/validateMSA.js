@@ -1,4 +1,5 @@
 const { spawn } = require('child_process');
+const path = require('path');
 
 
 function validateMSA(msaPath, geneticCode, callBack) {
@@ -8,7 +9,8 @@ function validateMSA(msaPath, geneticCode, callBack) {
 
   // The file is validated with the `datareader.bf` HBL script.
   let geneticCodeLessOne = parseInt(geneticCode) - 1 // The batch file counts from zero, everything else seems to count from one.
-  let validationProcess = spawn('HYPHYMP', ['./src/helpers/bfs/datareader.bf', msaPath, geneticCodeLessOne] )
+  const hyphy = path.join(process.cwd(), '.hyphy/HYPHYMP');
+  let validationProcess = spawn(hyphy, ['./src/helpers/bfs/datareader.bf', msaPath, geneticCodeLessOne] )
 
   // Record the output from the HBL script.
   let validationOutput = '';
