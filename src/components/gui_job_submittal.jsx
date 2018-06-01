@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-const ipcRenderer = require('electron').ipcRenderer;
-import { JobSubmittal } from './job_submittal.jsx' // This will be replaced by an import from hyphy-vision when ready.
-const _ = require('underscore');
-const path = require('path');
-const remote = require('electron').remote; // remote allows for using node modules within render process.
-const electronProcess = remote.require('process');
+import React, { Component } from "react";
+const ipcRenderer = require("electron").ipcRenderer;
+import { JobSubmittal } from "./job_submittal.jsx"; // This will be replaced by an import from hyphy-vision when ready.
+const _ = require("underscore");
+const path = require("path");
+const remote = require("electron").remote; // remote allows for using node modules within render process.
+const electronProcess = remote.require("process");
 
 /*
 const remote = require('electron').remote;
@@ -13,7 +13,6 @@ const app = remote.require('app');
 const basepath = app.getAppPath();
 console.log(basepath);
 */
-
 
 /**
  * GUIJobSubmittal wraps the generic JobSubmittal component (to be impored from vision)
@@ -24,7 +23,7 @@ class GUIJobSubmittal extends Component {
     super(props);
   }
 
-  tellMainToRunAnalysis = (jobInfo) => {
+  tellMainToRunAnalysis = jobInfo => {
     /**
      * A function to send a message to the main process telling it to run a hyphy job.
      * ipcRenderer sends "runAnalysis" to main.
@@ -33,40 +32,52 @@ class GUIJobSubmittal extends Component {
 
     // Add timeSubmitted to jobInfo.
     let currentDate = new Date();
-    let timeSubmitted = (currentDate.getMonth() + 1) +
-      "/"+ currentDate.getDate() + 
-      "/" + currentDate.getFullYear() + "_" + 
-      currentDate.getHours() + ":" + 
-      currentDate.getMinutes() + ":" +
+    let timeSubmitted =
+      currentDate.getMonth() +
+      1 +
+      "/" +
+      currentDate.getDate() +
+      "/" +
+      currentDate.getFullYear() +
+      "_" +
+      currentDate.getHours() +
+      ":" +
+      currentDate.getMinutes() +
+      ":" +
       currentDate.getSeconds();
-    jobInfo['timeSubmitted'] = timeSubmitted;
+    jobInfo["timeSubmitted"] = timeSubmitted;
 
     // Add jobID to jobInfo.
     let jobID = jobInfo.msaName + "_" + jobInfo.method + "_" + timeSubmitted;
-    jobInfo['jobID'] = jobID; 
+    jobInfo["jobID"] = jobID;
 
     // Add jsonPath to jobInfo.
-    jobInfo['jsonPath'] = jobInfo.msaPath + '.' + jobInfo.method.toUpperCase() + '.json';
+    jobInfo["jsonPath"] =
+      jobInfo.msaPath + "." + jobInfo.method.toUpperCase() + ".json";
 
     // Send the message to run the job or add to the queued job list.
     if (_.isEmpty(this.props.appState.jobRunning)) {
-      ipcRenderer.send('runAnalysis', {jobInfo: jobInfo});
-      this.props.changeAppState('page', 'jobProgress');
-      this.props.changeAppState('jobRunning', jobInfo);
-      this.props.changeAppState('jobInFocus', jobInfo.jobID);
+      ipcRenderer.send("runAnalysis", { jobInfo: jobInfo });
+      this.props.changeAppState("page", "jobProgress");
+      this.props.changeAppState("jobRunning", jobInfo);
+      this.props.changeAppState("jobInFocus", jobInfo.jobID);
     } else {
       let QueuedJobsUpdated = this.props.appState.jobsQueued;
       QueuedJobsUpdated.push(jobInfo);
-      this.props.changeAppState('page', 'jobQueue');
-      this.props.changeAppState('jobsQueued', QueuedJobsUpdated);
-      this.props.changeAppState('method', null);
+      this.props.changeAppState("page", "jobQueue");
+      this.props.changeAppState("jobsQueued", QueuedJobsUpdated);
+      this.props.changeAppState("method", null);
     }
-  }
+  };
 
   render() {
     var self = this;
     return (
-      <JobSubmittal platform='electron' method={self.props.appState.method} onSubmit={self.tellMainToRunAnalysis} />
+      <JobSubmittal
+        platform="electron"
+        method={self.props.appState.method}
+        onSubmit={self.tellMainToRunAnalysis}
+      />
     );
   }
 }
