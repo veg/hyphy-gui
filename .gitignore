@@ -12,3 +12,4 @@ data/*.json
 data/*.aa
 .data
 hyphy-vision/
+coverage/
