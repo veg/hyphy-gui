@@ -14,8 +14,7 @@ const {
   REACT_DEVELOPER_TOOLS
 } = require("electron-devtools-installer");
 
-const validateMSA = require("./helpers/validateMSA.js");
-
+const parseAndValidateMSA = require("./helpers/parse_and_validate_msa.js");
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -90,14 +89,14 @@ ipcMain.on("moveMSA", function(event, arg) {
 });
 
 // Validate an MSA file.
-ipcMain.on("validateMSA", function(event, arg) {
-  validateMSA(
+ipcMain.on("parseAndValidateMSA", function(event, arg) {
+  parseAndValidateMSA(
     arg.jobInfo.msaPath,
     arg.jobInfo.geneticCode,
     sendValidationToRender
   );
 });
-// Helper function passed as a callback to validateMSA {which is called above}.
+// Helper function passed as a callback to parseAndValidateMSA {which is called above}.
 function sendValidationToRender(validationResponse) {
   mainWindow.webContents.send("validationComplete", validationResponse);
 }
