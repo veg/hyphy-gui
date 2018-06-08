@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+const ipcRenderer = require("electron").ipcRenderer;
 import { GetMSAPath } from "./submittal_subcomponents/get_msa_path.jsx";
 import { ChooseGeneticCode } from "./submittal_subcomponents/choose_genetic_code.jsx";
 import { ChooseAnalysisType } from "./submittal_subcomponents/choose_analysis_type.jsx";
@@ -26,7 +27,8 @@ class JobSubmittal extends Component {
         // This was done to allow for initial/default value for the fields to be set without creating an entry
         // in the state of methods that don't need/use the info.
       },
-      filePassedValidation: false
+      filePassedValidation: false,
+      branchSelectionSaved: false
     };
   }
 
@@ -47,12 +49,17 @@ class JobSubmittal extends Component {
     this.setState({ [key]: value });
   };
 
+  saveBranchSelection = annotatedTree => {
+    this.updateJobInfo("annotatedTree", annotatedTree);
+    this.updateJobInfo("treePath", this.state.jobInfo.msaPath + ".tree");
+    ipcRenderer.send("saveAnnotatedTree", {
+      annotatedTree: annotatedTree,
+      msaPath: this.state.jobInfo.msaPath
+    });
+    this.setState({ branchSelectionSaved: true });
+  };
+
   render() {
-    const exampleTrees = {
-      neighbor_joining: "((one,two),three,neighbor_joining);",
-      user_supplied: "((four,five),six,user_supplied);",
-      partition_info: ""
-    };
     const self = this;
     const methodNameandDescription = {
       absrel: {
@@ -122,17 +129,26 @@ class JobSubmittal extends Component {
             updateJobInfo={self.updateJobInfo}
           />
         ) : null}
-        {self.state.filePassedValidation == true ? (
+
+        {/* Branch Selection 
+        TODO: the Branch Selection component shouldn't appear for methods that don't require branch selection. Currently just set up for absrel.*/}
+        {self.state.filePassedValidation == true &&
+        self.state.branchSelectionSaved == false ? (
           <BranchSelection
             tree={this.state.jobInfo.tree}
+            returnAnnotatedTreeCallback={this.saveBranchSelection}
+            testAndReference={true}
             height={800}
             width={600}
           />
         ) : null}
-        {self.state.filePassedValidation == true ? (
-          <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>
-            Submit Analysis
-          </button>
+        {self.state.branchSelectionSaved == true ? (
+          <div>
+            <p>Branch Selection Information Saved</p>
+            <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>
+              Submit Analysis
+            </button>
+          </div>
         ) : null}
       </div>
     );

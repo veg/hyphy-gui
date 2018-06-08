@@ -1,14 +1,41 @@
 const parseAndValidateMSA = require("./../src/helpers/parse_and_validate_msa.js");
 const path = require("path");
+const fs = require("fs");
 
 // Get the absolute paths to example datasets.
-const dataPath = path.join(process.cwd(), "data");
+const dataPath = path.join(process.cwd(), "test", "test_data");
 const validMSAPath = path.join(dataPath, "CD2_reduced.fna");
+const validMSAPathCopy = path.join(dataPath, "CD2_reduced_copy.fna");
+const validMSAPathNexus = path.join(dataPath, "CD2_reduced.nex");
+const validMSAPathCopyNexus = path.join(dataPath, "CD2_reduced_copy.nex");
 const stopCodonMSAPath = path.join(dataPath, "CD2_reduced_stopcodon.fasta");
 
-// Test pass/fail.
-test("Passes with valid file", () => {
-  parseAndValidateMSA(validMSAPath, "1", validationOutput => {
+// Setup and tear down because parseAndValidateMSA changes the file to nexus in place.
+beforeAll(() => {
+  return new Promise(resolve => {
+    fs.copyFile(validMSAPath, validMSAPathCopy, err => {});
+    fs.copyFile(validMSAPathNexus, validMSAPathCopyNexus, err => {});
+    resolve();
+  });
+});
+
+afterAll(() => {
+  return new Promise(resolve => {
+    fs.unlink(validMSAPathCopy, () => {});
+    fs.unlink(validMSAPathCopyNexus, () => {});
+    resolve();
+  });
+});
+
+// Test valid/invalid.
+test("Passes with valid fna file", () => {
+  parseAndValidateMSA(validMSAPathCopy, "1", validationOutput => {
+    expect(validationOutput.valid).toBe(true);
+  });
+});
+
+test("Passes with valid nexus file", () => {
+  parseAndValidateMSA(validMSAPathCopyNexus, "1", validationOutput => {
     expect(validationOutput.valid).toBe(true);
   });
 });

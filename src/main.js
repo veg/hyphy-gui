@@ -15,6 +15,8 @@ const {
 } = require("electron-devtools-installer");
 
 const parseAndValidateMSA = require("./helpers/parse_and_validate_msa.js");
+const removeTreeFromNexus = require("./helpers/remove_tree_from_nexus.js");
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -101,6 +103,18 @@ function sendValidationToRender(validationResponse) {
   mainWindow.webContents.send("validationComplete", validationResponse);
 }
 
+// Save the annotated tree from the branch selection component and remove the tree from the nexus file.
+ipcMain.on("saveAnnotatedTree", function(evnet, arg) {
+  fs.writeFile(arg.msaPath + ".tree", arg.annotatedTree, function(err) {
+    if (err) throw err;
+  });
+  removeTreeFromNexus(arg.msaPath, nexusStringWithoutTree => {
+    fs.writeFile(arg.msaPath, nexusStringWithoutTree, function(err) {
+      if (err) throw err;
+    });
+  });
+});
+
 // Run an analysis.
 ipcMain.on("runAnalysis", function(event, arg) {
   runAnalysisScript(arg.jobInfo);
@@ -110,6 +124,7 @@ function runAnalysisScript(jobInfo) {
   const scriptPath = path.resolve("./scripts", jobInfo.method + ".sh");
   const hyphyDirectory = path.resolve("./", ".hyphy");
   let process = null;
+  // TODO: adjust the scripts and parameters to account for which methods get trees and which don't (currently just working on absrel).
   if (jobInfo.method === "relax") {
     process = spawn("bash", [
       scriptPath,
@@ -153,6 +168,7 @@ function runAnalysisScript(jobInfo) {
       scriptPath,
       hyphyDirectory,
       jobInfo.msaPath,
+      jobInfo.treePath,
       jobInfo.geneticCode
     ]);
   }

@@ -12,8 +12,8 @@ class ParseAndValidateMSA extends Component {
         // Add info from the datareader.hbl output to the jobInfo.
         this.props.updateJobInfo("tree", {
           neighbor_joining: arg.message.FILE_INFO.nj,
-          user_supplied: arg.message.FILE_PARTITION_INFO[0].usertree,
-          partition_info: arg.message.FILE_PARTITION_INFO
+          user_supplied: arg.message.FILE_PARTITION_INFO[0].usertree
+          //partition_info: arg.message.FILE_PARTITION_INFO
         });
         this.props.changeJobSubmittalState("filePassedValidation", arg.valid);
       } else {

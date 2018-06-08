@@ -3,11 +3,12 @@ import React, { Component } from "react";
 class BranchSelection extends React.Component {
   constructor(props) {
     super(props);
-    // todo : check if multiple partitions available
-    // todo : hide user button if not available
-    // todo : if multiple partitions, we will not be able to select partitions
+    // TODO : check if multiple partitions available
+    // TODO : hide user button if not available
+    // TODO : if multiple partitions, we will not be able to select partitions
+    // TODO : allow selection of test and reference branches, for RELAX.
 
-    // set up the tree component
+    // set up the phylotree object.
     var tree_container = "#tree-body";
     var phylotreeObject = d3.layout
       .phylotree(tree_container)
@@ -22,32 +23,42 @@ class BranchSelection extends React.Component {
         $("#selected_filtered_counter").text(count.tag);
       });
 
-    if (typeof this.props.tree == "object") {
-      var treeOptions = [
-        this.props.tree.user_supplied,
-        this.props.tree.neighbor_joining
-      ];
+    // Evaluate what was passed in as props.tree and modify it to be an object with the proper key(s).
+    var multipleTrees = false;
+    if (
+      typeof this.props.tree == "object" &&
+      Object.keys(this.props.tree).length > 1
+    ) {
+      var nwkTrees = this.props.tree;
+      multipleTrees = true;
+    } else if (
+      typeof this.props.tree == "object" &&
+      Object.keys(this.props.tree).length < 1
+    ) {
+      var nwkTrees = this.props.tree;
+    } else if (typeof this.props.tree == "string") {
+      var nwkTrees = { user_supplied: this.props.tree };
     } else {
-      console.log("one");
-      var treeOptions = [this.props.tree];
+      throw "Unexpected tree type (expected either a string or an object)";
     }
 
     this.state = {
-      tagged_branches: false,
       current_selection_name: "nwk",
-      selected_tree: treeOptions[0],
+      treeType: "user_supplied",
+      nwkTrees: nwkTrees,
+      selectedTree: nwkTrees.user_supplied,
       tree: phylotreeObject,
-      treeOptions: treeOptions
+      multipleTrees: multipleTrees
     };
   }
 
   componentDidMount() {
-    this.createTree(this.state.selected_tree);
+    this.createTree(this.state.selectedTree);
     this.setEvents();
   }
 
   componentDidUpdate() {
-    this.createTree(this.state.selected_tree);
+    this.createTree(this.state.selectedTree);
     this.setEvents();
   }
 
@@ -76,18 +87,18 @@ class BranchSelection extends React.Component {
 
     default_tree_settings(this.state.tree);
     this.state
-      .tree(this.state.selected_tree)
+      .tree(this.state.selectedTree)
       .svg(svg)
       .layout();
 
     _.delay(this.state.tree.placenodes().update, 100);
   }
 
-  toggleSelectedTree = treeOptionSelected => {
-    var new_tree_index =
-      (this.state.treeOptions.indexOf(this.state.selected_tree) + 1) % 2;
-    var new_tree = this.state.treeOptions[new_tree_index];
-    this.setState({ selected_tree: new_tree });
+  toggleSelectedTree = treeType => {
+    if (treeType != this.state.treeType) {
+      this.setState({ treeType: treeType });
+      this.setState({ selectedTree: this.state.nwkTrees[treeType] });
+    }
   };
 
   setEvents() {
@@ -184,9 +195,7 @@ class BranchSelection extends React.Component {
   }
 
   submit(tree, callback) {
-    var self = this;
-
-    function export_newick(tree) {
+    function exportNewick(tree) {
       return tree.get_newick(function(node) {
         var tags = [];
         if (node.selected) {
@@ -200,13 +209,13 @@ class BranchSelection extends React.Component {
     }
 
     function validate_selection(tree, callback) {
+      var nwkToReturn = exportNewick(tree);
       if (tree.nodes.get_selection().length) {
-        callback();
+        callback(nwkToReturn);
       } else {
-        callback({
-          msg:
-            "No branch selections were made, please select one. Alternatively, you can choose to select all via the menu."
-        });
+        alert(
+          "No branch selections were made, please select one. Alternatively, you can choose to select all via the menu."
+        );
       }
     }
 
@@ -291,9 +300,9 @@ class BranchSelection extends React.Component {
         </div>
 
         {/* If there are two trees render the tree selection buttons */}
-        {typeof this.props.tree == "object" ? (
+        {this.state.multipleTrees ? (
           <TreeSelectBtnGroup
-            trees={this.props.tree}
+            tree={this.props.tree}
             selectedTree={this.state.selectedTree}
             toggleSelectedTree={this.toggleSelectedTree}
           />
@@ -302,52 +311,54 @@ class BranchSelection extends React.Component {
         <div id="tree-body">
           <div id="tree_container" className="tree-widget" />
         </div>
+
+        <button
+          onClick={() =>
+            this.submit(this.state.tree, this.props.returnAnnotatedTreeCallback)
+          }
+        >
+          Save Branch Selection
+        </button>
       </div>
     );
   }
 }
 
-class TreeSelectBtnGroup extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div id="tree-select-btn-group" className="col-lg-4 phylo-nav">
-        <div className="btn-group" data-toggle="buttons">
-          <label
-            title="User Defined Tree"
-            id="dm-usertree-highlighter"
-            className="btn btn-default btn-sm active"
-            onClick={() => this.props.toggleSelectedTree()}
-          >
-            <input
-              type="radio"
-              name="options"
-              id="dm-ut-select"
-              autoComplete="off"
-            />
-            User Defined Tree
-          </label>
-          <label
-            title="Neighbor Joining Tree"
-            id="dm-nj-highlighter"
-            className="btn btn-default btn-sm"
-            onClick={() => this.props.toggleSelectedTree()}
-          >
-            <input
-              type="radio"
-              name="options"
-              id="dm-nj-select"
-              autoComplete="off"
-            />
-            Neighbor Joining Tree
-          </label>
-        </div>
+function TreeSelectBtnGroup(props) {
+  return (
+    <div id="tree-select-btn-group" className="col-lg-6 phylo-nav">
+      <div className="btn-group btn-group-toggle" data-toggle="buttons">
+        <label
+          title="User Defined Tree"
+          id="dm-usertree-highlighter"
+          className="btn btn-sm btn-secondary active"
+          onClick={() => props.toggleSelectedTree("user_supplied")}
+        >
+          <input
+            type="radio"
+            name="options"
+            id="dm-ut-select"
+            autoComplete="off"
+          />
+          User Defined Tree
+        </label>
+        <label
+          title="Neighbor Joining Tree"
+          id="dm-nj-highlighter"
+          className="btn btn-sm btn-secondary"
+          onClick={() => props.toggleSelectedTree("neighbor_joining")}
+        >
+          <input
+            type="radio"
+            name="options"
+            id="dm-nj-select"
+            autoComplete="off"
+          />
+          Neighbor Joining Tree
+        </label>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 module.exports.BranchSelection = BranchSelection;
