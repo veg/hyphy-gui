@@ -10,7 +10,7 @@
     "bootstrap": "^4.0.0",
     "electron": "^1.8.2",
     "eslint": "^4.18.2",
-    "hyphy-vision": "^1.1.7",
+    "hyphy-vision": "^2.0.1",
     "jquery": "^3.3.1",
     "phylotree": "^0.1.6",
     "popper.js": "^1.14.1",
