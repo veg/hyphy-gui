@@ -61,44 +61,54 @@ class JobSubmittal extends Component {
 
   render() {
     const self = this;
-    const methodNameandDescription = {
+    const methodSpecificInfo = {
       absrel: {
         name: "aBSREL",
         description:
-          "An adaptive branch-site REL test for episodic diversification"
+          "An adaptive branch-site REL test for episodic diversification",
+        branchSelection: true
       },
       busted: {
         name: "BUSTED",
         description:
-          "Branch-site Unrestricted Statistical Test for Episodic Diversification"
+          "Branch-site Unrestricted Statistical Test for Episodic Diversification",
+        branchSelection: true
       },
       fel: { name: "FEL", description: "Fixed Effects Likelihood" },
       fubar: {
         name: "FUBAR",
         description:
-          "A Fast, Unconstrained Bayesian AppRoximation for Inferring Selection"
+          "A Fast, Unconstrained Bayesian AppRoximation for Inferring Selection",
+        branchSelection: false
       },
       gard: {
         name: "GARD",
-        description: "A Genetic Algorithm for Recombination Detection"
+        description: "A Genetic Algorithm for Recombination Detection",
+        branchSelection: false
       },
       meme: {
         name: "MEME",
         description:
-          "Detect Individual Sites Subject to Episodic Diversifying Selection"
+          "Detect Individual Sites Subject to Episodic Diversifying Selection",
+        branchSelection: false
       },
       relax: {
         name: "RELAX",
         description:
-          "Detect relaxed selection in a codon-based phylogenetic framework"
+          "Detect relaxed selection in a codon-based phylogenetic framework",
+        branchSelection: true
       },
-      slac: { name: "SLAC", description: "Single-Likelihood Ancestor Counting" }
+      slac: {
+        name: "SLAC",
+        description: "Single-Likelihood Ancestor Counting",
+        branchSelection: true
+      }
     };
 
     return (
       <div>
-        <h1>{methodNameandDescription[self.props.method].name}</h1>
-        <p>{methodNameandDescription[self.props.method].description}</p>
+        <h1>{methodSpecificInfo[self.props.method].name}</h1>
+        <p>{methodSpecificInfo[self.props.method].description}</p>
         {self.props.platform === "electron" ? (
           <GetMSAPath updateJobInfo={self.updateJobInfo} />
         ) : null}
@@ -130,21 +140,23 @@ class JobSubmittal extends Component {
           />
         ) : null}
 
-        {/* Branch Selection 
-        TODO: the Branch Selection component shouldn't appear for methods that don't require branch selection. Currently just set up for absrel.*/}
-        {self.state.filePassedValidation == true &&
+        {/* Branch Selection (if the method requires it) */}
+        {methodSpecificInfo[self.props.method].branchSelection &&
+        self.state.filePassedValidation &&
         self.state.branchSelectionSaved == false ? (
           <BranchSelection
-            tree={this.state.jobInfo.tree}
+            nwkTree={this.state.jobInfo.tree}
             returnAnnotatedTreeCallback={this.saveBranchSelection}
-            testAndReference={true}
+            testAndReference={self.props.method === "relax" ? true : false}
             height={800}
             width={600}
           />
         ) : null}
-        {self.state.branchSelectionSaved == true ? (
+        {/* Submit Job */}
+        {self.state.branchSelectionSaved == true ||
+        (methodSpecificInfo[self.props.method].branchSelection == false &&
+          self.state.filePassedValidation) ? (
           <div>
-            <p>Branch Selection Information Saved</p>
             <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>
               Submit Analysis
             </button>
