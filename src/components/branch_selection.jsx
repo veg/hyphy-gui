@@ -1,9 +1,7 @@
-import React, { Component }  from 'react';
-
+import React, { Component } from "react";
 
 // Placeholder component
 class BranchSelection extends React.Component {
-
   render() {
     return (
       <div>
@@ -12,7 +10,6 @@ class BranchSelection extends React.Component {
     );
   }
 }
-
 
 // BranchSelection component from datamonkey-js (the component isn't currently in use on datamonkey but will be re-purposed for the GUI)
 /*
