@@ -1,6 +1,20 @@
 const parseAndValidateMSA = require("./../src/helpers/parse_and_validate_msa.js");
 const path = require("path");
 const fs = require("fs");
+import React from "react";
+import ReactDOM from "react-dom";
+
+import { ParseAndValidateMSA } from "ParseAndValidateMSA";
+
+/* Need to mock out IPC
+// Test the component.
+it('renders the ParseAndValidateMSA component without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<ParseAndValidateMSA/>, div);
+});
+*/
+
+// Test the function.
 
 // Get the absolute paths to example datasets.
 const dataPath = path.join(process.cwd(), "test", "test_data");
