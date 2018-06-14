@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { GetMSAPath } from "./get_msa_path.jsx";
-import { ChooseGeneticCode } from "./choose_genetic_code.jsx";
-import { ChooseAnalysisType } from "./choose_analysis_type.jsx";
-import { ChooseSynRateVariation } from "./choose_syn_rate_variation.jsx";
-import { ChooseSiteRateVariation } from "./choose_site_rate_variation.jsx";
-import { ChooseNumRateClasses } from "./choose_num_rate_classes.jsx";
-import { AdvancedFubarOptions } from "./advanced_fubar_options.jsx";
-import { ValidateFile } from "./validateFile.jsx";
-import { BranchSelection } from "./branch_selection.jsx";
+const ipcRenderer = require("electron").ipcRenderer;
+import { GetMSAPath } from "./submittal_subcomponents/get_msa_path.jsx";
+import { ChooseGeneticCode } from "./submittal_subcomponents/choose_genetic_code.jsx";
+import { ChooseAnalysisType } from "./submittal_subcomponents/choose_analysis_type.jsx";
+import { ChooseSynRateVariation } from "./submittal_subcomponents/choose_syn_rate_variation.jsx";
+import { ChooseSiteRateVariation } from "./submittal_subcomponents/choose_site_rate_variation.jsx";
+import { ChooseNumRateClasses } from "./submittal_subcomponents/choose_num_rate_classes.jsx";
+import { AdvancedFubarOptions } from "./submittal_subcomponents/advanced_fubar_options.jsx";
+import { ParseAndValidateMSA } from "./submittal_subcomponents/parse_and_validate_msa.jsx";
+import { BranchSelection } from "./submittal_subcomponents/branch_selection.jsx";
 
 /**
  * JobSubmittal takes an MSA and some parameters and returns a JSON object "jobInfo" for consumption.
@@ -26,7 +27,8 @@ class JobSubmittal extends Component {
         // This was done to allow for initial/default value for the fields to be set without creating an entry
         // in the state of methods that don't need/use the info.
       },
-      filePassedValidation: false
+      filePassedValidation: false,
+      branchSelectionSaved: false
     };
   }
 
@@ -38,7 +40,7 @@ class JobSubmittal extends Component {
     this.setState({});
     this.state.jobInfo[key] = value;
 
-    if (key == "geneticCode" || "msaPath") {
+    if (key == "geneticCode" || key == "msaPath") {
       this.setState({ filePassedValidation: false });
     }
   };
@@ -47,46 +49,66 @@ class JobSubmittal extends Component {
     this.setState({ [key]: value });
   };
 
+  saveBranchSelection = annotatedTree => {
+    this.updateJobInfo("annotatedTree", annotatedTree);
+    this.updateJobInfo("treePath", this.state.jobInfo.msaPath + ".tree");
+    ipcRenderer.send("saveAnnotatedTree", {
+      annotatedTree: annotatedTree,
+      msaPath: this.state.jobInfo.msaPath
+    });
+    this.setState({ branchSelectionSaved: true });
+  };
+
   render() {
     const self = this;
-    const methodNameandDescription = {
+    const methodSpecificInfo = {
       absrel: {
         name: "aBSREL",
         description:
-          "An adaptive branch-site REL test for episodic diversification"
+          "An adaptive branch-site REL test for episodic diversification",
+        branchSelection: true
       },
       busted: {
         name: "BUSTED",
         description:
-          "Branch-site Unrestricted Statistical Test for Episodic Diversification"
+          "Branch-site Unrestricted Statistical Test for Episodic Diversification",
+        branchSelection: true
       },
       fel: { name: "FEL", description: "Fixed Effects Likelihood" },
       fubar: {
         name: "FUBAR",
         description:
-          "A Fast, Unconstrained Bayesian AppRoximation for Inferring Selection"
+          "A Fast, Unconstrained Bayesian AppRoximation for Inferring Selection",
+        branchSelection: false
       },
       gard: {
         name: "GARD",
-        description: "A Genetic Algorithm for Recombination Detection"
+        description: "A Genetic Algorithm for Recombination Detection",
+        branchSelection: false
       },
       meme: {
         name: "MEME",
         description:
-          "Detect Individual Sites Subject to Episodic Diversifying Selection"
+          "Detect Individual Sites Subject to Episodic Diversifying Selection",
+        branchSelection: false
       },
       relax: {
         name: "RELAX",
         description:
-          "Detect relaxed selection in a codon-based phylogenetic framework"
+          "Detect relaxed selection in a codon-based phylogenetic framework",
+        branchSelection: true
       },
-      slac: { name: "SLAC", description: "Single-Likelihood Ancestor Counting" }
+      slac: {
+        name: "SLAC",
+        description: "Single-Likelihood Ancestor Counting",
+        branchSelection: true
+      }
     };
 
     return (
       <div>
-        <h1>{methodNameandDescription[self.props.method].name}</h1>
-        <p>{methodNameandDescription[self.props.method].description}</p>
+        <h1>{methodSpecificInfo[self.props.method].name}</h1>
+        <p>{methodSpecificInfo[self.props.method].description}</p>
         {self.props.platform === "electron" ? (
           <GetMSAPath updateJobInfo={self.updateJobInfo} />
         ) : null}
@@ -111,16 +133,36 @@ class JobSubmittal extends Component {
         ) : null}
 
         {self.state.filePassedValidation == false ? (
-          <ValidateFile
+          <ParseAndValidateMSA
             jobInfo={self.state.jobInfo}
             changeJobSubmittalState={self.changeJobSubmittalState}
+            updateJobInfo={self.updateJobInfo}
           />
         ) : null}
-        {self.state.filePassedValidation == true ? <BranchSelection /> : null}
-        {self.state.filePassedValidation == true ? (
-          <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>
-            Submit Analysis
-          </button>
+
+        {/* Branch Selection (if the method requires it) */}
+        {methodSpecificInfo[self.props.method].branchSelection &&
+        self.state.filePassedValidation &&
+        self.state.branchSelectionSaved == false ? (
+          <BranchSelection
+            userSuppliedNwkTree={this.state.jobInfo.tree.user_supplied}
+            neighborJoiningNwkTree={this.state.jobInfo.tree.neighbor_joining}
+            nwkTree={this.state.jobInfo.tree}
+            returnAnnotatedTreeCallback={this.saveBranchSelection}
+            testAndReference={self.props.method === "relax" ? true : false}
+            height={800}
+            width={600}
+          />
+        ) : null}
+        {/* Submit Job */}
+        {self.state.branchSelectionSaved == true ||
+        (methodSpecificInfo[self.props.method].branchSelection == false &&
+          self.state.filePassedValidation) ? (
+          <div>
+            <button onClick={() => self.props.onSubmit(self.state.jobInfo)}>
+              Submit Analysis
+            </button>
+          </div>
         ) : null}
       </div>
     );

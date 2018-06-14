@@ -4,12 +4,15 @@ module.exports = {
       "<rootDir>/__mocks__/fileMock.js",
     "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
     Home: "<rootDir>/src/components/home.jsx",
-    NavBar: "<rootDir>/src/components/navbar.jsx"
+    NavBar: "<rootDir>/src/components/navbar.jsx",
+    BranchSelection:
+      "<rootDir>/src/components/submittal_subcomponents/branch_selection.jsx"
   },
   testPathIgnorePatterns: ["/node_modules/", "/hyphy-vision/"],
   collectCoverageFrom: [
     "**/src/**.{js,jsx}",
     "!**/node_modules/**",
-    "!**/hyphy-vision/**"
+    "!**/hyphy-vision/**",
+    "!src/index.js"
   ]
 };
