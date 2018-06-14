@@ -23,40 +23,19 @@ class BranchSelection extends React.Component {
         $("#selected_filtered_counter").text(count.tag);
       });
 
-    // Evaluate what was passed in as props.nwkTree and modify it to be an object with the proper key(s).
-    // This component is designed for two use cases regarding what is pased in as props.newickTree:
-    //   1. A string in newick format (This will be converted below to an object {user_supplied: "<newickTree>"})
-    //   2. An object with two trees {user_supplied: "<newick tree>", neighbor_joining: "<newick tree>"
-    var multipleTrees = false;
-    if (
-      typeof this.props.nwkTree == "object" &&
-      Object.keys(this.props.nwkTree).length > 1
-    ) {
-      var nwkTrees = this.props.nwkTree;
-      multipleTrees = true;
-    } else if (
-      typeof this.props.nwkTree == "object" &&
-      Object.keys(this.props.nwkTree).length < 1
-    ) {
-      var nwkTrees = this.props.nwkTree;
-    } else if (typeof this.props.nwkTree == "string") {
-      var nwkTrees = { user_supplied: this.props.nwkTree };
-    } else {
-      throw "Unexpected tree type (expected either a string or an object)";
-    }
-
     this.state = {
-      treeType: "user_supplied",
-      nwkTrees: nwkTrees,
-      selectedTree: nwkTrees.user_supplied,
+      selectedTree: this.props.userSuppliedNwkTree,
       tree: phylotreeObject,
-      multipleTrees: multipleTrees,
-      selectionType: "test"
+      selectionType: "test",
+      multipleTrees: false
     };
   }
 
   componentDidMount() {
     this.createTree(this.state.selectedTree);
+    if (this.props.neighborJoiningNwkTree) {
+      this.setState({ multipleTrees: true });
+    }
   }
 
   componentDidUpdate() {
@@ -146,9 +125,8 @@ class BranchSelection extends React.Component {
   }
 
   toggleSelectedTree = treeType => {
-    if (treeType != this.state.treeType) {
-      this.setState({ treeType: treeType });
-      this.setState({ selectedTree: this.state.nwkTrees[treeType] });
+    if (this.props[treeType] != this.state.selectedTree) {
+      this.setState({ selectedTree: this.props[treeType] });
     }
   };
 
@@ -234,7 +212,7 @@ function TreeSelectBtnGroup(props) {
         title="User Defined Tree"
         id="dm-usertree-highlighter"
         className="btn btn-sm btn-light active"
-        onClick={() => props.toggleSelectedTree("user_supplied")}
+        onClick={() => props.toggleSelectedTree("userSuppliedNwkTree")}
       >
         <input
           type="radio"
@@ -248,7 +226,7 @@ function TreeSelectBtnGroup(props) {
         title="Neighbor Joining Tree"
         id="dm-nj-highlighter"
         className="btn btn-sm btn-light"
-        onClick={() => props.toggleSelectedTree("neighbor_joining")}
+        onClick={() => props.toggleSelectedTree("neighborJoiningNwkTree")}
       >
         <input
           type="radio"
