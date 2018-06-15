@@ -147,7 +147,6 @@ class JobSubmittal extends Component {
           <BranchSelection
             userSuppliedNwkTree={this.state.jobInfo.tree.user_supplied}
             neighborJoiningNwkTree={this.state.jobInfo.tree.neighbor_joining}
-            nwkTree={this.state.jobInfo.tree}
             returnAnnotatedTreeCallback={this.saveBranchSelection}
             testAndReference={self.props.method === "relax" ? true : false}
             height={800}
