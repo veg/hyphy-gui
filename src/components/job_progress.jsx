@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-const ipcRenderer = require('electron').ipcRenderer;
-const ReactMarkdown = require('react-markdown');
+import React, { Component } from "react";
+const ipcRenderer = require("electron").ipcRenderer;
+const ReactMarkdown = require("react-markdown");
 
 function Table(props) {
   // A simple table component used to render the job status output.
@@ -8,34 +8,14 @@ function Table(props) {
 }
 
 class JobProgress extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: '',
-    };
-  }
-
-  componentWillMount() {
-    // this.setEventListeners();
-  }
-
-    /*
-  setEventListeners = () => {
-    const self = this;
-    ipcRenderer.on('stdout', (event, arg) => {
-      if (arg.msg !== self.tempMessageForChecking) {
-        self.setState({message: self.state.message + arg.msg})
-        self.tempMessageForChecking = arg.msg;
-      }
-    }); 
-  }
-  */
-
   render() {
     return (
       <div>
         <h2>Job Progress Page</h2>
-        <ReactMarkdown source={this.props.appState.jobRunning.stdOut} renders={{table: Table}} />
+        <ReactMarkdown
+          source={this.props.appState.jobRunning.stdOut}
+          renders={{ table: Table }}
+        />
       </div>
     );
   }

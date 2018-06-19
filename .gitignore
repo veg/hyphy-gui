@@ -4,10 +4,15 @@ bundle.js
 *.log
 *.woff
 *.woff2
+*.svg
 *.eot
 *.ttf
 .DS_Store
 .appState.json
+test/test_data/*.json
+test/test_data/*.aa
 data/*.json
+data/*.aa
 .data
 hyphy-vision/
+coverage/
