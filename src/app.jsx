@@ -102,12 +102,15 @@ class App extends Component {
     electronFs.writeFileSync(".appstate.json", JSON.stringify(this.state));
   };
 
+  // TODO: the page state, and thus the render, currently has sometimes unexpected behavior.
+  // (e.g. goes to jobSubmittal when it should be at jobProgress)
   render() {
     var self = this;
+
     return (
       <div style={{ paddingTop: "70px" }}>
         <HyPhyGUINavBar
-          appState={self.state}
+          output={self.state.jobRunning.stdOut}
           changeAppState={self.changeAppState}
         />
         {this.state.page === "home" ? <Home /> : null}

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-const ipcRenderer = require("electron").ipcRenderer;
 
 class JobsTable extends Component {
   constructor(props) {

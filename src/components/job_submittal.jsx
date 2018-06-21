@@ -109,7 +109,10 @@ class JobSubmittal extends Component {
         <h1>{methodSpecificInfo[self.props.method].name}</h1>
         <p>{methodSpecificInfo[self.props.method].description}</p>
         {self.props.platform === "electron" ? (
-          <GetMSAPath updateJobInfo={self.updateJobInfo} />
+          <GetMSAPath
+            updateJobInfo={self.updateJobInfo}
+            comm={self.props.comm}
+          />
         ) : null}
         <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
 
@@ -134,6 +137,7 @@ class JobSubmittal extends Component {
         {self.state.filePassedValidation == false ? (
           <ParseAndValidateMSA
             jobInfo={self.state.jobInfo}
+            comm={self.props.comm}
             changeJobSubmittalState={self.changeJobSubmittalState}
             updateJobInfo={self.updateJobInfo}
           />

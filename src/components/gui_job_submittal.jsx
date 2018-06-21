@@ -18,7 +18,7 @@ class GUIJobSubmittal extends Component {
   tellMainToRunAnalysis = jobInfo => {
     /**
      * A function to send a message to the main process telling it to run a hyphy job.
-     * ipcRenderer sends "runAnalysis" to main.
+     * comm sends "runAnalysis" to backend for processing.
      * A listener ("ipcMain.on") is listening for "runAnalysis" on the Main side.
      */
 
