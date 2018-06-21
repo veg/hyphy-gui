@@ -6,6 +6,7 @@ const _ = require("underscore");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
 const electronFs = remote.require("fs");
 const hyphyVision = require("hyphy-vision");
+
 require("style-loader!css-loader!sass-loader!hyphy-vision/dist/application.scss");
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
@@ -56,6 +57,7 @@ class App extends Component {
 
   setEventListeners = () => {
     const self = this;
+
     ipcRenderer.on("analysisComplete", (event, arg) => {
       let jobsCompletedUpdated = self.state.jobsCompleted;
       jobsCompletedUpdated[self.state.jobRunning.jobID] = self.state.jobRunning;
@@ -112,6 +114,7 @@ class App extends Component {
         {this.state.page === "jobSubmittal" ? (
           <GUIJobSubmittal
             appState={self.state}
+            comm={ipcRenderer}
             changeAppState={self.changeAppState}
           />
         ) : null}

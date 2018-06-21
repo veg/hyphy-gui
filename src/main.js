@@ -175,7 +175,6 @@ function runAnalysisScript(jobInfo) {
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {
-    console.log(data.toString());
     mainWindow.webContents.send("stdout", { msg: data.toString() });
   });
 
