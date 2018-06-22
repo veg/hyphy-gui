@@ -44,7 +44,6 @@ class Results extends Component {
         {method === "absrel"
           ? [
               <div>
-                <p>Test</p>
                 <BSREL
                   data={self.state.jsonData}
                   fasta={self.state.fasta}
