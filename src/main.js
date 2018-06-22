@@ -119,9 +119,7 @@ ipcMain.on("saveAnnotatedTree", function(event, arg) {
 
 // Run an analysis.
 ipcMain.on("runAnalysis", function(event, arg) {
-  console.log(arg.jobInfo.msaPath);
   const fastaPath = arg.jobInfo.msaPath + ".fasta";
-  console.log(fastaPath);
   extractFastaFromNexus(arg.jobInfo.msaPath, fastaString => {
     fs.writeFile(fastaPath, fastaString, function(err) {
       if (err) throw err;
@@ -185,7 +183,6 @@ function runAnalysisScript(jobInfo) {
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {
-    console.log(data.toString());
     mainWindow.webContents.send("stdout", { msg: data.toString() });
   });
 

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 const fs = require("fs");
-const ipcRenderer = require("electron").ipcRenderer;
 const hyphyVision = require("hyphy-vision");
 const BSREL = hyphyVision.absrel.BSREL;
 const BUSTED = hyphyVision.busted.BUSTED;
@@ -23,14 +22,6 @@ class Results extends Component {
   componentDidMount() {
     this.setResultsDataToState();
   }
-
-  /*
-  componentDidUpdate(prevState, prevProps) {
-    if (this.props != prevProps) {
-      this.setResultsDataToState();
-    }
-  }
-  */
 
   setResultsDataToState = () => {
     const jsonPath = this.props.jobInfo.jsonPath;
@@ -63,14 +54,47 @@ class Results extends Component {
             ]
           : null}
         {method === "busted" ? (
-          <BUSTED data={self.state.jsonData} platform={"gui"} />
+          <BUSTED
+            data={self.state.jsonData}
+            fasta={self.state.fasta}
+            platform={"gui"}
+          />
         ) : null}
-        {method === "fel" ? <FEL data={self.state.jsonData} /> : null}
-        {method === "fubar" ? <FUBAR data={self.state.jsonData} /> : null}
-        {method === "gard" ? <GARD data={self.state.jsonData} /> : null}
-        {method === "meme" ? <MEME data={self.state.jsonData} /> : null}
-        {method === "relax" ? <RELAX data={self.state.jsonData} /> : null}
-        {method === "slac" ? <SLAC data={self.state.jsonData} /> : null}
+        {method === "fel" ? (
+          <FEL
+            data={self.state.jsonData}
+            fasta={self.state.fasta}
+            platform={"gui"}
+          />
+        ) : null}
+        {method === "fubar" ? (
+          <FUBAR
+            data={self.state.jsonData}
+            fasta={self.state.fasta}
+            platform={"gui"}
+          />
+        ) : null}
+        {method === "meme" ? (
+          <MEME
+            data={self.state.jsonData}
+            fasta={self.state.fasta}
+            platform={"gui"}
+          />
+        ) : null}
+        {method === "relax" ? (
+          <RELAX
+            data={self.state.jsonData}
+            fasta={self.state.fasta}
+            platform={"gui"}
+          />
+        ) : null}
+        {method === "slac" ? (
+          <SLAC
+            data={self.state.jsonData}
+            fasta={self.state.fasta}
+            platform={"gui"}
+          />
+        ) : null}
       </div>
     );
   }
