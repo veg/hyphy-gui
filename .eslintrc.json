@@ -13,18 +13,15 @@
   },
   "parser": "babel-eslint",
   "rules": {
-    "strict": [2, "never"],
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,
-    "no-unused-vars": [1, {"vars":"all", "args":"none"}],
+    "no-unused-vars": [1, { "vars": "all", "args": "none" }],
     "no-self-assign": 1,
+    "no-useless-escape": 1,
     "no-unreachable": 2,
     "no-debugger": 2,
-    "no-console":1,
-    "indent": [2, 2]
+    "no-console": 1
   },
-  "plugins": [
-    "react"
-  ]
+  "plugins": ["react"]
 }
