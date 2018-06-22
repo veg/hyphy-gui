@@ -16,7 +16,7 @@ class Results extends Component {
     super(props);
     this.state = {
       jsonData: null,
-      fasta: null
+      fasta: false
     };
   }
 
@@ -24,48 +24,44 @@ class Results extends Component {
     this.setResultsDataToState();
   }
 
+  /*
   componentDidUpdate(prevState, prevProps) {
     if (this.props != prevProps) {
       this.setResultsDataToState();
-      this.setFastaToState();
     }
   }
+  */
 
   setResultsDataToState = () => {
-    const jsonPath = this.props.appState.jobsCompleted[
-      this.props.appState.jobInFocus
-    ].jsonPath;
+    const jsonPath = this.props.jobInfo.jsonPath;
     const jsonData = fs.readFileSync(jsonPath).toString();
     this.setState({ jsonData: JSON.parse(jsonData) });
+    this.setFastaToState();
   };
 
   setFastaToState = () => {
-    const fastaPath = this.props.appState.jobsCompleted[
-      this.props.appState.jobInFocus
-    ].msaPath;
-    const nexusString = fs.readFileSync(fastaPath).toString();
-    ipcRenderer.send("extractFastaFromNexus", {
-      nexusString: nexusString,
-      callback: function(fasta) {
-        this.setState({ fasta: fasta });
-      }
-    });
-    console.log("executing the getFasta Function");
+    const fastaPath = this.props.jobInfo.fastaPath;
+    const fastaString = fs.readFileSync(fastaPath).toString();
+    this.setState({ fasta: fastaString });
   };
 
   render() {
     const self = this;
-    let method =
-      self.props.appState.jobsCompleted[this.props.appState.jobInFocus].method;
+    let method = self.props.jobInfo.method;
     return (
       <div>
-        {method === "absrel" ? (
-          <BSREL
-            data={self.state.jsonData}
-            platform={"gui"}
-            fasta={this.state.fasta}
-          />
-        ) : null}
+        {method === "absrel"
+          ? [
+              <div>
+                <p>Test</p>
+                <BSREL
+                  data={self.state.jsonData}
+                  fasta={self.state.fasta}
+                  platform={"gui"}
+                />
+              </div>
+            ]
+          : null}
         {method === "busted" ? (
           <BUSTED data={self.state.jsonData} platform={"gui"} />
         ) : null}

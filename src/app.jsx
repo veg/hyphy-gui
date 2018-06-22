@@ -128,7 +128,7 @@ class App extends Component {
           />
         ) : null}
         {this.state.page === "results" ? (
-          <Results appState={self.state} changeAppState={self.changeAppState} />
+          <Results jobInfo={self.state.jobsCompleted[self.state.jobInFocus]} />
         ) : null}
       </div>
     );

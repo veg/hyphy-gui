@@ -55,6 +55,9 @@ class GUIJobSubmittal extends Component {
     jobInfo["jsonPath"] =
       jobInfo.msaPath + "." + jobInfo.method.toUpperCase() + ".json";
 
+    // Add fastaPath to jobInfo.
+    jobInfo["fastaPath"] = jobInfo.msaPath + ".fasta";
+
     // Send the message to run the job or add to the queued job list.
     if (_.isEmpty(this.props.appState.jobRunning)) {
       ipcRenderer.send("runAnalysis", { jobInfo: jobInfo });

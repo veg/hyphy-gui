@@ -105,7 +105,8 @@ function sendValidationToRender(validationResponse) {
 }
 
 // Save the annotated tree from the branch selection component and remove the tree from the nexus file.
-ipcMain.on("saveAnnotatedTree", function(evnet, arg) {
+ipcMain.on("saveAnnotatedTree", function(event, arg) {
+  //TODO: account for the fact that users may have the same msa but want to run it with different branch annotations (as it currently stands these would get overwritten)
   fs.writeFile(arg.msaPath + ".tree", arg.annotatedTree, function(err) {
     if (err) throw err;
   });
@@ -116,12 +117,16 @@ ipcMain.on("saveAnnotatedTree", function(evnet, arg) {
   });
 });
 
-ipcMai.on("ExtractFastaFromNexus", function(evnet, arg) {
-  extractFastaFromNexus(arg.nexusString, arg.callback)
-});
-
 // Run an analysis.
 ipcMain.on("runAnalysis", function(event, arg) {
+  console.log(arg.jobInfo.msaPath);
+  const fastaPath = arg.jobInfo.msaPath + ".fasta";
+  console.log(fastaPath);
+  extractFastaFromNexus(arg.jobInfo.msaPath, fastaString => {
+    fs.writeFile(fastaPath, fastaString, function(err) {
+      if (err) throw err;
+    });
+  });
   runAnalysisScript(arg.jobInfo);
 });
 
