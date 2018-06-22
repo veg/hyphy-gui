@@ -16,6 +16,7 @@ const {
 
 const parseAndValidateMSA = require("./helpers/parse_and_validate_msa.js");
 const removeTreeFromNexus = require("./helpers/remove_tree_from_nexus.js");
+const extractFastaFromNexus = require("./helpers/extract_fasta_from_nexus.js");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -113,6 +114,10 @@ ipcMain.on("saveAnnotatedTree", function(evnet, arg) {
       if (err) throw err;
     });
   });
+});
+
+ipcMai.on("ExtractFastaFromNexus", function(evnet, arg) {
+  extractFastaFromNexus(arg.nexusString, arg.callback)
 });
 
 // Run an analysis.

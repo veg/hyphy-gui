@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 const fs = require("fs");
+const ipcRenderer = require("electron").ipcRenderer;
 const hyphyVision = require("hyphy-vision");
 const BSREL = hyphyVision.absrel.BSREL;
 const BUSTED = hyphyVision.busted.BUSTED;
@@ -14,12 +15,20 @@ class Results extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jsonData: null
+      jsonData: null,
+      fasta: null
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setResultsDataToState();
+  }
+
+  componentDidUpdate(prevState, prevProps) {
+    if (this.props != prevProps) {
+      this.setResultsDataToState();
+      this.setFastaToState();
+    }
   }
 
   setResultsDataToState = () => {
@@ -30,14 +39,36 @@ class Results extends Component {
     this.setState({ jsonData: JSON.parse(jsonData) });
   };
 
+  setFastaToState = () => {
+    const fastaPath = this.props.appState.jobsCompleted[
+      this.props.appState.jobInFocus
+    ].msaPath;
+    const nexusString = fs.readFileSync(fastaPath).toString();
+    ipcRenderer.send("extractFastaFromNexus", {
+      nexusString: nexusString,
+      callback: function(fasta) {
+        this.setState({ fasta: fasta });
+      }
+    });
+    console.log("executing the getFasta Function");
+  };
+
   render() {
     const self = this;
     let method =
       self.props.appState.jobsCompleted[this.props.appState.jobInFocus].method;
     return (
       <div>
-        {method === "absrel" ? <BSREL data={self.state.jsonData} /> : null}
-        {method === "busted" ? <BUSTED data={self.state.jsonData} /> : null}
+        {method === "absrel" ? (
+          <BSREL
+            data={self.state.jsonData}
+            platform={"gui"}
+            fasta={this.state.fasta}
+          />
+        ) : null}
+        {method === "busted" ? (
+          <BUSTED data={self.state.jsonData} platform={"gui"} />
+        ) : null}
         {method === "fel" ? <FEL data={self.state.jsonData} /> : null}
         {method === "fubar" ? <FUBAR data={self.state.jsonData} /> : null}
         {method === "gard" ? <GARD data={self.state.jsonData} /> : null}
