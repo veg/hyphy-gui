@@ -1,17 +1,17 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: path.resolve('src', 'index.js'),
+  entry: path.resolve("src", "index.js"),
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: "babel-loader"
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
@@ -30,6 +30,12 @@ module.exports = {
         options: { limit: 10000, mimetype: "image/svg+xml" }
       },
       {
+        test: /\.(js|jsx)?$/,
+        exclude: /node_modules/,
+        loader: "eslint-loader",
+        options: {}
+      },
+      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: "babel-loader"
@@ -43,8 +49,8 @@ module.exports = {
     modules: ["src", "node_modules"]
   },
   output: {
-    filename: 'bundle.js',
+    filename: "bundle.js",
     path: __dirname
   },
-  target: 'electron'
-}
+  target: "electron"
+};

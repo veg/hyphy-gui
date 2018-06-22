@@ -27,7 +27,7 @@ class ParseAndValidateMSA extends Component {
       <div>
         <button
           onClick={() =>
-            ipcRenderer.send("parseAndValidateMSA", {
+            this.props.comm.send("parseAndValidateMSA", {
               jobInfo: this.props.jobInfo
             })
           }

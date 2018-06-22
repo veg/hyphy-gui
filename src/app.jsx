@@ -6,6 +6,7 @@ const _ = require("underscore");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
 const electronFs = remote.require("fs");
 const hyphyVision = require("hyphy-vision");
+
 require("style-loader!css-loader!sass-loader!hyphy-vision/dist/application.scss");
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
@@ -56,6 +57,7 @@ class App extends Component {
 
   setEventListeners = () => {
     const self = this;
+
     ipcRenderer.on("analysisComplete", (event, arg) => {
       let jobsCompletedUpdated = self.state.jobsCompleted;
       jobsCompletedUpdated[self.state.jobRunning.jobID] = self.state.jobRunning;
@@ -100,18 +102,22 @@ class App extends Component {
     electronFs.writeFileSync(".appstate.json", JSON.stringify(this.state));
   };
 
+  // TODO: the page state, and thus the render, currently has sometimes unexpected behavior.
+  // (e.g. goes to jobSubmittal when it should be at jobProgress)
   render() {
     var self = this;
+
     return (
       <div style={{ paddingTop: "70px" }}>
         <HyPhyGUINavBar
-          appState={self.state}
+          output={self.state.jobRunning.stdOut}
           changeAppState={self.changeAppState}
         />
         {this.state.page === "home" ? <Home /> : null}
         {this.state.page === "jobSubmittal" ? (
           <GUIJobSubmittal
             appState={self.state}
+            comm={ipcRenderer}
             changeAppState={self.changeAppState}
           />
         ) : null}

@@ -11,6 +11,7 @@ function parseAndValidateMSA(msaPath, geneticCode, callBack) {
 
   // The file is parsed and validated with the `datareader.bf` HBL script.
   let geneticCodeLessOne = parseInt(geneticCode) - 1; // The batch file counts from zero, everything else seems to count from one.
+
   const hyphy = path.join(process.cwd(), ".hyphy/HYPHYMP");
   let validationProcess = spawn(hyphy, [
     "./src/helpers/bfs/datareader.bf",

@@ -125,6 +125,7 @@ function runAnalysisScript(jobInfo) {
   const hyphyDirectory = path.resolve("./", ".hyphy");
   let process = null;
   // TODO: adjust the scripts and parameters to account for which methods get trees and which don't (currently just working on absrel).
+
   if (jobInfo.method === "relax") {
     process = spawn("bash", [
       scriptPath,
@@ -154,15 +155,6 @@ function runAnalysisScript(jobInfo) {
       jobInfo.samplesFromEachChain,
       jobInfo.concDirichletPrior
     ]);
-  } else if (jobInfo.method === "gard") {
-    process = spawn("bash", [
-      scriptPath,
-      hyphyDirectory,
-      jobInfo.msaPath,
-      jobInfo.geneticCode,
-      jobInfo.siteRateVariation,
-      jobInfo.numRateClasses
-    ]);
   } else {
     process = spawn("bash", [
       scriptPath,
@@ -175,7 +167,6 @@ function runAnalysisScript(jobInfo) {
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {
-    console.log(data.toString());
     mainWindow.webContents.send("stdout", { msg: data.toString() });
   });
 
