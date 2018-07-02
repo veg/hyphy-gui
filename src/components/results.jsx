@@ -53,46 +53,22 @@ class Results extends Component {
             ]
           : null}
         {method === "busted" ? (
-          <BUSTED
-            data={self.state.jsonData}
-            fasta={self.state.fasta}
-            platform={"gui"}
-          />
+          <BUSTED data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
         {method === "fel" ? (
-          <FEL
-            data={self.state.jsonData}
-            fasta={self.state.fasta}
-            platform={"gui"}
-          />
+          <FEL data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
         {method === "fubar" ? (
-          <FUBAR
-            data={self.state.jsonData}
-            fasta={self.state.fasta}
-            platform={"gui"}
-          />
+          <FUBAR data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
         {method === "meme" ? (
-          <MEME
-            data={self.state.jsonData}
-            fasta={self.state.fasta}
-            platform={"gui"}
-          />
+          <MEME data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
         {method === "relax" ? (
-          <RELAX
-            data={self.state.jsonData}
-            fasta={self.state.fasta}
-            platform={"gui"}
-          />
+          <RELAX data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
         {method === "slac" ? (
-          <SLAC
-            data={self.state.jsonData}
-            fasta={self.state.fasta}
-            platform={"gui"}
-          />
+          <SLAC data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
       </div>
     );
