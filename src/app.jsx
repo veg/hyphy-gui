@@ -6,7 +6,7 @@ const _ = require("underscore");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
 const electronFs = remote.require("fs");
 const hyphyVision = require("hyphy-vision");
-require("style-loader!css-loader!sass-loader!hyphy-vision/dist/application.scss");
+require("style-loader!css-loader!sass-loader!/node_modules/hyphy-vision/dist/application.scss");
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { Home } from "./components/home.jsx";
