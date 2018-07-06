@@ -32,7 +32,8 @@ class BranchSelection extends React.Component {
       });
 
     this.state = {
-      selectedTree: this.props.userSuppliedNwkTree,
+      selectedTree:
+        this.props.userSuppliedNwkTree || this.props.neighborJoiningNwkTree,
       tree: phylotreeObject,
       selectionType: "test",
       multipleTrees: false
@@ -41,7 +42,7 @@ class BranchSelection extends React.Component {
 
   componentDidMount() {
     this.createTree(this.state.selectedTree);
-    if (this.props.neighborJoiningNwkTree) {
+    if (this.props.neighborJoiningNwkTree && this.props.userSuppliedNwkTree) {
       this.setState({ multipleTrees: true });
     }
   }
