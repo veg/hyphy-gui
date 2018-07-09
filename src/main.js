@@ -139,6 +139,7 @@ function runAnalysisScript(jobInfo) {
       scriptPath,
       hyphyDirectory,
       jobInfo.msaPath,
+      jobInfo.treePath,
       jobInfo.geneticCode,
       jobInfo.synRateVariation
     ]);
