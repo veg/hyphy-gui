@@ -19,7 +19,6 @@ function parseAndValidateMSA(msaPath, geneticCode, callBack) {
   let geneticCodeLessOne = parseInt(geneticCode) - 1; // The batch file counts from zero, everything else seems to count from one.
 
   const hyphyPath = path.join(appDirectory, ".hyphy/HYPHYMP");
-  //const hyphy = "/Users/ryanvelazquez/Documents/misc/packageGUI/hyphyGUI/Hyphygui.app/Contents/Resources/app/.hyphy/HYPHYMP"
   const batchFilePath = path.join(
     appDirectory,
     "src/helpers/bfs/datareader.bf"
