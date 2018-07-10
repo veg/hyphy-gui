@@ -2,19 +2,30 @@ const { spawn } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 
+// Determine the environment and set the paths accordingly.
+const environment = process.env.BASH_ENV ? "development" : "production";
+const appDirectory =
+  environment == "development"
+    ? process.cwd()
+    : path.join(__dirname, "/../../");
+
 function parseAndValidateMSA(msaPath, geneticCode, callBack) {
   // Takes an msaFilePath, a geneticCode and a callback function.
   // Returns an object: {valid: true or false,
   //                     message: the output from the validation or, if there was an error, the error message}.
   // Converts the file in place to nexus format.
-  // Removes the tree in the nexus file if there is one.
 
   // The file is parsed and validated with the `datareader.bf` HBL script.
   let geneticCodeLessOne = parseInt(geneticCode) - 1; // The batch file counts from zero, everything else seems to count from one.
 
-  const hyphy = path.join(process.cwd(), ".hyphy/HYPHYMP");
-  let validationProcess = spawn(hyphy, [
-    "./src/helpers/bfs/datareader.bf",
+  const hyphyPath = path.join(appDirectory, ".hyphy/HYPHYMP");
+  //const hyphy = "/Users/ryanvelazquez/Documents/misc/packageGUI/hyphyGUI/Hyphygui.app/Contents/Resources/app/.hyphy/HYPHYMP"
+  const batchFilePath = path.join(
+    appDirectory,
+    "src/helpers/bfs/datareader.bf"
+  );
+  let validationProcess = spawn(hyphyPath, [
+    batchFilePath,
     msaPath,
     geneticCodeLessOne
   ]);

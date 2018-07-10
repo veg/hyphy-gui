@@ -1,6 +1,13 @@
 import React, { Component } from "react";
-const { dialog } = require("electron").remote;
+const { app, dialog } = require("electron").remote;
 const path = require("path");
+
+// Determine the environment and set the paths accordingly.
+const environment = process.env.BASH_ENV ? "development" : "production";
+const dataDirectory =
+  environment == "development"
+    ? path.join(process.cwd(), ".data")
+    : path.resolve(app.getPath("userData"));
 
 class GetMSAPath extends Component {
   constructor(props) {
@@ -11,12 +18,12 @@ class GetMSAPath extends Component {
   getFilePath = () => {
     var msaPathOriginal = dialog.showOpenDialog()[0];
     var msaName = msaPathOriginal.replace(/^.*[\\\/]/, "");
-    var msaPath = path.join(process.cwd(), ".data", msaName);
+    var msaPath = path.join(dataDirectory, msaName);
     this.props.updateJobInfo("msaPathOriginal", msaPathOriginal);
     this.props.updateJobInfo("msaName", msaName);
     this.props.updateJobInfo("msaPath", msaPath);
     this.setState({ msaName: msaName });
-    // Send a message to the main process so that the input file is moved to the .data folder as soon as it's uploaded.
+    // Send a message to the main process so that the input file is moved to the dataDirectory as soon as it's uploaded.
     this.props.comm.send("moveMSA", {
       msaPathOriginal: msaPathOriginal,
       msaPath: msaPath
