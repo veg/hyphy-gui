@@ -94,7 +94,7 @@ app.on("activate", function() {
  * =====================================================================================
  */
 
-// Move the msa file from it's original location to the .data folder.
+// Move the msa file from it's original location to the dataDirectory folder.
 ipcMain.on("moveMSA", function(event, arg) {
   fs.createReadStream(arg.msaPathOriginal).pipe(
     fs.createWriteStream(arg.msaPath)

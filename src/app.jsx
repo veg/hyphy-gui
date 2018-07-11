@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
+import "hyphy-vision/dist/hyphyvision.css";
 const ipcRenderer = require("electron").ipcRenderer;
 const _ = require("underscore");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
 const electronFs = remote.require("fs");
+const electronProcess = remote.require("process");
 const { app } = require("electron").remote;
-import "hyphy-vision/dist/hyphyvision.css";
 const path = require("path");
+const moment = require("moment");
 
 
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { Home } from "./components/home.jsx";
-import { GUIJobSubmittal } from "./components/gui_job_submittal.jsx";
+import { JobSubmittal } from "./components/job_submittal.jsx";
 import { JobProgress } from "./components/job_progress.jsx";
 import { JobQueue } from "./components/job_queue.jsx";
 import { Results } from "./components/results.jsx";
@@ -64,7 +66,6 @@ class App extends Component {
 
   componentDidUpdate(prevState) {
     // TODO: Have it only save the state when a job is submitted or completed.
-
     this.saveAppState();
   }
 
@@ -119,6 +120,48 @@ class App extends Component {
     );
   };
 
+  tellMainToRunAnalysis = jobInfo => {
+    /**
+     * A function to send a message to the main process telling it to run a hyphy job.
+     * comm sends "runAnalysis" to backend for processing.
+     * A listener ("ipcMain.on") is listening for "runAnalysis" on the Main side.
+     */
+
+    // Add timeSubmitted to jobInfo.
+    let timeSubmitted = moment().format();
+
+    jobInfo["timeSubmitted"] = timeSubmitted;
+
+    // Add jobID to jobInfo.
+    jobInfo["jobID"] = [jobInfo.msaName, jobInfo.method, timeSubmitted].join(
+      "_"
+    );
+
+    // Add jsonPath to jobInfo.
+    jobInfo["jsonPath"] = [
+      jobInfo.msaPath,
+      jobInfo.method.toUpperCase(),
+      "json"
+    ].join(".");
+
+    // Add fastaPath to jobInfo.
+    jobInfo["fastaPath"] = jobInfo.msaPath + ".fasta";
+
+    // Send the message to run the job or add to the queued job list.
+    if (_.isEmpty(this.state.jobRunning)) {
+      ipcRenderer.send("runAnalysis", { jobInfo: jobInfo });
+      this.setState({ page: "jobProgress" });
+      this.setState({ jobRunning: jobInfo });
+      this.setState({ jobInFocus: jobInfo.jobID });
+    } else {
+      let QueuedJobsUpdated = this.state.jobsQueued;
+      QueuedJobsUpdated.push(jobInfo);
+      this.setState({ page: "jobQueue" });
+      this.setState({ jobsQueued: QueuedJobsUpdated });
+      this.setState({ method: null });
+    }
+  };
+
   // TODO: the page state, and thus the render, currently has sometimes unexpected behavior.
   // (e.g. goes to jobSubmittal when it should be at jobProgress)
   render() {
@@ -126,16 +169,13 @@ class App extends Component {
 
     return (
       <div style={{ paddingTop: "70px" }}>
-        <HyPhyGUINavBar
-          output={self.state.jobRunning.stdOut}
-          changeAppState={self.changeAppState}
-        />
+        <HyPhyGUINavBar changeAppState={self.changeAppState} />
         {this.state.page === "home" ? <Home /> : null}
         {this.state.page === "jobSubmittal" ? (
-          <GUIJobSubmittal
-            appState={self.state}
+          <JobSubmittal
             comm={ipcRenderer}
-            changeAppState={self.changeAppState}
+            method={this.state.method}
+            onSubmit={this.tellMainToRunAnalysis}
           />
         ) : null}
         {this.state.page === "jobProgress" ? (

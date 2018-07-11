@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { GetMSAPath } from "./submittal_subcomponents/get_msa_path.jsx";
 import { ChooseGeneticCode } from "./submittal_subcomponents/choose_genetic_code.jsx";
 import { ChooseAnalysisType } from "./submittal_subcomponents/choose_analysis_type.jsx";
@@ -14,7 +14,7 @@ import { BranchSelection } from "./submittal_subcomponents/branch_selection.jsx"
  * This component should recieve an "onSubmit" function as a prop which will likely be different for the GUI and
  * datamonkey.org.
  */
-class JobSubmittal extends Component {
+class JobSubmittal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -112,12 +112,7 @@ class JobSubmittal extends Component {
       <div>
         <h1>{methodSpecificInfo[self.props.method].name}</h1>
         <p>{methodSpecificInfo[self.props.method].description}</p>
-        {self.props.platform === "electron" ? (
-          <GetMSAPath
-            updateJobInfo={self.updateJobInfo}
-            comm={self.props.comm}
-          />
-        ) : null}
+        <GetMSAPath updateJobInfo={self.updateJobInfo} comm={self.props.comm} />
         <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
 
         {/* Method Specific Options */}
