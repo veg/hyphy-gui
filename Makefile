@@ -7,9 +7,9 @@ hyphy:
 
 yarn:
 	# setup to ling to rdvelazquez/hyphy-vision until vision version is bumped
-	git clone https://github.com/rdvelazquez/hyphy-vision
-	cd hyphy-vision; git checkout alignment; yarn; webpack --config webpack.config.library.js; yarn link
-	yarn link "hyphy-vision"
+	#git clone https://github.com/rdvelazquez/hyphy-vision
+	#cd hyphy-vision; git checkout alignment; yarn; webpack --config webpack.config.library.js; yarn link
+	#yarn link "hyphy-vision"
 
 	yarn
 	webpack --config webpack.dev.js
