@@ -39,6 +39,9 @@ class GUIJobSubmittal extends Component {
       "json"
     ].join(".");
 
+    // Add fastaPath to jobInfo.
+    jobInfo["fastaPath"] = jobInfo.msaPath + ".fasta";
+
     // Send the message to run the job or add to the queued job list.
     if (_.isEmpty(this.props.appState.jobRunning)) {
       this.props.comm.send("runAnalysis", { jobInfo: jobInfo });

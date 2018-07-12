@@ -16,6 +16,7 @@ const {
 
 const parseAndValidateMSA = require("./helpers/parse_and_validate_msa.js");
 const removeTreeFromNexus = require("./helpers/remove_tree_from_nexus.js");
+const extractFastaFromNexus = require("./helpers/extract_fasta_from_nexus.js");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -104,7 +105,8 @@ function sendValidationToRender(validationResponse) {
 }
 
 // Save the annotated tree from the branch selection component and remove the tree from the nexus file.
-ipcMain.on("saveAnnotatedTree", function(evnet, arg) {
+ipcMain.on("saveAnnotatedTree", function(event, arg) {
+  //TODO: account for the fact that users may have the same msa but want to run it with different branch annotations (as it currently stands these would get overwritten)
   fs.writeFile(arg.msaPath + ".tree", arg.annotatedTree, function(err) {
     if (err) throw err;
   });
@@ -117,6 +119,12 @@ ipcMain.on("saveAnnotatedTree", function(evnet, arg) {
 
 // Run an analysis.
 ipcMain.on("runAnalysis", function(event, arg) {
+  const fastaPath = arg.jobInfo.msaPath + ".fasta";
+  extractFastaFromNexus(arg.jobInfo.msaPath, fastaString => {
+    fs.writeFile(fastaPath, fastaString, function(err) {
+      if (err) throw err;
+    });
+  });
   runAnalysisScript(arg.jobInfo);
 });
 

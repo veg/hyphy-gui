@@ -5,9 +5,7 @@ const ipcRenderer = require("electron").ipcRenderer;
 const _ = require("underscore");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
 const electronFs = remote.require("fs");
-const hyphyVision = require("hyphy-vision");
-
-require("style-loader!css-loader!sass-loader!hyphy-vision/dist/application.scss");
+import "hyphy-vision/dist/hyphyvision.css";
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { Home } from "./components/home.jsx";
@@ -134,7 +132,7 @@ class App extends Component {
           />
         ) : null}
         {this.state.page === "results" ? (
-          <Results appState={self.state} changeAppState={self.changeAppState} />
+          <Results jobInfo={self.state.jobsCompleted[self.state.jobInFocus]} />
         ) : null}
       </div>
     );
