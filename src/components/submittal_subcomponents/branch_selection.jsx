@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import { TreeBtnGroup } from "./tree_btn_group.jsx";
 
+var d3 = require("d3");
+var $ = require("jquery");
+var _ = require("underscore");
+
 class BranchSelection extends React.Component {
   constructor(props) {
     super(props);
+
     // TODO : check if multiple partitions available
     // TODO : hide user button if not available
     // TODO : if multiple partitions, we will not be able to select partitions
+
+    var current_selection_name = "";
 
     // set up the phylotree object.
     var tree_container = "#tree-body";
@@ -18,13 +25,15 @@ class BranchSelection extends React.Component {
       })
       .count_handler(function(count) {
         $("#selected_branch_counter").text(function(d) {
+          // TODO: current_selection_name should be a state
           return count[current_selection_name];
         });
         $("#selected_filtered_counter").text(count.tag);
       });
 
     this.state = {
-      selectedTree: this.props.userSuppliedNwkTree,
+      selectedTree:
+        this.props.userSuppliedNwkTree || this.props.neighborJoiningNwkTree,
       tree: phylotreeObject,
       selectionType: "test",
       multipleTrees: false
@@ -33,7 +42,7 @@ class BranchSelection extends React.Component {
 
   componentDidMount() {
     this.createTree(this.state.selectedTree);
-    if (this.props.neighborJoiningNwkTree) {
+    if (this.props.neighborJoiningNwkTree && this.props.userSuppliedNwkTree) {
       this.setState({ multipleTrees: true });
     }
   }

@@ -1,4 +1,5 @@
 import React from "react";
+var d3 = require("d3");
 
 function TreeBtnGroup(props) {
   function sortNodes(asc) {

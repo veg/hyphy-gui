@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 const { dialog } = require("electron").remote;
 const path = require("path");
-const ipcRenderer = require("electron").ipcRenderer;
 
 class GetMSAPath extends Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class GetMSAPath extends Component {
     this.props.updateJobInfo("msaPath", msaPath);
     this.setState({ msaName: msaName });
     // Send a message to the main process so that the input file is moved to the .data folder as soon as it's uploaded.
-    ipcRenderer.send("moveMSA", {
+    this.props.comm.send("moveMSA", {
       msaPathOriginal: msaPathOriginal,
       msaPath: msaPath
     });

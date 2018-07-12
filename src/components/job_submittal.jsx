@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-const ipcRenderer = require("electron").ipcRenderer;
 import { GetMSAPath } from "./submittal_subcomponents/get_msa_path.jsx";
 import { ChooseGeneticCode } from "./submittal_subcomponents/choose_genetic_code.jsx";
 import { ChooseAnalysisType } from "./submittal_subcomponents/choose_analysis_type.jsx";
@@ -52,7 +51,7 @@ class JobSubmittal extends Component {
   saveBranchSelection = annotatedTree => {
     this.updateJobInfo("annotatedTree", annotatedTree);
     this.updateJobInfo("treePath", this.state.jobInfo.msaPath + ".tree");
-    ipcRenderer.send("saveAnnotatedTree", {
+    this.props.comm.send("saveAnnotatedTree", {
       annotatedTree: annotatedTree,
       msaPath: this.state.jobInfo.msaPath
     });
@@ -110,7 +109,10 @@ class JobSubmittal extends Component {
         <h1>{methodSpecificInfo[self.props.method].name}</h1>
         <p>{methodSpecificInfo[self.props.method].description}</p>
         {self.props.platform === "electron" ? (
-          <GetMSAPath updateJobInfo={self.updateJobInfo} />
+          <GetMSAPath
+            updateJobInfo={self.updateJobInfo}
+            comm={self.props.comm}
+          />
         ) : null}
         <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
 
@@ -135,6 +137,7 @@ class JobSubmittal extends Component {
         {self.state.filePassedValidation == false ? (
           <ParseAndValidateMSA
             jobInfo={self.state.jobInfo}
+            comm={self.props.comm}
             changeJobSubmittalState={self.changeJobSubmittalState}
             updateJobInfo={self.updateJobInfo}
           />

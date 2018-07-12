@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-const ipcRenderer = require("electron").ipcRenderer;
 const _ = require("underscore");
 import { JobsTable } from "./jobs_table.jsx";
 

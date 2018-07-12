@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-const ipcRenderer = require("electron").ipcRenderer;
 const ReactMarkdown = require("react-markdown");
 
 function Table(props) {
