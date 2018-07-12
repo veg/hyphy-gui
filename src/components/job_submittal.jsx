@@ -73,7 +73,11 @@ class JobSubmittal extends Component {
           "Branch-site Unrestricted Statistical Test for Episodic Diversification",
         branchSelection: true
       },
-      fel: { name: "FEL", description: "Fixed Effects Likelihood" },
+      fel: {
+        name: "FEL",
+        description: "Fixed Effects Likelihood",
+        branchSelection: true
+      },
       fubar: {
         name: "FUBAR",
         description:
