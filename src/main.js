@@ -9,24 +9,32 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const { spawn } = require("child_process");
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS
-} = require("electron-devtools-installer");
 
 const parseAndValidateMSA = require("./helpers/parse_and_validate_msa.js");
 const removeTreeFromNexus = require("./helpers/remove_tree_from_nexus.js");
 const extractFastaFromNexus = require("./helpers/extract_fasta_from_nexus.js");
+
+// Determine the environment and set the paths accordingly.
+const environment = process.env.BASH_ENV ? "development" : "production";
+const appDirectory =
+  environment == "development" ? process.cwd() : path.join(__dirname, "/../");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow() {
-  // Add the React DevTools.
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then(name => console.log(`Added Extension:  ${name}`))
-    .catch(err => console.log("An error occurred: ", err));
+  if (environment == "development") {
+    const {
+      default: installExtension,
+      REACT_DEVELOPER_TOOLS
+    } = require("electron-devtools-installer");
+
+    // Add the React DevTools.
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then(name => console.log(`Added Extension:  ${name}`))
+      .catch(err => console.log("An error occurred: ", err));
+  }
 
   // Create the browser window.
   mainWindow = new BrowserWindow({ width: 1400, height: 800 });
@@ -41,7 +49,9 @@ function createWindow() {
   );
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (environment == "development") {
+    mainWindow.webContents.openDevTools();
+  }
 
   // Emitted when the window is closed.
   mainWindow.on("closed", function() {
@@ -129,8 +139,12 @@ ipcMain.on("runAnalysis", function(event, arg) {
 });
 
 function runAnalysisScript(jobInfo) {
-  const scriptPath = path.resolve("./scripts", jobInfo.method + ".sh");
-  const hyphyDirectory = path.resolve("./", ".hyphy");
+  const scriptPath = path.join(
+    appDirectory,
+    "/scripts",
+    jobInfo.method + ".sh"
+  );
+  const hyphyDirectory = path.join(appDirectory, ".hyphy");
   let process = null;
   // TODO: adjust the scripts and parameters to account for which methods get trees and which don't (currently just working on absrel).
 

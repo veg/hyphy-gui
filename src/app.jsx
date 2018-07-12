@@ -5,7 +5,11 @@ const ipcRenderer = require("electron").ipcRenderer;
 const _ = require("underscore");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
 const electronFs = remote.require("fs");
+const { app } = require("electron").remote;
 import "hyphy-vision/dist/hyphyvision.css";
+const path = require("path");
+
+
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { Home } from "./components/home.jsx";
@@ -13,6 +17,13 @@ import { GUIJobSubmittal } from "./components/gui_job_submittal.jsx";
 import { JobProgress } from "./components/job_progress.jsx";
 import { JobQueue } from "./components/job_queue.jsx";
 import { Results } from "./components/results.jsx";
+
+// Determine the environment and set the paths accordingly.
+const environment = process.env.BASH_ENV ? "development" : "production";
+const appStateDirectory =
+  environment == "development"
+    ? path.join(process.cwd())
+    : path.resolve(app.getPath("userData"));
 
 class App extends Component {
   constructor(props) {
@@ -31,9 +42,12 @@ class App extends Component {
     this.setEventListeners();
     // TODO: Use the async version of fs.exists and fs.readfile.
     // TODO: Do something about the prevous running job (i.e. show that it did not complete because the application closed.
-    if (electronFs.existsSync(".appstate.json")) {
+    if (electronFs.existsSync(path.join(appStateDirectory, ".appstate.json"))) {
       const savedAppState = JSON.parse(
-        electronFs.readFileSync(".appstate.json", "utf8")
+        electronFs.readFileSync(
+          path.join(appStateDirectory, ".appstate.json"),
+          "utf8"
+        )
       );
       delete savedAppState.page;
       delete savedAppState.method;
@@ -50,6 +64,7 @@ class App extends Component {
 
   componentDidUpdate(prevState) {
     // TODO: Have it only save the state when a job is submitted or completed.
+
     this.saveAppState();
   }
 
@@ -89,6 +104,7 @@ class App extends Component {
      * function if in the render method to allow the passing of arguments.
      * For example: `onClick={() => self.props.changeAppState('exampleKeyForAppState', 'exampleValue')}
      */
+
     this.setState({ [stateToSet]: valueToSet });
   };
 
@@ -97,7 +113,10 @@ class App extends Component {
      * Save the state of the app in the .state folder for reloading when the app is closed and reopened.
      * TODO: Use the async version of fs.writefile.
      */
-    electronFs.writeFileSync(".appstate.json", JSON.stringify(this.state));
+    electronFs.writeFileSync(
+      path.join(appStateDirectory, ".appstate.json"),
+      JSON.stringify(this.state)
+    );
   };
 
   // TODO: the page state, and thus the render, currently has sometimes unexpected behavior.

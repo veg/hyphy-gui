@@ -2,7 +2,9 @@ internalRenames = 0;
 
 function notify(type, msg) {
   // Print to log
-	fprintf ("./datareader.log", type + " : " + msg + "\n");
+
+  // Printing the datareader log was throwing errors in the bundeled electron app... not sure why but commented out for now.
+	//fprintf ("./datareader.log", type + " : " + msg + "\n");
 	return 0;
 }
 
