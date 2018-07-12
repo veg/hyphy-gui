@@ -14,36 +14,58 @@ class Results extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jsonData: null
+      jsonData: null,
+      fasta: false
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setResultsDataToState();
   }
 
   setResultsDataToState = () => {
-    const jsonPath = this.props.appState.jobsCompleted[
-      this.props.appState.jobInFocus
-    ].jsonPath;
+    const jsonPath = this.props.jobInfo.jsonPath;
     const jsonData = fs.readFileSync(jsonPath).toString();
     this.setState({ jsonData: JSON.parse(jsonData) });
+    this.setFastaToState();
+  };
+
+  setFastaToState = () => {
+    const fastaPath = this.props.jobInfo.fastaPath;
+    const fastaString = fs.readFileSync(fastaPath).toString();
+    this.setState({ fasta: fastaString });
   };
 
   render() {
     const self = this;
-    let method =
-      self.props.appState.jobsCompleted[this.props.appState.jobInFocus].method;
+    let method = self.props.jobInfo.method;
     return (
       <div>
-        {method === "absrel" ? <BSREL data={self.state.jsonData} /> : null}
-        {method === "busted" ? <BUSTED data={self.state.jsonData} /> : null}
-        {method === "fel" ? <FEL data={self.state.jsonData} /> : null}
-        {method === "fubar" ? <FUBAR data={self.state.jsonData} /> : null}
-        {method === "gard" ? <GARD data={self.state.jsonData} /> : null}
-        {method === "meme" ? <MEME data={self.state.jsonData} /> : null}
-        {method === "relax" ? <RELAX data={self.state.jsonData} /> : null}
-        {method === "slac" ? <SLAC data={self.state.jsonData} /> : null}
+        {method === "absrel"
+          ? [
+              <div>
+                <BSREL data={self.state.jsonData} fasta={self.state.fasta} />
+              </div>
+            ]
+          : null}
+        {method === "busted" ? (
+          <BUSTED data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
+        {method === "fel" ? (
+          <FEL data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
+        {method === "fubar" ? (
+          <FUBAR data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
+        {method === "meme" ? (
+          <MEME data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
+        {method === "relax" ? (
+          <RELAX data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
+        {method === "slac" ? (
+          <SLAC data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
       </div>
     );
   }

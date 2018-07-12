@@ -9,6 +9,8 @@ const { app } = require("electron").remote;
 import "hyphy-vision/dist/hyphyvision.css";
 const path = require("path");
 
+
+
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { Home } from "./components/home.jsx";
 import { GUIJobSubmittal } from "./components/gui_job_submittal.jsx";
@@ -149,7 +151,7 @@ class App extends Component {
           />
         ) : null}
         {this.state.page === "results" ? (
-          <Results appState={self.state} changeAppState={self.changeAppState} />
+          <Results jobInfo={self.state.jobsCompleted[self.state.jobInFocus]} />
         ) : null}
       </div>
     );
