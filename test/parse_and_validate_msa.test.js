@@ -1,10 +1,8 @@
 const parseAndValidateMSA = require("./../src/helpers/parse_and_validate_msa.js");
 const path = require("path");
 const fs = require("fs");
-import React from "react";
-import ReactDOM from "react-dom";
 
-import { ParseAndValidateMSA } from "ParseAndValidateMSA";
+import { ParseAndValidateMSA } from "ParseAndValidateMSA"; // eslint-disable-line
 
 /* Need to mock out IPC
 // Test the component.

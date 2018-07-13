@@ -6,12 +6,9 @@ const ipcRenderer = require("electron").ipcRenderer;
 const _ = require("underscore");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
 const electronFs = remote.require("fs");
-const electronProcess = remote.require("process");
 const { app } = require("electron").remote;
 const path = require("path");
 const moment = require("moment");
-
-
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { Home } from "./components/home.jsx";

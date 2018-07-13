@@ -9,7 +9,6 @@ const validNexusWithTwoTreesPath = path.join(
   dataPath,
   "CD2_reduced_two_trees.nex"
 );
-const validMSAPathFNA = path.join(dataPath, "CD2_reduced.fna");
 const validNexusWithoutTreePath = path.join(
   dataPath,
   "CD2_reduced_without_tree.nex"
@@ -20,7 +19,7 @@ let validNexusStringWithoutTree;
 beforeAll(() => {
   return new Promise(resolve => {
     fs.readFile(validNexusWithoutTreePath, function(err, data) {
-      if (err) console.log(err);
+      if (err) console.log(err); // eslint-disable-line
       validNexusStringWithoutTree = data.toString();
       resolve();
     });
@@ -47,6 +46,9 @@ test("removes the trees if there are multiple", () => {
 
 // Throws an error if the file isn't nexus.
 /* I haven't been able to get the test working but the function does throw an error.
+
+const validMSAPathFNA = path.join(dataPath, "CD2_reduced.fna");
+
 test('Thows an error if a non nexus file is passed in', async () => {
   expect.assertions(2);
   try {

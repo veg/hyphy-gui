@@ -104,8 +104,8 @@ align-text@^0.1.1, align-text@^0.1.3:
     repeat-string "^1.5.2"
 
 alignment.js@^1.0.5:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/alignment.js/-/alignment.js-1.0.8.tgz#3c4385f177c764ea6ee0b907b2bba972568cf76f"
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/alignment.js/-/alignment.js-1.0.10.tgz#210adc78eea7e827f0c33a07f49b014477084240"
   dependencies:
     bootstrap "^4.1.1"
     d3 "^4.12.2"
@@ -3536,7 +3536,7 @@ husky@^0.14.3:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
-hyphy-vision@^2.0.1:
+hyphy-vision@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/hyphy-vision/-/hyphy-vision-2.0.1.tgz#990ed78bcb49beaa61568956a75d8051a19d0505"
   dependencies:
