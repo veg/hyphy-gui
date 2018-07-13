@@ -103,7 +103,7 @@ align-text@^0.1.1, align-text@^0.1.3:
     longest "^1.0.1"
     repeat-string "^1.5.2"
 
-alignment.js@1.0.10:
+alignment.js@^1.0.5:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/alignment.js/-/alignment.js-1.0.10.tgz#210adc78eea7e827f0c33a07f49b014477084240"
   dependencies:
@@ -3536,10 +3536,11 @@ husky@^0.14.3:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
-"hyphy-vision@file:.yalc/hyphy-vision":
-  version "2.0.1-ff484fcc"
+hyphy-vision@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/hyphy-vision/-/hyphy-vision-2.0.1.tgz#990ed78bcb49beaa61568956a75d8051a19d0505"
   dependencies:
-    alignment.js "1.0.10"
+    alignment.js "^1.0.5"
     bootstrap "4.x"
     chi-squared "^1.1.0"
     csvexport "^1.0.2"

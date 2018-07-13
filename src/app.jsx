@@ -5,6 +5,7 @@ import "hyphy-vision/dist/hyphyvision.css";
 const ipcRenderer = require("electron").ipcRenderer;
 const _ = require("underscore");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
+const { dialog } = remote;
 const electronFs = remote.require("fs");
 const { app } = require("electron").remote;
 const path = require("path");
@@ -75,7 +76,6 @@ class App extends Component {
       let jobsCompletedUpdated = self.state.jobsCompleted;
       jobsCompletedUpdated[self.state.jobRunning.jobID] = self.state.jobRunning;
       self.setState({ jobsCompleted: jobsCompletedUpdated });
-
       if (!_.isEmpty(this.state.jobsQueued)) {
         let nextJob = self.state.jobsQueued.shift();
         self.setState({ jobRunning: nextJob });
@@ -84,6 +84,7 @@ class App extends Component {
         self.setState({ jobRunning: {} });
       }
     });
+
     ipcRenderer.on("stdout", (event, arg) => {
       // Check if the message being sent is new (the same message often gets sent more than once).
       if (arg.msg !== self.tempMessageForChecking) {
@@ -92,6 +93,27 @@ class App extends Component {
         jobRunningInfo.stdOut = appendedStdOut;
         self.setState({ jobRunning: jobRunningInfo });
         self.tempMessageForChecking = arg.msg;
+      }
+    });
+
+    // Provide a message if there is a job running when the user tries to quit.
+    let closeWindow = false;
+    window.addEventListener("beforeunload", evt => {
+      if (this.state.jobRunning) {
+        console.log("jobRunning");
+        if (closeWindow) return;
+        evt.returnValue = false;
+        setTimeout(() => {
+          let result = dialog.showMessageBox({
+            message:
+              "The running HyPhy job will be terminated when the app is closed. Do you want to close the app?",
+            buttons: ["Yes", "No"]
+          });
+          if (result == 0) {
+            closeWindow = true;
+            remote.getCurrentWindow().close();
+          }
+        });
       }
     });
   };
