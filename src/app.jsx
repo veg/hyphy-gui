@@ -16,6 +16,8 @@ import { JobSubmittal } from "./components/job_submittal.jsx";
 import { JobProgress } from "./components/job_progress.jsx";
 import { JobQueue } from "./components/job_queue.jsx";
 import { Results } from "./components/results.jsx";
+import { Citations } from "./components/citations.jsx";
+import { Help } from "./components/help/help.jsx";
 
 // Determine the environment and set the paths accordingly.
 const environment = process.env.BASH_ENV ? "development" : "production";
@@ -168,6 +170,8 @@ class App extends Component {
       <div style={{ paddingTop: "70px" }}>
         <HyPhyGUINavBar changeAppState={self.changeAppState} />
         {this.state.page === "home" ? <Home /> : null}
+        {this.state.page === "citations" ? <Citations /> : null}
+        {this.state.page === "help" ? <Help /> : null}
         {this.state.page === "jobSubmittal" ? (
           <JobSubmittal
             comm={ipcRenderer}

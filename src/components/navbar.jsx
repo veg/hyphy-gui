@@ -6,8 +6,8 @@ class HyPhyGUINavBar extends Component {
     super(props);
   }
 
-  openHomePage = () => {
-    this.props.changeAppState("page", "home");
+  openMethodAgnosticPage = page => {
+    this.props.changeAppState("page", page);
     this.props.changeAppState("method", null);
     this.props.changeAppState("jobInFocus", null);
   };
@@ -18,17 +18,15 @@ class HyPhyGUINavBar extends Component {
     this.props.changeAppState("jobInFocus", null);
   };
 
-  openJobQueuePage = () => {
-    this.props.changeAppState("page", "jobQueue");
-    this.props.changeAppState("method", null);
-    this.props.changeAppState("jobInFocus", null);
-  };
-
   render() {
     return (
       <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          <img src={headerLogo} height="30px" onClick={this.openHomePage} />
+          <img
+            src={headerLogo}
+            height="30px"
+            onClick={() => this.openMethodAgnosticPage("home")}
+          />
         </a>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -67,14 +65,16 @@ class HyPhyGUINavBar extends Component {
                 >
                   FEL
                 </a>
-                <a
+                {/*<a
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("fubar")}
                 >
                   FUBAR
                 </a>
+                */}
                 {/* <a className="dropdown-item" href="#" onClick={() => this.openNewJobSubmittalPage('gard')} >GARD</a> */}
+                {/*
                 <a
                   className="dropdown-item"
                   href="#"
@@ -82,6 +82,8 @@ class HyPhyGUINavBar extends Component {
                 >
                   MEME
                 </a>
+                */}
+                {/*
                 <a
                   className="dropdown-item"
                   href="#"
@@ -89,6 +91,7 @@ class HyPhyGUINavBar extends Component {
                 >
                   RELAX
                 </a>
+                */}
                 <a
                   className="dropdown-item"
                   href="#"
@@ -100,18 +103,30 @@ class HyPhyGUINavBar extends Component {
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" onClick={this.openJobQueuePage} href="#">
+              <a
+                className="nav-link"
+                onClick={() => this.openMethodAgnosticPage("jobQueue")}
+                href="#"
+              >
                 Jobs
               </a>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a
+                className="nav-link"
+                onClick={() => this.openMethodAgnosticPage("citations")}
+                href="#"
+              >
                 Citations
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a
+                className="nav-link"
+                onClick={() => this.openMethodAgnosticPage("help")}
+                href="#"
+              >
                 Help
               </a>
             </li>
