@@ -197,4 +197,9 @@ function runAnalysisScript(jobInfo) {
   process.on("close", code => {
     mainWindow.webContents.send("analysisComplete", { msg: jobInfo });
   });
+
+  // Close the app on close (when message sent from render process)
+  ipcMain.on("closeApp", function(event, arg) {
+    app.quit();
+  });
 }

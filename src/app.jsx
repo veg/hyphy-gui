@@ -43,7 +43,6 @@ class App extends Component {
   componentDidMount() {
     this.setEventListeners();
     // TODO: Use the async version of fs.exists and fs.readfile.
-    // TODO: Do something about the prevous running job (i.e. show that it did not complete because the application closed.
     if (electronFs.existsSync(path.join(appStateDirectory, ".appstate.json"))) {
       const savedAppState = JSON.parse(
         electronFs.readFileSync(
@@ -54,13 +53,16 @@ class App extends Component {
       delete savedAppState.page;
       delete savedAppState.method;
       delete savedAppState.jobInFocus;
-      delete savedAppState.jobRunning;
-      if (!_.isEmpty(savedAppState.jobsQueued)) {
-        let nextJob = savedAppState.jobsQueued.shift();
-        savedAppState.jobRunning = nextJob;
-        ipcRenderer.send("runAnalysis", { jobInfo: nextJob });
+      if (!_.isEmpty(savedAppState.jobRunning)) {
+        const jobRunning = savedAppState.jobRunning;
+        jobRunning.stdOut = "";
+        const appState = savedAppState;
+        appState.jobRunning = jobRunning;
+        this.setState(appState);
+        ipcRenderer.send("runAnalysis", { jobInfo: jobRunning });
+      } else {
+        this.setState(savedAppState);
       }
-      this.setState(savedAppState);
     }
   }
 
@@ -99,8 +101,7 @@ class App extends Component {
     // Provide a message if there is a job running when the user tries to quit.
     let closeWindow = false;
     window.addEventListener("beforeunload", evt => {
-      if (this.state.jobRunning) {
-        console.log("jobRunning");
+      if (!_.isEmpty(this.state.jobRunning)) {
         if (closeWindow) return;
         evt.returnValue = false;
         setTimeout(() => {
@@ -110,8 +111,8 @@ class App extends Component {
             buttons: ["Yes", "No"]
           });
           if (result == 0) {
+            ipcRenderer.send("closeApp", null);
             closeWindow = true;
-            remote.getCurrentWindow().close();
           }
         });
       }
