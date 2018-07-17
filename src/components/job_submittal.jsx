@@ -8,6 +8,7 @@ import { ChooseNumRateClasses } from "./submittal_subcomponents/choose_num_rate_
 import { AdvancedFubarOptions } from "./submittal_subcomponents/advanced_fubar_options.jsx";
 import { ParseAndValidateMSA } from "./submittal_subcomponents/parse_and_validate_msa.jsx";
 import { BranchSelection } from "./submittal_subcomponents/branch_selection.jsx";
+import methodSpecificInfo from "./../helpers/method_specific_info";
 
 /**
  * JobSubmittal takes an MSA and some parameters and returns a JSON object "jobInfo" for consumption.
@@ -60,54 +61,6 @@ class JobSubmittal extends PureComponent {
 
   render() {
     const self = this;
-    const methodSpecificInfo = {
-      absrel: {
-        name: "aBSREL",
-        description:
-          "An adaptive branch-site REL test for episodic diversification",
-        branchSelection: true
-      },
-      busted: {
-        name: "BUSTED",
-        description:
-          "Branch-site Unrestricted Statistical Test for Episodic Diversification",
-        branchSelection: true
-      },
-      fel: {
-        name: "FEL",
-        description: "Fixed Effects Likelihood",
-        branchSelection: true
-      },
-      fubar: {
-        name: "FUBAR",
-        description:
-          "A Fast, Unconstrained Bayesian AppRoximation for Inferring Selection",
-        branchSelection: false
-      },
-      gard: {
-        name: "GARD",
-        description: "A Genetic Algorithm for Recombination Detection",
-        branchSelection: false
-      },
-      meme: {
-        name: "MEME",
-        description:
-          "Detect Individual Sites Subject to Episodic Diversifying Selection",
-        branchSelection: false
-      },
-      relax: {
-        name: "RELAX",
-        description:
-          "Detect relaxed selection in a codon-based phylogenetic framework",
-        branchSelection: true
-      },
-      slac: {
-        name: "SLAC",
-        description: "Single-Likelihood Ancestor Counting",
-        branchSelection: true
-      }
-    };
-
     return (
       <div>
         <h1>{methodSpecificInfo[self.props.method].name}</h1>

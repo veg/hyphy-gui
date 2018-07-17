@@ -85,16 +85,19 @@ class App extends Component {
       } else {
         self.setState({ jobRunning: {} });
       }
+      self.setState({ page: "results" });
     });
 
     ipcRenderer.on("stdout", (event, arg) => {
-      // Check if the message being sent is new (the same message often gets sent more than once).
-      if (arg.msg !== self.tempMessageForChecking) {
-        let appendedStdOut = self.state.jobRunning.stdOut + arg.msg;
-        let jobRunningInfo = self.state.jobRunning;
-        jobRunningInfo.stdOut = appendedStdOut;
-        self.setState({ jobRunning: jobRunningInfo });
-        self.tempMessageForChecking = arg.msg;
+      if (!_.isEmpty(this.state.jobRunning)) {
+        // Check if the message being sent is new (the same message often gets sent more than once).
+        if (arg.msg !== self.tempMessageForChecking) {
+          let appendedStdOut = self.state.jobRunning.stdOut + arg.msg;
+          let jobRunningInfo = self.state.jobRunning;
+          jobRunningInfo.stdOut = appendedStdOut;
+          self.setState({ jobRunning: jobRunningInfo });
+          self.tempMessageForChecking = arg.msg;
+        }
       }
     });
 
@@ -192,31 +195,35 @@ class App extends Component {
     return (
       <div style={{ paddingTop: "70px" }}>
         <HyPhyGUINavBar changeAppState={self.changeAppState} />
-        {this.state.page === "home" ? <Home /> : null}
-        {this.state.page === "citations" ? <Citations /> : null}
-        {this.state.page === "help" ? <Help /> : null}
-        {this.state.page === "jobSubmittal" ? (
-          <JobSubmittal
-            comm={ipcRenderer}
-            method={this.state.method}
-            onSubmit={this.tellMainToRunAnalysis}
-          />
-        ) : null}
-        {this.state.page === "jobProgress" ? (
-          <JobProgress
-            appState={self.state}
-            changeAppState={self.changeAppState}
-          />
-        ) : null}
-        {this.state.page === "jobQueue" ? (
-          <JobQueue
-            appState={self.state}
-            changeAppState={self.changeAppState}
-          />
-        ) : null}
-        {this.state.page === "results" ? (
-          <Results jobInfo={self.state.jobsCompleted[self.state.jobInFocus]} />
-        ) : null}
+        <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
+          {this.state.page === "home" ? <Home /> : null}
+          {this.state.page === "citations" ? <Citations /> : null}
+          {this.state.page === "help" ? <Help /> : null}
+          {this.state.page === "jobSubmittal" ? (
+            <JobSubmittal
+              comm={ipcRenderer}
+              method={this.state.method}
+              onSubmit={this.tellMainToRunAnalysis}
+            />
+          ) : null}
+          {this.state.page === "jobProgress" ? (
+            <JobProgress
+              appState={self.state}
+              changeAppState={self.changeAppState}
+            />
+          ) : null}
+          {this.state.page === "jobQueue" ? (
+            <JobQueue
+              appState={self.state}
+              changeAppState={self.changeAppState}
+            />
+          ) : null}
+          {this.state.page === "results" ? (
+            <Results
+              jobInfo={self.state.jobsCompleted[self.state.jobInFocus]}
+            />
+          ) : null}
+        </div>
       </div>
     );
   }

@@ -198,6 +198,11 @@ function runAnalysisScript(jobInfo) {
     mainWindow.webContents.send("analysisComplete", { msg: jobInfo });
   });
 
+  // Kill the currently running job (when message sent from render process)
+  ipcMain.on("killJob", function(event, arg) {
+    process.kill("SIGINT");
+  });
+
   // Close the app on close (when message sent from render process)
   ipcMain.on("closeApp", function(event, arg) {
     app.quit();
