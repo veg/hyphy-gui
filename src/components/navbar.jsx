@@ -112,6 +112,7 @@ class HyPhyGUINavBar extends Component {
               </a>
             </li>
 
+            {/*
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -130,6 +131,7 @@ class HyPhyGUINavBar extends Component {
                 Help
               </a>
             </li>
+            */}
           </ul>
         </div>
       </nav>
