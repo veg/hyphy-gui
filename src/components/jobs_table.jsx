@@ -10,7 +10,7 @@ class JobsTable extends Component {
       <div>
         <div />
         <h3>{this.props.title}</h3>
-        <table className="table table-bordered table-hover">
+        <table className="table table-bordered table-striped table-hover">
           <tr>
             <th scope="col">MSA File</th>
             <th scope="col">Method</th>
