@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 const ReactMarkdown = require("react-markdown");
 const _ = require("underscore");
-const ipcRenderer = require("electron").ipcRenderer;
 
 import { JobsTable } from "./jobs_table.jsx";
 import methodSpecificInfo from "./../helpers/method_specific_info";
@@ -29,13 +28,6 @@ class JobProgress extends Component {
     }
   };
 
-  onCancelJob = () => {
-    ipcRenderer.send("killJob", null);
-    alert("Job Canceled");
-    this.props.changeAppState("jobRunning", {});
-    this.props.changeAppState("page", "home");
-  };
-
   render() {
     const self = this;
     const jobRunning = this.props.appState.jobRunning;
@@ -57,7 +49,7 @@ class JobProgress extends Component {
         <JobsTable title="" rows={this.getRunningJob()} />
         <button
           className="btn btn-danger ml-auto"
-          onClick={() => self.onCancelJob()}
+          onClick={() => self.props.cancelJob()}
         >
           Cancel Job
         </button>

@@ -78,6 +78,21 @@ class App extends Component {
     this.saveAppState();
   }
 
+  cancelJob = () => {
+    const self = this;
+    console.log("cancelJob Called");
+    ipcRenderer.send("killJob", null);
+    alert("Job Canceled");
+    if (!_.isEmpty(this.state.jobsQueued)) {
+      let nextJob = self.state.jobsQueued.shift();
+      self.setState({ jobRunning: nextJob });
+      ipcRenderer.send("runAnalysis", { jobInfo: nextJob });
+    } else {
+      self.setState({ jobRunning: {} });
+    }
+    self.setSate("page", "home");
+  };
+
   setEventListeners = () => {
     const self = this;
 
@@ -232,6 +247,7 @@ class App extends Component {
             <JobProgress
               appState={self.state}
               changeAppState={self.changeAppState}
+              cancelJob={self.cancelJob}
             />
           ) : null}
           {this.state.page === "jobQueue" ? (
