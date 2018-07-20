@@ -107,7 +107,9 @@ class App extends Component {
       } else {
         self.setState({ jobRunning: {} });
       }
-      self.setState({ page: "results" });
+      if (self.state.page == "jobProgress") {
+        self.setState({ page: "results" });
+      }
     });
 
     ipcRenderer.on("stdout", (event, arg) => {
