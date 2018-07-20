@@ -153,6 +153,7 @@ function runAnalysisScript(jobInfo) {
       scriptPath,
       hyphyDirectory,
       jobInfo.msaPath,
+      jobInfo.treePath,
       jobInfo.geneticCode,
       jobInfo.analysisType
     ]);
@@ -170,6 +171,7 @@ function runAnalysisScript(jobInfo) {
       scriptPath,
       hyphyDirectory,
       jobInfo.msaPath,
+      jobInfo.treePath,
       jobInfo.geneticCode,
       jobInfo.gridPoints,
       jobInfo.chainLength,
@@ -190,6 +192,7 @@ function runAnalysisScript(jobInfo) {
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {
+    console.log(data.toString());
     mainWindow.webContents.send("stdout", { msg: data.toString() });
   });
 

@@ -4,15 +4,17 @@ import "bootstrap/dist/css/bootstrap.css";
 import "hyphy-vision/dist/hyphyvision.css";
 const ipcRenderer = require("electron").ipcRenderer;
 const _ = require("underscore");
+const $ = require("jquery");
 const remote = require("electron").remote; // remote allows for using node modules within render process.
 const { dialog } = remote;
 const electronFs = remote.require("fs");
 const { app } = require("electron").remote;
 const path = require("path");
 const moment = require("moment");
+const shell = require("electron").shell;
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
-import { Home } from "./components/home.jsx";
+import { DecisionTreeRoot } from "./components/decision_tree_root.jsx";
 import { JobSubmittal } from "./components/job_submittal.jsx";
 import { JobProgress } from "./components/job_progress.jsx";
 import { JobQueue } from "./components/job_queue.jsx";
@@ -30,6 +32,11 @@ const appStateDirectory =
 class App extends Component {
   constructor(props) {
     super(props);
+    // Redirect all external (http) links to open in a web browser.
+    $(document).on("click", 'a[href^="http"]', function(event) {
+      event.preventDefault();
+      shell.openExternal(this.href);
+    });
     this.state = {
       page: "home",
       method: null,
@@ -198,7 +205,20 @@ class App extends Component {
       <div style={{ paddingTop: "70px" }}>
         <HyPhyGUINavBar changeAppState={self.changeAppState} />
         <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
-          {this.state.page === "home" ? <Home /> : null}
+          <div
+            style={{
+              textAlign: "center",
+              marginLeft: "auto",
+              marginRight: "auto"
+            }}
+          >
+            {this.state.page === "home" ? (
+              <DecisionTreeRoot
+                gui={"true"}
+                changeAppState={self.changeAppState}
+              />
+            ) : null}
+          </div>
           {this.state.page === "citations" ? <Citations /> : null}
           {this.state.page === "help" ? <Help /> : null}
           {this.state.page === "jobSubmittal" ? (

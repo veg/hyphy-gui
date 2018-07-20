@@ -65,16 +65,13 @@ class HyPhyGUINavBar extends Component {
                 >
                   FEL
                 </a>
-                {/*<a
+                <a
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("fubar")}
                 >
                   FUBAR
                 </a>
-                */}
-                {/* <a className="dropdown-item" href="#" onClick={() => this.openNewJobSubmittalPage('gard')} >GARD</a> */}
-                {/*
                 <a
                   className="dropdown-item"
                   href="#"
@@ -82,8 +79,6 @@ class HyPhyGUINavBar extends Component {
                 >
                   MEME
                 </a>
-                */}
-                {/*
                 <a
                   className="dropdown-item"
                   href="#"
@@ -91,7 +86,6 @@ class HyPhyGUINavBar extends Component {
                 >
                   RELAX
                 </a>
-                */}
                 <a
                   className="dropdown-item"
                   href="#"
