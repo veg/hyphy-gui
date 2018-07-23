@@ -103,7 +103,7 @@ align-text@^0.1.1, align-text@^0.1.3:
     longest "^1.0.1"
     repeat-string "^1.5.2"
 
-alignment.js@^1.0.5:
+alignment.js@1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/alignment.js/-/alignment.js-1.0.10.tgz#210adc78eea7e827f0c33a07f49b014477084240"
   dependencies:
@@ -2531,18 +2531,6 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-airbnb-base@^12.1.0:
-  version "12.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-12.1.0.tgz#386441e54a12ccd957b0a92564a4bafebd747944"
-  dependencies:
-    eslint-restricted-globals "^0.1.1"
-
-eslint-config-airbnb@^16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-16.1.0.tgz#2546bfb02cc9fe92284bf1723ccf2e87bc45ca46"
-  dependencies:
-    eslint-config-airbnb-base "^12.1.0"
-
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.2.tgz#58f15fb839b8d0576ca980413476aab2472db66a"
@@ -2602,10 +2590,6 @@ eslint-plugin-react@^7.9.1:
     has "^1.0.2"
     jsx-ast-utils "^2.0.1"
     prop-types "^15.6.1"
-
-eslint-restricted-globals@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-restricted-globals/-/eslint-restricted-globals-0.1.1.tgz#35f0d5cbc64c2e3ed62e93b4b1a7af05ba7ed4d7"
 
 eslint-scope@^3.7.1:
   version "3.7.1"
@@ -3536,11 +3520,10 @@ husky@^0.14.3:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
-hyphy-vision@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/hyphy-vision/-/hyphy-vision-2.0.1.tgz#990ed78bcb49beaa61568956a75d8051a19d0505"
+"hyphy-vision@file:.yalc/hyphy-vision":
+  version "2.0.1-ff484fcc"
   dependencies:
-    alignment.js "^1.0.5"
+    alignment.js "1.0.10"
     bootstrap "4.x"
     chi-squared "^1.1.0"
     csvexport "^1.0.2"
