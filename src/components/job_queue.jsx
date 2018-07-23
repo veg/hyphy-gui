@@ -100,7 +100,7 @@ class JobQueue extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ paddingRight: "30px", paddingLeft: "30px" }}>
         <JobsTable title="Queued" rows={this.getQueuedJobs()} />
         <JobsTable title="Running" rows={this.getRunningJob()} />
         <JobsTable title="Completed" rows={this.getCompletedJobs()} />

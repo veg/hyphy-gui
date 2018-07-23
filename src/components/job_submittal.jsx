@@ -62,7 +62,7 @@ class JobSubmittal extends PureComponent {
   render() {
     const self = this;
     return (
-      <div>
+      <div style={{ paddingRight: "20px", paddingLeft: "20px" }}>
         <h1>{methodSpecificInfo[self.props.method].name}</h1>
         <p>{methodSpecificInfo[self.props.method].description}</p>
         <GetMSAPath updateJobInfo={self.updateJobInfo} comm={self.props.comm} />

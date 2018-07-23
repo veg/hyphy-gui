@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.css";
-import "hyphy-vision/dist/hyphyvision.css";
 const ipcRenderer = require("electron").ipcRenderer;
 const _ = require("underscore");
 const $ = require("jquery");
@@ -12,6 +10,8 @@ const { app } = require("electron").remote;
 const path = require("path");
 const moment = require("moment");
 const shell = require("electron").shell;
+
+import "hyphy-vision/dist/hyphyvision.css";
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { DecisionTreeRoot } from "./components/decision_tree_root.jsx";
@@ -220,48 +220,44 @@ class App extends Component {
     return (
       <div style={{ paddingTop: "70px" }}>
         <HyPhyGUINavBar changeAppState={self.changeAppState} />
-        <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
-          <div
-            style={{
-              textAlign: "center",
-              marginLeft: "auto",
-              marginRight: "auto"
-            }}
-          >
-            {this.state.page === "home" ? (
-              <DecisionTreeRoot
-                gui={"true"}
-                changeAppState={self.changeAppState}
-              />
-            ) : null}
-          </div>
-          {this.state.page === "citations" ? <Citations /> : null}
-          {this.state.page === "jobSubmittal" ? (
-            <JobSubmittal
-              comm={ipcRenderer}
-              method={this.state.method}
-              onSubmit={this.tellMainToRunAnalysis}
-            />
-          ) : null}
-          {this.state.page === "jobProgress" ? (
-            <JobProgress
-              appState={self.state}
+        <div
+          style={{
+            textAlign: "center",
+            marginLeft: "auto",
+            marginRight: "auto"
+          }}
+        >
+          {this.state.page === "home" ? (
+            <DecisionTreeRoot
+              gui={"true"}
               changeAppState={self.changeAppState}
-              cancelJob={self.cancelJob}
-            />
-          ) : null}
-          {this.state.page === "jobQueue" ? (
-            <JobQueue
-              appState={self.state}
-              changeAppState={self.changeAppState}
-            />
-          ) : null}
-          {this.state.page === "results" ? (
-            <Results
-              jobInfo={self.state.jobsCompleted[self.state.jobInFocus]}
             />
           ) : null}
         </div>
+        {this.state.page === "citations" ? <Citations /> : null}
+        {this.state.page === "jobSubmittal" ? (
+          <JobSubmittal
+            comm={ipcRenderer}
+            method={this.state.method}
+            onSubmit={this.tellMainToRunAnalysis}
+          />
+        ) : null}
+        {this.state.page === "jobProgress" ? (
+          <JobProgress
+            appState={self.state}
+            changeAppState={self.changeAppState}
+            cancelJob={self.cancelJob}
+          />
+        ) : null}
+        {this.state.page === "jobQueue" ? (
+          <JobQueue
+            appState={self.state}
+            changeAppState={self.changeAppState}
+          />
+        ) : null}
+        {this.state.page === "results" ? (
+          <Results jobInfo={self.state.jobsCompleted[self.state.jobInFocus]} />
+        ) : null}
       </div>
     );
   }

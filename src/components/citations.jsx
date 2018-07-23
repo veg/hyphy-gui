@@ -8,7 +8,7 @@ class Citations extends Component {
   datamonkeyCitations() {
     return (
       <div className="row">
-        <div className="col-md-10 col-md-offset-1">
+        <div className="col">
           <h1>Citations</h1>
           <p>
             If you publish the results based on datamonkey.org we suggest the
@@ -31,7 +31,7 @@ class Citations extends Component {
                   href="https://academic.oup.com/mbe/article/35/3/773/4782511"
                   className="REFERENCE"
                 >
-                  <i className="fa fa-external-link" aria-hidden="true" />
+                  <i className="fas fa-external-link-alt" aria-hidden="true" />
                 </a>
                 <strong>
                   Datamonkey 2.0: a modern web application for characterizing
@@ -51,7 +51,7 @@ class Citations extends Component {
                   href="https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btq429"
                   className="REFERENCE"
                 >
-                  <i className="fa fa-external-link" aria-hidden="true" />
+                  <i className="fas fa-external-link-alt" aria-hidden="true" />
                 </a>
                 <strong>
                   Datamonkey 2010: a suite of phylogenetic analysis tools for
@@ -67,7 +67,7 @@ class Citations extends Component {
                   href="http://bioinformatics.oxfordjournals.org/cgi/content/abstract/21/10/2531?ijkey=a5yRfKOnDZ1Kb6J&keytype=ref"
                   className="REFERENCE"
                 >
-                  <i className="fa fa-external-link" aria-hidden="true" />
+                  <i className="fas fa-external-link-alt" aria-hidden="true" />
                 </a>
                 <strong>
                   Datamonkey: rapid detection of selective pressure on
@@ -82,13 +82,31 @@ class Citations extends Component {
     );
   }
 
+  GUICitations() {
+    return (
+      <div className="row">
+        <div className="col">
+          <h1>Citations</h1>
+          <p>
+            If you publish the results based on the HyPhy GUI we suggest the
+            following citations. Please cite the HyPhy application note as well
+            as the method specific publication.
+          </p>
+          <br />
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="container">
-        {this.props.datamonkey ? this.datamonkeyCitations : null}
+        {this.props.datamonkey
+          ? this.datamonkeyCitations()
+          : this.GUICitations()}
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">HyPhy</h3>
@@ -104,7 +122,10 @@ class Citations extends Component {
                     href="http://bioinformatics.oxfordjournals.org/cgi/content/short/21/5/676"
                     className="REFERENCE"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>HyPhy: hypothesis testing using phylogenies</strong>
                 </h5>
@@ -115,7 +136,7 @@ class Citations extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <h2>Method Citations</h2>
             <div className="panel panel-default">
               <div className="panel-heading">
@@ -132,8 +153,7 @@ class Citations extends Component {
                     href="http://dx.doi.org/10.1093/molbev/msv022"
                   >
                     <i
-                      className="fa
-                  fa-external-link"
+                      className="fas fa-external-link-alt"
                       aria-hidden="true"
                     />
                   </a>
@@ -154,7 +174,10 @@ class Citations extends Component {
                     href="http://mbe.oxfordjournals.org/content/early/2011/06/11/molbev.msr125.abstract"
                     className="REFERENCE"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>
                     A random effects branch-site model for detecting episodic
@@ -168,7 +191,7 @@ class Citations extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">BUSTED</h3>
@@ -184,7 +207,10 @@ class Citations extends Component {
                     target="_blank"
                     href="https://academic.oup.com/mbe/article-lookup/doi/10.1093/molbev/msv035"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>
                     Gene-Wide Identification of Episodic Selection
@@ -197,7 +223,7 @@ class Citations extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">FEL</h3>
@@ -209,7 +235,10 @@ class Citations extends Component {
                     target="_blank"
                     href="http://mbe.oxfordjournals.org/cgi/content/short/22/5/1208"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>
                     Not So Different After All: A Comparison of Methods for
@@ -223,7 +252,7 @@ class Citations extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">FUBAR</h3>
@@ -238,7 +267,10 @@ class Citations extends Component {
                     target="_blank"
                     href="https://academic.oup.com/mbe/article/30/5/1196/998247/FUBAR-A-Fast-Unconstrained-Bayesian-AppRoximation"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>
                     FUBAR: a fast, unconstrained bayesian approximation for
@@ -252,7 +284,7 @@ class Citations extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">GARD</h3>
@@ -267,7 +299,10 @@ class Citations extends Component {
                     target="_blank"
                     href="http://mbe.oxfordjournals.org/cgi/content/full/23/10/1891"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>
                     Automated Phylogenetic Detection of Recombination Using a
@@ -281,7 +316,7 @@ class Citations extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">MEME</h3>
@@ -296,7 +331,10 @@ class Citations extends Component {
                     target="_blank"
                     href="http://www.plosgenetics.org/article/info%3Adoi%2F10.1371%2Fjournal.pgen.1002764"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>
                     Detecting Individual Sites Subject to Episodic Diversifying
@@ -310,7 +348,7 @@ class Citations extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">RELAX</h3>
@@ -325,7 +363,10 @@ class Citations extends Component {
                     target="_blank"
                     href="https://academic.oup.com/mbe/article-lookup/doi/10.1093/molbev/msu400"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>
                     RELAX: detecting relaxed selection in a phylogenetic
@@ -339,7 +380,7 @@ class Citations extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 col-md-offset-1">
+          <div className="col">
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">SLAC</h3>
@@ -351,7 +392,10 @@ class Citations extends Component {
                     target="_blank"
                     href="http://mbe.oxfordjournals.org/cgi/content/short/22/5/1208"
                   >
-                    <i className="fa fa-external-link" aria-hidden="true" />
+                    <i
+                      className="fas fa-external-link-alt"
+                      aria-hidden="true"
+                    />
                   </a>
                   <strong>
                     Not So Different After All: A Comparison of Methods for

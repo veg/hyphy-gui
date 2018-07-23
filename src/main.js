@@ -50,7 +50,7 @@ function createWindow() {
 
   // Open the DevTools.
   if (environment == "development") {
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
   }
 
   // Emitted when the window is closed.
