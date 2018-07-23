@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 const { app, dialog } = require("electron").remote;
 const path = require("path");
+const moment = require("moment");
 
 // Determine the environment and set the paths accordingly.
 const environment = process.env.BASH_ENV ? "development" : "production";
@@ -16,9 +17,10 @@ class GetMSAPath extends Component {
   }
 
   getFilePath = () => {
-    var msaPathOriginal = dialog.showOpenDialog()[0];
-    var msaName = msaPathOriginal.replace(/^.*[\\\/]/, "");
-    var msaPath = path.join(dataDirectory, msaName);
+    let msaPathOriginal = dialog.showOpenDialog()[0];
+    let msaName = msaPathOriginal.replace(/^.*[\\\/]/, "");
+    let unixTimeStamp = moment().format("X");
+    let msaPath = path.join(dataDirectory, msaName + "_" + unixTimeStamp);
     this.props.updateJobInfo("msaPathOriginal", msaPathOriginal);
     this.props.updateJobInfo("msaName", msaName);
     this.props.updateJobInfo("msaPath", msaPath);

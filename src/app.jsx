@@ -177,10 +177,10 @@ class App extends Component {
 
     // Add timeSubmitted to jobInfo.
     let timeSubmitted = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
-    let unixTimeStamp = moment().format("X");
+    let timeSubmittedUnixTimeStamp = moment().format("X");
 
     jobInfo["timeSubmitted"] = timeSubmitted;
-    jobInfo["unixTimeStamp"] = unixTimeStamp;
+    jobInfo["timeSubmittedUnixTimeStamp"] = timeSubmittedUnixTimeStamp;
 
     // Add jobID to jobInfo.
     jobInfo["jobID"] = [jobInfo.msaName, jobInfo.method, timeSubmitted].join(
