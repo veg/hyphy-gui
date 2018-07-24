@@ -20,7 +20,10 @@ class HyPhyGUINavBar extends Component {
 
   render() {
     return (
-      <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+      <nav
+        className="navbar fixed-top navbar-expand-lg navbar-light bg-light"
+        id="gui-navbar"
+      >
         <a className="navbar-brand" href="#">
           <img
             src={headerLogo}

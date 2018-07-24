@@ -35,7 +35,7 @@ class JobProgress extends Component {
       return <div />;
     }
     return (
-      <div>
+      <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
         <h1>
           {methodSpecificInfo[self.props.appState.jobRunning.method].name}
         </h1>

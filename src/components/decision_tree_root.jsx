@@ -114,9 +114,13 @@ function DecisionTreeRoot(props) {
     }
   ];
   return (
-    <div>
+    <div style={{ marginTop: "-20px" }}>
       <div className="analysis-tree jumbotron">
-        {props.gui ? <h1>HyPhy Desktop</h1> : <h1>Datamonkey</h1>}
+        {props.gui ? (
+          <h1 style={{ fontWeight: "150px" }}>HyPhy Desktop</h1>
+        ) : (
+          <h1>Datamonkey</h1>
+        )}
         <hr />
         <div>
           A Collection of State of the Art Statistical Models and Bioinformatics

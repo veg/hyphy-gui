@@ -11,8 +11,6 @@ const path = require("path");
 const moment = require("moment");
 const shell = require("electron").shell;
 
-import "hyphy-vision/dist/hyphyvision.css";
-
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { DecisionTreeRoot } from "./components/decision_tree_root.jsx";
 import { JobSubmittal } from "./components/job_submittal.jsx";
