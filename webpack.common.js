@@ -1,5 +1,4 @@
 const path = require("path");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   entry: path.resolve("src", "index.js"),
@@ -66,7 +65,6 @@ module.exports = {
       }
     ]
   },
-  plugins: [new ExtractTextPlugin("gui.css")],
   resolve: {
     alias: {
       "phylotree.css": __dirname + "/node_modules/phylotree/phylotree.css"
