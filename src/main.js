@@ -158,6 +158,7 @@ function runAnalysisScript(jobInfo) {
       jobInfo.analysisType
     ]);
   } else if (jobInfo.method === "fel") {
+    console.log(jobInfo);
     process = spawn("bash", [
       scriptPath,
       hyphyDirectory,
@@ -192,6 +193,7 @@ function runAnalysisScript(jobInfo) {
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {
+    console.log(data.toString());
     mainWindow.webContents.send("stdout", { msg: data.toString() });
   });
 

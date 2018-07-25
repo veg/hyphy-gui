@@ -25,9 +25,9 @@ class ChooseSynRateVariation extends Component {
             <sup>?</sup>
           </a>
         </label>
-        <select defaultValue="1" onChange={this.handleChange}>
-          <option value="1">Yes</option>
-          <option value="2">No</option>
+        <select defaultValue={1} onChange={this.handleChange}>
+          <option value={1}>Yes</option>
+          <option value={2}>No</option>
         </select>
       </div>
     );

@@ -18,6 +18,7 @@ import { JobProgress } from "./components/job_progress.jsx";
 import { JobQueue } from "./components/job_queue.jsx";
 import { Results } from "./components/results.jsx";
 import { Citations } from "./components/citations.jsx";
+import { ResultsPageErrorBoundary } from "./components/results_page_error_boundary.jsx";
 
 // Determine the environment and set the paths accordingly.
 const environment = process.env.BASH_ENV ? "development" : "production";
@@ -196,6 +197,7 @@ class App extends Component {
     jobInfo["fastaPath"] = jobInfo.msaPath + ".fasta";
 
     // Send the message to run the job or add to the queued job list.
+    console.log(jobInfo);
     if (_.isEmpty(this.state.jobRunning)) {
       ipcRenderer.send("runAnalysis", { jobInfo: jobInfo });
       this.setState({ page: "jobProgress" });
@@ -254,7 +256,11 @@ class App extends Component {
           />
         ) : null}
         {this.state.page === "results" ? (
-          <Results jobInfo={self.state.jobsCompleted[self.state.jobInFocus]} />
+          <ResultsPageErrorBoundary>
+            <Results
+              jobInfo={self.state.jobsCompleted[self.state.jobInFocus]}
+            />
+          </ResultsPageErrorBoundary>
         ) : null}
       </div>
     );
