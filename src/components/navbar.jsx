@@ -85,7 +85,6 @@ class HyPhyGUINavBar extends Component {
                 >
                   FEL
                 </a>
-                {/*
                 <a
                   className="dropdown-item"
                   href="#"
@@ -95,7 +94,6 @@ class HyPhyGUINavBar extends Component {
                 >
                   FUBAR
                 </a>
-                */}
                 <a
                   className="dropdown-item"
                   href="#"

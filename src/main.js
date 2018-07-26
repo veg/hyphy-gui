@@ -127,6 +127,19 @@ ipcMain.on("saveAnnotatedTree", function(event, arg) {
   });
 });
 
+// If branchselection isn't required by the method, save the unannotated tree and remove the tree from the nexus file.
+ipcMain.on("saveUnannotatedTree", function(event, arg) {
+  //TODO: account for the fact that users may have the same msa but want to run it with different branch annotations (as it currently stands these would get overwritten)
+  fs.writeFile(arg.msaPath + ".tree", arg.unannotatedTree, function(err) {
+    if (err) throw err;
+  });
+  removeTreeFromNexus(arg.msaPath, nexusStringWithoutTree => {
+    fs.writeFile(arg.msaPath, nexusStringWithoutTree, function(err) {
+      if (err) throw err;
+    });
+  });
+});
+
 // Run an analysis.
 ipcMain.on("runAnalysis", function(event, arg) {
   const fastaPath = arg.jobInfo.msaPath + ".fasta";
@@ -158,7 +171,6 @@ function runAnalysisScript(jobInfo) {
       jobInfo.analysisType
     ]);
   } else if (jobInfo.method === "fel") {
-    console.log(jobInfo);
     process = spawn("bash", [
       scriptPath,
       hyphyDirectory,
@@ -193,7 +205,6 @@ function runAnalysisScript(jobInfo) {
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {
-    console.log(data.toString());
     mainWindow.webContents.send("stdout", { msg: data.toString() });
   });
 

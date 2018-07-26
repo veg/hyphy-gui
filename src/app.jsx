@@ -78,7 +78,6 @@ class App extends Component {
 
   cancelJob = () => {
     const self = this;
-    console.log("cancelJob Called");
     ipcRenderer.send("killJob", null);
     alert("Job Canceled");
     if (!_.isEmpty(this.state.jobsQueued)) {
@@ -197,7 +196,6 @@ class App extends Component {
     jobInfo["fastaPath"] = jobInfo.msaPath + ".fasta";
 
     // Send the message to run the job or add to the queued job list.
-    console.log(jobInfo);
     if (_.isEmpty(this.state.jobRunning)) {
       ipcRenderer.send("runAnalysis", { jobInfo: jobInfo });
       this.setState({ page: "jobProgress" });

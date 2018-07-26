@@ -21,11 +21,13 @@ class JobSubmittal extends PureComponent {
     this.state = {
       jobInfo: {
         method: this.props.method,
-        geneticCode: "1"
+        geneticCode: "1",
         // Note that initial/default value for other job info fields (i.e. the analysis type for RELAX) are set by
         // those specific field/button components (ChooseAnalysisType for RELAX) when those components mount.
         // This was done to allow for initial/default value for the fields to be set without creating an entry
         // in the state of methods that don't need/use the info.
+        methodRequiresBranchSelection:
+          methodSpecificInfo[this.props.method].branchSelection
       },
       filePassedValidation: false,
       branchSelectionSaved: false
@@ -57,6 +59,21 @@ class JobSubmittal extends PureComponent {
       msaPath: this.state.jobInfo.msaPath
     });
     this.setState({ branchSelectionSaved: true });
+  };
+
+  saveUnannotatedTree = () => {
+    this.updateJobInfo("treePath", this.state.jobInfo.msaPath + ".tree");
+    let user_supplied_tree = this.state.jobInfo.tree.user_supplied;
+    let neighbor_joining_tree = this.state.jobInfo.tree.neighbor_joining;
+    let unannotatedTree;
+    user_supplied_tree == undefined
+      ? (unannotatedTree = neighbor_joining_tree)
+      : (unannotatedTree = user_supplied_tree);
+    alert(unannotatedTree);
+    this.props.comm.send("saveUnannotatedTree", {
+      unannotatedTree: unannotatedTree,
+      msaPath: this.state.jobInfo.msaPath
+    });
   };
 
   render() {
@@ -92,11 +109,12 @@ class JobSubmittal extends PureComponent {
             comm={self.props.comm}
             changeJobSubmittalState={self.changeJobSubmittalState}
             updateJobInfo={self.updateJobInfo}
+            saveUnannotatedTree={self.saveUnannotatedTree}
           />
         ) : null}
 
         {/* Branch Selection (if the method requires it) */}
-        {methodSpecificInfo[self.props.method].branchSelection &&
+        {this.state.jobInfo.methodRequiresBranchSelection &&
         self.state.filePassedValidation &&
         self.state.branchSelectionSaved == false ? (
           <BranchSelection
@@ -108,6 +126,7 @@ class JobSubmittal extends PureComponent {
             width={600}
           />
         ) : null}
+
         {/* Submit Job */}
         {self.state.branchSelectionSaved == true ||
         (methodSpecificInfo[self.props.method].branchSelection == false &&
