@@ -69,7 +69,6 @@ class JobSubmittal extends PureComponent {
     user_supplied_tree == undefined
       ? (unannotatedTree = neighbor_joining_tree)
       : (unannotatedTree = user_supplied_tree);
-    alert(unannotatedTree);
     this.props.comm.send("saveUnannotatedTree", {
       unannotatedTree: unannotatedTree,
       msaPath: this.state.jobInfo.msaPath
