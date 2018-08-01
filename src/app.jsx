@@ -87,7 +87,7 @@ class App extends Component {
     } else {
       self.setState({ jobRunning: {} });
     }
-    self.setSate("page", "home");
+    self.setState({ page: "home" });
   };
 
   setEventListeners = () => {
