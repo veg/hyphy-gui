@@ -2,9 +2,10 @@ import React, { Component } from "react";
 const { app, dialog } = require("electron").remote;
 const path = require("path");
 const moment = require("moment");
+const isDev = require("electron-is-dev");
 
 // Determine the environment and set the paths accordingly.
-const environment = process.env.BASH_ENV ? "development" : "production";
+const environment = isDev ? "development" : "production";
 const dataDirectory =
   environment == "development"
     ? path.join(process.cwd(), ".data")

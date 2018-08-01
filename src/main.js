@@ -9,13 +9,14 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 const { spawn } = require("child_process");
+const isDev = require("electron-is-dev");
 
 const parseAndValidateMSA = require("./helpers/parse_and_validate_msa.js");
 const removeTreeFromNexus = require("./helpers/remove_tree_from_nexus.js");
 const extractFastaFromNexus = require("./helpers/extract_fasta_from_nexus.js");
 
 // Determine the environment and set the paths accordingly.
-const environment = process.env.BASH_ENV ? "development" : "production";
+const environment = isDev ? "development" : "production";
 const appDirectory =
   environment == "development" ? process.cwd() : path.join(__dirname, "/../");
 

@@ -10,6 +10,7 @@ const { app } = require("electron").remote;
 const path = require("path");
 const moment = require("moment");
 const shell = require("electron").shell;
+const isDev = require("electron-is-dev");
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { DecisionTreeRoot } from "./components/decision_tree_root.jsx";
@@ -21,7 +22,8 @@ import { Citations } from "./components/citations.jsx";
 import { ResultsPageErrorBoundary } from "./components/results_page_error_boundary.jsx";
 
 // Determine the environment and set the paths accordingly.
-const environment = process.env.BASH_ENV ? "development" : "production";
+const environment = isDev ? "development" : "production";
+console.log(environment);
 const appStateDirectory =
   environment == "development"
     ? path.join(process.cwd())

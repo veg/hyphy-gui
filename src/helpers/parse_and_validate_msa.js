@@ -1,9 +1,10 @@
 const { spawn } = require("child_process");
 const path = require("path");
 const fs = require("fs");
+const isDev = require("electron-is-dev");
 
 // Determine the environment and set the paths accordingly.
-const environment = process.env.BASH_ENV ? "development" : "production";
+const environment = isDev ? "development" : "production";
 const appDirectory =
   environment == "development"
     ? process.cwd()
