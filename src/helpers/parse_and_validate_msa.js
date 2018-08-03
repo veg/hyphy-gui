@@ -3,9 +3,14 @@ const path = require("path");
 const fs = require("fs");
 
 // Determine the environment and set the paths accordingly.
-const isDev =
-  process.mainModule.filename.indexOf(".app") === -1 &&
-  process.mainModule.filename.indexOf(".exe") === -1;
+var isDev;
+if (process.mainModule == undefined) {
+  isDev = true; // For testing environment.
+} else {
+  isDev =
+    process.mainModule.filename.indexOf(".app") === -1 &&
+    process.mainModule.filename.indexOf(".exe") === -1;
+}
 const environment = isDev ? "development" : "production";
 const appDirectory =
   environment == "development"
