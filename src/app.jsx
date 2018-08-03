@@ -10,7 +10,6 @@ const { app } = require("electron").remote;
 const path = require("path");
 const moment = require("moment");
 const shell = require("electron").shell;
-const isDev = require("electron-is-dev");
 
 import { HyPhyGUINavBar } from "./components/navbar.jsx";
 import { DecisionTreeRoot } from "./components/decision_tree_root.jsx";
@@ -22,6 +21,9 @@ import { Citations } from "./components/citations.jsx";
 import { ResultsPageErrorBoundary } from "./components/results_page_error_boundary.jsx";
 
 // Determine the environment and set the paths accordingly.
+const isDev =
+  process.mainModule.filename.indexOf(".app") === -1 &&
+  process.mainModule.filename.indexOf(".exe") === -1;
 const environment = isDev ? "development" : "production";
 const appStateDirectory =
   environment == "development"
