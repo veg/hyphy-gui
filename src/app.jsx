@@ -128,7 +128,12 @@ class App extends Component {
       if (!_.isEmpty(this.state.jobRunning)) {
         // Check if the message being sent is new (the same message often gets sent more than once).
         if (arg.msg !== self.tempMessageForChecking) {
-          let appendedStdOut = self.state.jobRunning.stdOut + arg.msg;
+          let appendedStdOut;
+          if (self.state.jobRunning.stdOut == undefined) {
+            appendedStdOut = arg.msg;
+          } else {
+            appendedStdOut = self.state.jobRunning.stdOut + arg.msg;
+          }
           let jobRunningInfo = self.state.jobRunning;
           jobRunningInfo.stdOut = appendedStdOut;
           self.setState({ jobRunning: jobRunningInfo });
