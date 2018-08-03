@@ -23,7 +23,6 @@ import { ResultsPageErrorBoundary } from "./components/results_page_error_bounda
 
 // Determine the environment and set the paths accordingly.
 const environment = isDev ? "development" : "production";
-console.log(environment);
 const appStateDirectory =
   environment == "development"
     ? path.join(process.cwd())
@@ -82,14 +81,17 @@ class App extends Component {
     const self = this;
     ipcRenderer.send("killJob", null);
     alert("Job Canceled");
-    if (!_.isEmpty(this.state.jobsQueued)) {
-      let nextJob = self.state.jobsQueued.shift();
-      self.setState({ jobRunning: nextJob });
-      ipcRenderer.send("runAnalysis", { jobInfo: nextJob });
-    } else {
-      self.setState({ jobRunning: {} });
-    }
-    self.setState({ page: "home" });
+    // Give 2 seconds for the job to cancel before proceeding.
+    setTimeout(function() {
+      if (!_.isEmpty(this.state.jobsQueued)) {
+        let nextJob = self.state.jobsQueued.shift();
+        self.setState({ jobRunning: nextJob });
+        ipcRenderer.send("runAnalysis", { jobInfo: nextJob });
+      } else {
+        self.setState({ jobRunning: {} });
+      }
+      self.setState({ page: "home" });
+    }, 2000);
   };
 
   setEventListeners = () => {
@@ -109,6 +111,17 @@ class App extends Component {
       if (self.state.page == "jobProgress") {
         self.setState({ page: "results" });
       }
+    });
+
+    ipcRenderer.on("analysisError", (event, arg) => {
+      if (!_.isEmpty(this.state.jobsQueued)) {
+        let nextJob = self.state.jobsQueued.shift();
+        self.setState({ jobRunning: nextJob });
+        ipcRenderer.send("runAnalysis", { jobInfo: nextJob });
+      } else {
+        self.setState({ jobRunning: {} });
+      }
+      self.setState({ page: "home" });
     });
 
     ipcRenderer.on("stdout", (event, arg) => {

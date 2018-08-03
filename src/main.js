@@ -159,9 +159,10 @@ function runAnalysisScript(jobInfo) {
     jobInfo.method + ".sh"
   );
   const hyphyDirectory = path.join(appDirectory, ".hyphy");
-  let process = null;
-  // TODO: adjust the scripts and parameters to account for which methods get trees and which don't (currently just working on absrel).
+  var process = null;
+  var msaPathForKillingJobGrep = jobInfo.msaPath;
 
+  //TODO: Will need to make compatible with windows (i.e. deal with bash).
   if (jobInfo.method === "relax") {
     process = spawn("bash", [
       scriptPath,
@@ -206,21 +207,31 @@ function runAnalysisScript(jobInfo) {
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {
+    console.log(data.toString());
     mainWindow.webContents.send("stdout", { msg: data.toString() });
   });
 
   // Let the render window know when the analysis is done.
   process.on("close", code => {
-    mainWindow.webContents.send("analysisComplete", { msg: jobInfo });
-  });
-
-  // Kill the currently running job (when message sent from render process)
-  ipcMain.on("killJob", function(event, arg) {
-    process.kill("SIGINT");
-  });
-
-  // Close the app on close (when message sent from render process)
-  ipcMain.on("closeApp", function(event, arg) {
-    app.quit();
+    if (code == 0) {
+      mainWindow.webContents.send("analysisComplete", { msg: jobInfo });
+    } else {
+      mainWindow.webContents.send("analysisError", { msg: jobInfo });
+    }
   });
 }
+
+// Kill the currently running job (when message sent from render process)
+let killHyPhyJobScriptPath = path.join(
+  appDirectory,
+  "scripts",
+  "killHyPhyJob.sh"
+);
+ipcMain.on("killJob", function(event, arg) {
+  processToKillHyPhyJob = spawn("bash", [killHyPhyJobScriptPath]);
+});
+
+// Close the app on close (when message sent from render process)
+ipcMain.on("closeApp", function(event, arg) {
+  app.quit();
+});
