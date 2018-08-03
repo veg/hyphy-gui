@@ -42,6 +42,7 @@ class App extends Component {
       jobsQueued: [],
       jobRunning: {},
       jobsCompleted: {},
+      jobsErrored: {},
       jobInFocus: null
     };
   }
@@ -81,6 +82,7 @@ class App extends Component {
     const self = this;
     ipcRenderer.send("killJob", null);
     alert("Job Canceled");
+    /*
     // Give 2 seconds for the job to cancel before proceeding.
     setTimeout(function() {
       if (!_.isEmpty(this.state.jobsQueued)) {
@@ -92,6 +94,7 @@ class App extends Component {
       }
       self.setState({ page: "home" });
     }, 2000);
+    */
   };
 
   setEventListeners = () => {
@@ -114,6 +117,10 @@ class App extends Component {
     });
 
     ipcRenderer.on("analysisError", (event, arg) => {
+      let jobsErroredUpdated = self.state.jobsErrored;
+      jobsErroredUpdated[self.state.jobRunning.jobID] = self.state.jobRunning;
+      self.setState({ jobsErrored: jobsErroredUpdated });
+
       if (!_.isEmpty(this.state.jobsQueued)) {
         let nextJob = self.state.jobsQueued.shift();
         self.setState({ jobRunning: nextJob });
