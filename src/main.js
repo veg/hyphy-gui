@@ -119,7 +119,6 @@ function sendValidationToRender(validationResponse) {
 
 // Save the annotated tree from the branch selection component and remove the tree from the nexus file.
 ipcMain.on("saveAnnotatedTree", function(event, arg) {
-  //TODO: account for the fact that users may have the same msa but want to run it with different branch annotations (as it currently stands these would get overwritten)
   fs.writeFile(arg.msaPath + ".tree", arg.annotatedTree, function(err) {
     if (err) throw err;
   });
@@ -132,7 +131,6 @@ ipcMain.on("saveAnnotatedTree", function(event, arg) {
 
 // If branchselection isn't required by the method, save the unannotated tree and remove the tree from the nexus file.
 ipcMain.on("saveUnannotatedTree", function(event, arg) {
-  //TODO: account for the fact that users may have the same msa but want to run it with different branch annotations (as it currently stands these would get overwritten)
   fs.writeFile(arg.msaPath + ".tree", arg.unannotatedTree, function(err) {
     if (err) throw err;
   });
