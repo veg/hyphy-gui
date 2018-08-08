@@ -11,7 +11,7 @@ const fs = require("fs");
 const { spawn } = require("child_process");
 
 const parseAndValidateMSA = require("./helpers/parse_and_validate_msa.js");
-const removeTreeFromNexus = require("./helpers/remove_tree_from_nexus.js");
+const removeTreeFromNexusOrFasta = require("./helpers/remove_tree_from_nexus_or_fasta.js");
 const extractFastaFromNexus = require("./helpers/extract_fasta_from_nexus.js");
 
 // Determine the environment and set the paths accordingly.
@@ -117,24 +117,24 @@ function sendValidationToRender(validationResponse) {
   mainWindow.webContents.send("validationComplete", validationResponse);
 }
 
-// Save the annotated tree from the branch selection component and remove the tree from the nexus file.
+// Save the annotated tree from the branch selection component and remove the tree from the nexus or fasta file.
 ipcMain.on("saveAnnotatedTree", function(event, arg) {
   fs.writeFile(arg.msaPath + ".tree", arg.annotatedTree, function(err) {
     if (err) throw err;
   });
-  removeTreeFromNexus(arg.msaPath, nexusStringWithoutTree => {
+  removeTreeFromNexusOrFasta(arg.msaPath, nexusStringWithoutTree => {
     fs.writeFile(arg.msaPath, nexusStringWithoutTree, function(err) {
       if (err) throw err;
     });
   });
 });
 
-// If branchselection isn't required by the method, save the unannotated tree and remove the tree from the nexus file.
+// If branchselection isn't required by the method, save the unannotated tree and remove the tree from the nexus or fasta file.
 ipcMain.on("saveUnannotatedTree", function(event, arg) {
   fs.writeFile(arg.msaPath + ".tree", arg.unannotatedTree, function(err) {
     if (err) throw err;
   });
-  removeTreeFromNexus(arg.msaPath, nexusStringWithoutTree => {
+  removeTreeFromNexusOrFasta(arg.msaPath, nexusStringWithoutTree => {
     fs.writeFile(arg.msaPath, nexusStringWithoutTree, function(err) {
       if (err) throw err;
     });
