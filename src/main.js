@@ -1,4 +1,3 @@
-/* eslint-disable */
 const electron = require("electron");
 // Module to control application life.
 const app = electron.app;
@@ -160,7 +159,6 @@ function runAnalysisScript(jobInfo) {
   );
   const hyphyDirectory = path.join(appDirectory, ".hyphy");
   var process = null;
-  var msaPathForKillingJobGrep = jobInfo.msaPath;
 
   //TODO: Will need to make compatible with windows (i.e. deal with bash).
   if (jobInfo.method === "relax") {
@@ -207,7 +205,6 @@ function runAnalysisScript(jobInfo) {
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {
-    console.log(data.toString());
     mainWindow.webContents.send("stdout", { msg: data.toString() });
   });
 
@@ -222,6 +219,7 @@ function runAnalysisScript(jobInfo) {
 }
 
 // Kill the currently running job (when message sent from render process)
+var processToKillHyPhyJob = null;
 let killHyPhyJobScriptPath = path.join(
   appDirectory,
   "scripts",

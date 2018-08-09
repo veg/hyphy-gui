@@ -9,11 +9,6 @@ class ResultsPageErrorBoundary extends React.Component {
   componentDidCatch(error, info) {
     this.setState({ hasError: true });
     this.setState({ error: JSON.stringify(error) });
-    console.log("error: ");
-    console.log(error);
-    console.log();
-    console.log("info: ");
-    console.log(info);
   }
 
   render() {

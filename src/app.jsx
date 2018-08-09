@@ -81,22 +81,8 @@ class App extends Component {
   }
 
   cancelJob = () => {
-    const self = this;
     ipcRenderer.send("killJob", null);
     alert("Job Canceled");
-    /*
-    // Give 2 seconds for the job to cancel before proceeding.
-    setTimeout(function() {
-      if (!_.isEmpty(this.state.jobsQueued)) {
-        let nextJob = self.state.jobsQueued.shift();
-        self.setState({ jobRunning: nextJob });
-        ipcRenderer.send("runAnalysis", { jobInfo: nextJob });
-      } else {
-        self.setState({ jobRunning: {} });
-      }
-      self.setState({ page: "home" });
-    }, 2000);
-    */
   };
 
   setEventListeners = () => {
