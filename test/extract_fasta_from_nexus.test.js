@@ -12,7 +12,7 @@ let correctFastaString;
 beforeAll(() => {
   return new Promise(resolve => {
     fs.readFile(correctFastaPath, function(err, data) {
-      if (err) console.log(err);
+      if (err) console.log(err); // eslint-disable-line
       correctFastaString = data.toString();
       resolve();
     });

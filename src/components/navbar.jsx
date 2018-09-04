@@ -6,8 +6,8 @@ class HyPhyGUINavBar extends Component {
     super(props);
   }
 
-  openHomePage = () => {
-    this.props.changeAppState("page", "home");
+  openMethodAgnosticPage = page => {
+    this.props.changeAppState("page", page);
     this.props.changeAppState("method", null);
     this.props.changeAppState("jobInFocus", null);
   };
@@ -18,18 +18,30 @@ class HyPhyGUINavBar extends Component {
     this.props.changeAppState("jobInFocus", null);
   };
 
-  openJobQueuePage = () => {
-    this.props.changeAppState("page", "jobQueue");
-    this.props.changeAppState("method", null);
-    this.props.changeAppState("jobInFocus", null);
-  };
-
   render() {
     return (
-      <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+      <nav
+        className="navbar fixed-top navbar-expand-lg navbar-light bg-light"
+        id="gui-navbar"
+      >
         <a className="navbar-brand" href="#">
-          <img src={headerLogo} height="30px" onClick={this.openHomePage} />
+          <img
+            src={headerLogo}
+            height="30px"
+            onClick={() => this.openMethodAgnosticPage("home")}
+          />
         </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
@@ -50,6 +62,8 @@ class HyPhyGUINavBar extends Component {
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("absrel")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
                 >
                   aBSREL
                 </a>
@@ -57,6 +71,8 @@ class HyPhyGUINavBar extends Component {
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("busted")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
                 >
                   BUSTED
                 </a>
@@ -64,6 +80,8 @@ class HyPhyGUINavBar extends Component {
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("fel")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
                 >
                   FEL
                 </a>
@@ -71,14 +89,17 @@ class HyPhyGUINavBar extends Component {
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("fubar")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
                 >
                   FUBAR
                 </a>
-                {/* <a className="dropdown-item" href="#" onClick={() => this.openNewJobSubmittalPage('gard')} >GARD</a> */}
                 <a
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("meme")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
                 >
                   MEME
                 </a>
@@ -86,6 +107,8 @@ class HyPhyGUINavBar extends Component {
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("relax")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
                 >
                   RELAX
                 </a>
@@ -93,6 +116,8 @@ class HyPhyGUINavBar extends Component {
                   className="dropdown-item"
                   href="#"
                   onClick={() => this.openNewJobSubmittalPage("slac")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
                 >
                   SLAC
                 </a>
@@ -100,21 +125,41 @@ class HyPhyGUINavBar extends Component {
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" onClick={this.openJobQueuePage} href="#">
+              <a
+                className="nav-link"
+                onClick={() => this.openMethodAgnosticPage("jobQueue")}
+                href="#"
+                data-toggle="collapse"
+                data-target=".navbar-collapse.show"
+              >
                 Jobs
               </a>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a
+                className="nav-link"
+                onClick={() => this.openMethodAgnosticPage("citations")}
+                href="#"
+                data-toggle="collapse"
+                data-target=".navbar-collapse.show"
+              >
                 Citations
               </a>
             </li>
+            {/*
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a
+                className="nav-link"
+                onClick={() => this.openMethodAgnosticPage("help")}
+                href="#"
+                data-toggle="collapse"
+                data-target=".navbar-collapse.show"
+              >
                 Help
               </a>
             </li>
+            */}
           </ul>
         </div>
       </nav>

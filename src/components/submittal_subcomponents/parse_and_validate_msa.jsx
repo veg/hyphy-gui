@@ -16,6 +16,9 @@ class ParseAndValidateMSA extends Component {
           //partition_info: arg.message.FILE_PARTITION_INFO
         });
         this.props.changeJobSubmittalState("filePassedValidation", arg.valid);
+        this.props.jobInfo.methodRequiresBranchSelection
+          ? null
+          : this.props.saveUnannotatedTree();
       } else {
         alert(arg.message);
       }

@@ -98,12 +98,42 @@ class JobQueue extends Component {
     this.props.changeAppState("page", "results");
   };
 
+  getErroredJobs = () => {
+    let jobsErrored = this.props.appState.jobsErrored;
+    let rows = [];
+    for (var key in jobsErrored) {
+      let job = jobsErrored[key];
+      rows.unshift(
+        <TableRow
+          onClick={this.clickErroredJob}
+          jobID={key}
+          cells={[job.msaName, job.method, job.timeSubmitted]}
+        />
+      );
+    }
+    if (_.isEmpty(jobsErrored)) {
+      return null;
+    } else {
+      return <tbody>{rows}</tbody>;
+    }
+  };
+
+  clickErroredJob = jobID => {
+    //TODO: Create an errored/canceled jobs page or modal.
+    let stdOut = this.props.appState.jobsErrored[jobID].stdOut;
+    let tailOfStdOut =
+      "THE LAST 1,000 CHARACTERS of STDOUT: \n\n" +
+      stdOut.substr(stdOut.length - 1000);
+    alert(tailOfStdOut);
+  };
+
   render() {
     return (
-      <div>
+      <div style={{ paddingRight: "30px", paddingLeft: "30px" }}>
         <JobsTable title="Queued" rows={this.getQueuedJobs()} />
         <JobsTable title="Running" rows={this.getRunningJob()} />
         <JobsTable title="Completed" rows={this.getCompletedJobs()} />
+        <JobsTable title="Canceled or Errored" rows={this.getErroredJobs()} />
       </div>
     );
   }

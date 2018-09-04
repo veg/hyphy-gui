@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { GetMSAPath } from "./submittal_subcomponents/get_msa_path.jsx";
 import { ChooseGeneticCode } from "./submittal_subcomponents/choose_genetic_code.jsx";
 import { ChooseAnalysisType } from "./submittal_subcomponents/choose_analysis_type.jsx";
@@ -8,23 +8,26 @@ import { ChooseNumRateClasses } from "./submittal_subcomponents/choose_num_rate_
 import { AdvancedFubarOptions } from "./submittal_subcomponents/advanced_fubar_options.jsx";
 import { ParseAndValidateMSA } from "./submittal_subcomponents/parse_and_validate_msa.jsx";
 import { BranchSelection } from "./submittal_subcomponents/branch_selection.jsx";
+import methodSpecificInfo from "./../helpers/method_specific_info";
 
 /**
  * JobSubmittal takes an MSA and some parameters and returns a JSON object "jobInfo" for consumption.
  * This component should recieve an "onSubmit" function as a prop which will likely be different for the GUI and
  * datamonkey.org.
  */
-class JobSubmittal extends Component {
+class JobSubmittal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       jobInfo: {
         method: this.props.method,
-        geneticCode: "1"
+        geneticCode: "1",
         // Note that initial/default value for other job info fields (i.e. the analysis type for RELAX) are set by
         // those specific field/button components (ChooseAnalysisType for RELAX) when those components mount.
         // This was done to allow for initial/default value for the fields to be set without creating an entry
         // in the state of methods that don't need/use the info.
+        methodRequiresBranchSelection:
+          methodSpecificInfo[this.props.method].branchSelection
       },
       filePassedValidation: false,
       branchSelectionSaved: false
@@ -58,66 +61,27 @@ class JobSubmittal extends Component {
     this.setState({ branchSelectionSaved: true });
   };
 
+  saveUnannotatedTree = () => {
+    this.updateJobInfo("treePath", this.state.jobInfo.msaPath + ".tree");
+    let user_supplied_tree = this.state.jobInfo.tree.user_supplied;
+    let neighbor_joining_tree = this.state.jobInfo.tree.neighbor_joining;
+    let unannotatedTree;
+    user_supplied_tree == undefined
+      ? (unannotatedTree = neighbor_joining_tree)
+      : (unannotatedTree = user_supplied_tree);
+    this.props.comm.send("saveUnannotatedTree", {
+      unannotatedTree: unannotatedTree,
+      msaPath: this.state.jobInfo.msaPath
+    });
+  };
+
   render() {
     const self = this;
-    const methodSpecificInfo = {
-      absrel: {
-        name: "aBSREL",
-        description:
-          "An adaptive branch-site REL test for episodic diversification",
-        branchSelection: true
-      },
-      busted: {
-        name: "BUSTED",
-        description:
-          "Branch-site Unrestricted Statistical Test for Episodic Diversification",
-        branchSelection: true
-      },
-      fel: {
-        name: "FEL",
-        description: "Fixed Effects Likelihood",
-        branchSelection: true
-      },
-      fubar: {
-        name: "FUBAR",
-        description:
-          "A Fast, Unconstrained Bayesian AppRoximation for Inferring Selection",
-        branchSelection: false
-      },
-      gard: {
-        name: "GARD",
-        description: "A Genetic Algorithm for Recombination Detection",
-        branchSelection: false
-      },
-      meme: {
-        name: "MEME",
-        description:
-          "Detect Individual Sites Subject to Episodic Diversifying Selection",
-        branchSelection: false
-      },
-      relax: {
-        name: "RELAX",
-        description:
-          "Detect relaxed selection in a codon-based phylogenetic framework",
-        branchSelection: true
-      },
-      slac: {
-        name: "SLAC",
-        description: "Single-Likelihood Ancestor Counting",
-        branchSelection: true
-      }
-    };
-
     return (
-      <div>
+      <div style={{ paddingRight: "20px", paddingLeft: "20px" }}>
         <h1>{methodSpecificInfo[self.props.method].name}</h1>
         <p>{methodSpecificInfo[self.props.method].description}</p>
-        {self.props.platform === "electron" ? (
-          <GetMSAPath
-            updateJobInfo={self.updateJobInfo}
-            comm={self.props.comm}
-          />
-        ) : null}
+        <GetMSAPath updateJobInfo={self.updateJobInfo} comm={self.props.comm} />
         <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
 
         {/* Method Specific Options */}
@@ -144,11 +108,12 @@ class JobSubmittal extends Component {
             comm={self.props.comm}
             changeJobSubmittalState={self.changeJobSubmittalState}
             updateJobInfo={self.updateJobInfo}
+            saveUnannotatedTree={self.saveUnannotatedTree}
           />
         ) : null}
 
         {/* Branch Selection (if the method requires it) */}
-        {methodSpecificInfo[self.props.method].branchSelection &&
+        {this.state.jobInfo.methodRequiresBranchSelection &&
         self.state.filePassedValidation &&
         self.state.branchSelectionSaved == false ? (
           <BranchSelection
@@ -160,6 +125,7 @@ class JobSubmittal extends Component {
             width={600}
           />
         ) : null}
+
         {/* Submit Job */}
         {self.state.branchSelectionSaved == true ||
         (methodSpecificInfo[self.props.method].branchSelection == false &&

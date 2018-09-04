@@ -5,7 +5,6 @@ const BSREL = hyphyVision.absrel.BSREL;
 const BUSTED = hyphyVision.busted.BUSTED;
 const FEL = hyphyVision.fel.FEL;
 const FUBAR = hyphyVision.fubar.FUBAR;
-const GARD = hyphyVision.gard.GARD;
 const MEME = hyphyVision.meme.MEME;
 const RELAX = hyphyVision.relax.RELAX;
 const SLAC = hyphyVision.slac.SLAC;

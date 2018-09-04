@@ -1,4 +1,3 @@
-/* eslint-disable */
 const electron = require("electron");
 // Module to control application life.
 const app = electron.app;
@@ -11,11 +10,14 @@ const fs = require("fs");
 const { spawn } = require("child_process");
 
 const parseAndValidateMSA = require("./helpers/parse_and_validate_msa.js");
-const removeTreeFromNexus = require("./helpers/remove_tree_from_nexus.js");
+const removeTreeFromNexusOrFasta = require("./helpers/remove_tree_from_nexus_or_fasta.js");
 const extractFastaFromNexus = require("./helpers/extract_fasta_from_nexus.js");
 
 // Determine the environment and set the paths accordingly.
-const environment = process.env.BASH_ENV ? "development" : "production";
+const isDev =
+  process.mainModule.filename.indexOf(".app") === -1 &&
+  process.mainModule.filename.indexOf(".exe") === -1;
+const environment = isDev ? "development" : "production";
 const appDirectory =
   environment == "development" ? process.cwd() : path.join(__dirname, "/../");
 
@@ -50,7 +52,7 @@ function createWindow() {
 
   // Open the DevTools.
   if (environment == "development") {
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
   }
 
   // Emitted when the window is closed.
@@ -94,7 +96,7 @@ app.on("activate", function() {
  * =====================================================================================
  */
 
-// Move the msa file from it's original location to the .data folder.
+// Move the msa file from it's original location to the dataDirectory folder.
 ipcMain.on("moveMSA", function(event, arg) {
   fs.createReadStream(arg.msaPathOriginal).pipe(
     fs.createWriteStream(arg.msaPath)
@@ -114,13 +116,24 @@ function sendValidationToRender(validationResponse) {
   mainWindow.webContents.send("validationComplete", validationResponse);
 }
 
-// Save the annotated tree from the branch selection component and remove the tree from the nexus file.
+// Save the annotated tree from the branch selection component and remove the tree from the nexus or fasta file.
 ipcMain.on("saveAnnotatedTree", function(event, arg) {
-  //TODO: account for the fact that users may have the same msa but want to run it with different branch annotations (as it currently stands these would get overwritten)
   fs.writeFile(arg.msaPath + ".tree", arg.annotatedTree, function(err) {
     if (err) throw err;
   });
-  removeTreeFromNexus(arg.msaPath, nexusStringWithoutTree => {
+  removeTreeFromNexusOrFasta(arg.msaPath, nexusStringWithoutTree => {
+    fs.writeFile(arg.msaPath, nexusStringWithoutTree, function(err) {
+      if (err) throw err;
+    });
+  });
+});
+
+// If branchselection isn't required by the method, save the unannotated tree and remove the tree from the nexus or fasta file.
+ipcMain.on("saveUnannotatedTree", function(event, arg) {
+  fs.writeFile(arg.msaPath + ".tree", arg.unannotatedTree, function(err) {
+    if (err) throw err;
+  });
+  removeTreeFromNexusOrFasta(arg.msaPath, nexusStringWithoutTree => {
     fs.writeFile(arg.msaPath, nexusStringWithoutTree, function(err) {
       if (err) throw err;
     });
@@ -145,14 +158,15 @@ function runAnalysisScript(jobInfo) {
     jobInfo.method + ".sh"
   );
   const hyphyDirectory = path.join(appDirectory, ".hyphy");
-  let process = null;
-  // TODO: adjust the scripts and parameters to account for which methods get trees and which don't (currently just working on absrel).
+  var process = null;
 
+  //TODO: Will need to make compatible with windows (i.e. deal with bash).
   if (jobInfo.method === "relax") {
     process = spawn("bash", [
       scriptPath,
       hyphyDirectory,
       jobInfo.msaPath,
+      jobInfo.treePath,
       jobInfo.geneticCode,
       jobInfo.analysisType
     ]);
@@ -170,6 +184,7 @@ function runAnalysisScript(jobInfo) {
       scriptPath,
       hyphyDirectory,
       jobInfo.msaPath,
+      jobInfo.treePath,
       jobInfo.geneticCode,
       jobInfo.gridPoints,
       jobInfo.chainLength,
@@ -195,6 +210,26 @@ function runAnalysisScript(jobInfo) {
 
   // Let the render window know when the analysis is done.
   process.on("close", code => {
-    mainWindow.webContents.send("analysisComplete", { msg: jobInfo });
+    if (code == 0) {
+      mainWindow.webContents.send("analysisComplete", { msg: jobInfo });
+    } else {
+      mainWindow.webContents.send("analysisError", { msg: jobInfo });
+    }
   });
 }
+
+// Kill the currently running job (when message sent from render process)
+var processToKillHyPhyJob = null;
+let killHyPhyJobScriptPath = path.join(
+  appDirectory,
+  "scripts",
+  "killHyPhyJob.sh"
+);
+ipcMain.on("killJob", function(event, arg) {
+  processToKillHyPhyJob = spawn("bash", [killHyPhyJobScriptPath]);
+});
+
+// Close the app on close (when message sent from render process)
+ipcMain.on("closeApp", function(event, arg) {
+  app.quit();
+});

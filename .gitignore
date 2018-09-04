@@ -16,3 +16,4 @@ data/*.aa
 .data
 hyphy-vision/
 coverage/
+yalc.lock
