@@ -1,5 +1,7 @@
 HYPHY_DIR=$1
 LIB_PATH=$HYPHY_DIR/res
-ABSREL_PATH=$HYPHY_DIR/res/TemplateBatchFiles/SelectionAnalyses/aBSREL.bf
+BATCH_FILE_PATH=$HYPHY_DIR/res/TemplateBatchFiles/SelectionAnalyses/aBSREL.bf
 DATA_PATH=$2
-(echo 1; echo $DATA_PATH; echo 3; echo 1;) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $ABSREL_PATH
+TREE_PATH=$3
+GENETIC_CODE=$4
+(echo $GENETIC_CODE; echo $DATA_PATH; echo $TREE_PATH; echo 5; echo 4;) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
