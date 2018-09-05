@@ -3,6 +3,10 @@
 [![Build Status](https://travis-ci.org/veg/hyphy-gui.png?branch=master)](https://travis-ci.org/veg/hyphy-gui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+[DOWNLOAD APP](https://github.com/veg/hyphy-gui/releases)
+
+[TUTORIAL](http://hyphy.org/tutorials/current-release-tutorial_gui/)
+
 ### Grahical User Interface Desktop Application for [HyPhy](https://github.com/veg/hyphy)
 
 Collection of methods for interrogating sequence alignments for imprints of natural selection:
