@@ -7,7 +7,7 @@
 
 [TUTORIAL](http://hyphy.org/tutorials/current-release-tutorial_gui/)
 
-### Grahical User Interface Desktop Application for [HyPhy](https://github.com/veg/hyphy)
+### Graphical User Interface Desktop Application for [HyPhy](https://github.com/veg/hyphy)
 
 Collection of methods for interrogating sequence alignments for imprints of natural selection:
 ![Methods](images/Methods.png)
