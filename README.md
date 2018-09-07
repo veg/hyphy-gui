@@ -12,10 +12,10 @@
 Collection of methods for interrogating sequence alignments for imprints of natural selection:
 ![Methods](images/Methods.png)
 
-Same intuitive user interface for submitting jobs familiar to users of [datamonkey](datamonkey.org):
+Intuitive user interface for submitting jobs familiar to users of [datamonkey](datamonkey.org):
 ![Interface](images/Interface.png)
 
-Provides the ability to queue multiple jobs, monitor the status of running jobs and vizualize results of completed jobs using the [hyphy-vision](https://github.com/veg/hyphy-vision) package:
+Provides the ability to queue multiple jobs, monitor the status of running jobs and visualize results of completed jobs using the [hyphy-vision](https://github.com/veg/hyphy-vision) package:
 ![Jobs](images/Jobs.png)
 
 ## Development
