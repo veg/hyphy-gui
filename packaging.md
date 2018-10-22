@@ -1,6 +1,6 @@
 ### Packaging the Mac OS X Desktop Application
 
-1.  Obtain a copy of the [Electron 1.8.2 binaries](https://github.com/electron/electron/releases) (e.g. `electron-v1.8.2-darwin-x64.zip`) and decompress
+1.  Obtain a copy of the [Electron 1.8.2 binaries](https://github.com/electron/electron/releases/tag/v1.8.2) (e.g. `electron-v1.8.2-darwin-x64.zip`) and decompress
 2.  Rename the Electron binary folder and Electron binary to HyPhyGUI and HyPhyGUI.app, respectively
 3.  `cd HyPhyGUI/HyPhyGUI.app/Contents/Resources/`
 4.  `mkdir app && cd app`

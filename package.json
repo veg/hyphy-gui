@@ -1,6 +1,6 @@
 {
   "name": "hyphy-gui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Desktop application for HyPhy",
   "main": "src/main.js",
   "repository": "https://github.com/veg/hyphy-gui",
@@ -10,7 +10,7 @@
     "bootstrap": "^4.0.0",
     "electron": "^1.8.2",
     "font-awesome": "^4.7.0",
-    "hyphy-vision": "2.1.0",
+    "hyphy-vision": "2.1.5",
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "phylotree": "^0.1.6",
