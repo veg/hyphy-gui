@@ -509,18 +509,13 @@ function FEL(props) {
   );
 }
 
-// TODO: add the link to fubar back in once the fubar.sh script is fixed.
 function FUBAR(props) {
   return (
     <Method
       title="FUBAR"
       href="fubar"
       gui={props.gui}
-      changeAppState={() =>
-        alert(
-          "FUBAR is still in the process of being ported over to the desktop application... Stay tuned"
-        )
-      }
+      changeAppState={props.changeAppState}
     >
       <p>
         FUBAR (<strong>Fast</strong>, <strong>U</strong>nconstrained
