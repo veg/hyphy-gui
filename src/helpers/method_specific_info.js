@@ -41,7 +41,8 @@ const methodSpecificInfo = {
   },
   fade: {
     name: "FADE",
-    description: "A FUBAR Approach to Directional Selection",
+    description:
+      "A FUBAR* Approach to Directional Evolution (*Fast, Unconstrained Bayesian AppRoximation for Inferring Selection)",
     branchSelection: true
   }
 };
