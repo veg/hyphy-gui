@@ -24,6 +24,17 @@ function parseAndValidateMSA(msaPath, geneticCode, callBack) {
   // Converts the file in place to nexus format.
 
   // The file is parsed and validated with the `datareader.bf` HBL script.
+
+  // Skip the datareader.bf for fade (fade is for proteins)
+  if (geneticCode == null) {
+    callBack({
+      valid: true,
+      message: "validator skipped for FADE",
+      FADE: true
+    });
+    return;
+  }
+
   let geneticCodeLessOne = parseInt(geneticCode) - 1; // The batch file counts from zero, everything else seems to count from one.
 
   const hyphyPath = path.join(appDirectory, ".hyphy/HYPHYMP");

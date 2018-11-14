@@ -121,6 +121,15 @@ class HyPhyGUINavBar extends Component {
                 >
                   SLAC
                 </a>
+                <a
+                  className="dropdown-item"
+                  href="#"
+                  onClick={() => this.openNewJobSubmittalPage("fade")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
+                >
+                  FADE
+                </a>
               </div>
             </li>
 

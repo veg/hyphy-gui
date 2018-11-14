@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import { GetMSAPath } from "./submittal_subcomponents/get_msa_path.jsx";
 import { ChooseGeneticCode } from "./submittal_subcomponents/choose_genetic_code.jsx";
+import { ChooseSubstitutionModel } from "./submittal_subcomponents/choose_substitution_model.jsx";
 import { ChooseAnalysisType } from "./submittal_subcomponents/choose_analysis_type.jsx";
 import { ChooseSynRateVariation } from "./submittal_subcomponents/choose_syn_rate_variation.jsx";
 import { ChooseSiteRateVariation } from "./submittal_subcomponents/choose_site_rate_variation.jsx";
@@ -32,6 +33,13 @@ class JobSubmittal extends PureComponent {
       filePassedValidation: false,
       branchSelectionSaved: false
     };
+  }
+
+  componentDidMount() {
+    // Set the genetic code to null for FADE so that it can skip the datareader bach file.
+    if (this.props.method === "fade") {
+      this.updateJobInfo("geneticCode", null);
+    }
   }
 
   updateJobInfo = (key, value) => {
@@ -77,14 +85,25 @@ class JobSubmittal extends PureComponent {
 
   render() {
     const self = this;
+
     return (
       <div style={{ paddingRight: "20px", paddingLeft: "20px" }}>
         <h1>{methodSpecificInfo[self.props.method].name}</h1>
         <p>{methodSpecificInfo[self.props.method].description}</p>
         <GetMSAPath updateJobInfo={self.updateJobInfo} comm={self.props.comm} />
-        <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
 
         {/* Method Specific Options */}
+        {self.props.method != "fade" ? (
+          <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
+        ) : (
+          <div>
+            <p>
+              Uploaded file must contain both an amino acid multiple sequence
+              alignment and a rooted tree
+            </p>
+            <ChooseSubstitutionModel updateJobInfo={self.updateJobInfo} />
+          </div>
+        )}
         {self.props.method === "fel" ? (
           <ChooseSynRateVariation updateJobInfo={self.updateJobInfo} />
         ) : null}
@@ -95,7 +114,7 @@ class JobSubmittal extends PureComponent {
               <div>Can't run gard yet... need an MPI environment to run.</div>
             ]
           : null}
-        {self.props.method === "fubar" ? (
+        {self.props.method === "fubar" || self.props.method === "fade" ? (
           <AdvancedFubarOptions updateJobInfo={self.updateJobInfo} />
         ) : null}
         {self.props.method === "relax" ? (

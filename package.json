@@ -13,7 +13,7 @@
     "hyphy-vision": "2.1.5",
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
-    "phylotree": "^0.1.6",
+    "phylotree": "0.1.6",
     "popper.js": "^1.14.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",

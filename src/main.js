@@ -193,6 +193,20 @@ function runAnalysisScript(jobInfo) {
       jobInfo.samplesFromEachChain,
       jobInfo.concDirichletPrior
     ]);
+  } else if (jobInfo.method === "fade") {
+    process = spawn("bash", [
+      scriptPath,
+      hyphyDirectory,
+      jobInfo.msaPath,
+      jobInfo.treePath,
+      jobInfo.substitutionModel,
+      jobInfo.gridPoints,
+      jobInfo.chainLength,
+      jobInfo.MCMCChains,
+      jobInfo.burnInSamples,
+      jobInfo.samplesFromEachChain,
+      jobInfo.concDirichletPrior
+    ]);
   } else {
     process = spawn("bash", [
       scriptPath,
