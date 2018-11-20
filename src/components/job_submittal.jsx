@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import { GetMSAPath } from "./submittal_subcomponents/get_msa_path.jsx";
 import { ChooseGeneticCode } from "./submittal_subcomponents/choose_genetic_code.jsx";
 import { ChooseSubstitutionModel } from "./submittal_subcomponents/choose_substitution_model.jsx";
+import { ChoosePosteriorEstimationMethod } from "./submittal_subcomponents/choose_posterior_estimation_method.jsx";
 import { ChooseAnalysisType } from "./submittal_subcomponents/choose_analysis_type.jsx";
 import { ChooseSynRateVariation } from "./submittal_subcomponents/choose_syn_rate_variation.jsx";
 import { ChooseSiteRateVariation } from "./submittal_subcomponents/choose_site_rate_variation.jsx";
@@ -104,6 +105,9 @@ class JobSubmittal extends PureComponent {
             <ChooseSubstitutionModel updateJobInfo={self.updateJobInfo} />
           </div>
         )}
+        {self.props.method === "fade" || self.props.method === "fubar" ? (
+          <ChoosePosteriorEstimationMethod updateJobInfo={self.updateJobInfo} />
+        ) : null}
         {self.props.method === "fel" ? (
           <ChooseSynRateVariation updateJobInfo={self.updateJobInfo} />
         ) : null}

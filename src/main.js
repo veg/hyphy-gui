@@ -191,7 +191,8 @@ function runAnalysisScript(jobInfo) {
       jobInfo.MCMCChains,
       jobInfo.burnInSamples,
       jobInfo.samplesFromEachChain,
-      jobInfo.concDirichletPrior
+      jobInfo.concDirichletPrior,
+      jobInfo.posteriorEstimationMethod
     ]);
   } else if (jobInfo.method === "fade") {
     process = spawn("bash", [
@@ -205,7 +206,8 @@ function runAnalysisScript(jobInfo) {
       jobInfo.MCMCChains,
       jobInfo.burnInSamples,
       jobInfo.samplesFromEachChain,
-      jobInfo.concDirichletPrior
+      jobInfo.concDirichletPrior,
+      jobInfo.posteriorEstimationMethod
     ]);
   } else {
     process = spawn("bash", [
