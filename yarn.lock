@@ -3689,9 +3689,8 @@ husky@^0.14.3:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
-hyphy-vision@2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/hyphy-vision/-/hyphy-vision-2.1.5.tgz#9e359833903c28b0100ad165dd8bdcfa0ce81433"
+"hyphy-vision@file:.yalc/hyphy-vision":
+  version "2.1.6-2846d38b"
   dependencies:
     "@fortawesome/fontawesome-free" "^5.3.1"
     alignment.js "1.0.10"
