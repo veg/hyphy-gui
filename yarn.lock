@@ -3688,10 +3688,7 @@ husky@^0.14.3:
     is-ci "^1.0.10"
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
-
-hyphy-vision@2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/hyphy-vision/-/hyphy-vision-2.1.5.tgz#9e359833903c28b0100ad165dd8bdcfa0ce81433"
+    
   dependencies:
     "@fortawesome/fontawesome-free" "^5.3.1"
     alignment.js "1.0.10"
@@ -5708,7 +5705,7 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
 
-phylotree@0.1.6, phylotree@^0.1.6:
+phylotree@0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/phylotree/-/phylotree-0.1.6.tgz#0e6b1f246db5a1096f5338a67d3f17c6535a58db"
   dependencies:
