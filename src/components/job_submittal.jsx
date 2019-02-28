@@ -8,8 +8,10 @@ import { ChooseSynRateVariation } from "./submittal_subcomponents/choose_syn_rat
 import { ChooseSiteRateVariation } from "./submittal_subcomponents/choose_site_rate_variation.jsx";
 import { ChooseNumRateClasses } from "./submittal_subcomponents/choose_num_rate_classes.jsx";
 import { AdvancedFubarOptions } from "./submittal_subcomponents/advanced_fubar_options.jsx";
+import { AdvancedBgmOptions } from "./submittal_subcomponents/advanced_bgm_options.jsx";
 import { ParseAndValidateMSA } from "./submittal_subcomponents/parse_and_validate_msa.jsx";
 import { BranchSelection } from "./submittal_subcomponents/branch_selection.jsx";
+import { ChooseDataType } from "./submittal_subcomponents/choose_data_type.jsx";
 import methodSpecificInfo from "./../helpers/method_specific_info";
 
 /**
@@ -94,9 +96,10 @@ class JobSubmittal extends PureComponent {
         <GetMSAPath updateJobInfo={self.updateJobInfo} comm={self.props.comm} />
 
         {/* Method Specific Options */}
-        {self.props.method != "fade" ? (
+        {self.props.method != "fade" && self.props.method != "bgm" ? (
           <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
-        ) : (
+        ) : null}
+        {self.props.method === "fade" ? (
           <div>
             <p>
               Uploaded file must contain both an amino acid multiple sequence
@@ -104,7 +107,7 @@ class JobSubmittal extends PureComponent {
             </p>
             <ChooseSubstitutionModel updateJobInfo={self.updateJobInfo} />
           </div>
-        )}
+        ) : null}
         {self.props.method === "fade" || self.props.method === "fubar" ? (
           <ChoosePosteriorEstimationMethod updateJobInfo={self.updateJobInfo} />
         ) : null}
@@ -118,8 +121,20 @@ class JobSubmittal extends PureComponent {
               <div>Can't run gard yet... need an MPI environment to run.</div>
             ]
           : null}
+        {self.props.method === "bgm" && self.state.jobInfo.dataType == 2 ? (
+          <ChooseSubstitutionModel updateJobInfo={self.updateJobInfo} />
+        ) : null}
+        {self.props.method === "bgm" && self.state.jobInfo.dataType == 3 ? (
+          <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
+        ) : null}
+        {self.props.method === "bgm" ? (
+          <ChooseDataType updateJobInfo={self.updateJobInfo} />
+        ) : null}
         {self.props.method === "fubar" || self.props.method === "fade" ? (
           <AdvancedFubarOptions updateJobInfo={self.updateJobInfo} />
+        ) : null}
+        {self.props.method === "bgm" ? (
+          <AdvancedBgmOptions updateJobInfo={self.updateJobInfo} />
         ) : null}
         {self.props.method === "relax" ? (
           <ChooseAnalysisType updateJobInfo={self.updateJobInfo} />
