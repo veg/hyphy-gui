@@ -114,27 +114,14 @@ class JobSubmittal extends PureComponent {
         {self.props.method === "fel" ? (
           <ChooseSynRateVariation updateJobInfo={self.updateJobInfo} />
         ) : null}
-        {self.props.method === "gard"
-          ? [
-              <ChooseSiteRateVariation updateJobInfo={self.updateJobInfo} />,
-              <ChooseNumRateClasses updateJobInfo={self.updateJobInfo} />,
-              <div>Can't run gard yet... need an MPI environment to run.</div>
-            ]
-          : null}
-        {self.props.method === "bgm" && self.state.jobInfo.dataType == 2 ? (
-          <ChooseSubstitutionModel updateJobInfo={self.updateJobInfo} />
-        ) : null}
-        {self.props.method === "bgm" && self.state.jobInfo.dataType == 3 ? (
-          <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
-        ) : null}
         {self.props.method === "bgm" ? (
           <ChooseDataType updateJobInfo={self.updateJobInfo} />
         ) : null}
-        {self.props.method === "fubar" || self.props.method === "fade" ? (
-          <AdvancedFubarOptions updateJobInfo={self.updateJobInfo} />
-        ) : null}
         {self.props.method === "bgm" ? (
           <AdvancedBgmOptions updateJobInfo={self.updateJobInfo} />
+        ) : null}
+        {self.props.method === "fubar" || self.props.method === "fade" ? (
+          <AdvancedFubarOptions updateJobInfo={self.updateJobInfo} />
         ) : null}
         {self.props.method === "relax" ? (
           <ChooseAnalysisType updateJobInfo={self.updateJobInfo} />

@@ -21,9 +21,7 @@ class ChooseSynRateVariation extends Component {
           Synonymous rate variation (recommended)<a
             href="/help#relax-analysis-types"
             target="_blank"
-          >
-            <sup>?</sup>
-          </a>
+          />
         </label>
         <select defaultValue={1} onChange={this.handleChange}>
           <option value={1}>Yes</option>

@@ -128,7 +128,10 @@ class HyPhyGUINavBar extends Component {
                   data-toggle="collapse"
                   data-target=".navbar-collapse.show"
                 >
-                  FADE
+                  FADE{" "}
+                  <span class="badge badge-secondary fade_beta_badge">
+                    Beta
+                  </span>
                 </a>
                 <a
                   className="dropdown-item"

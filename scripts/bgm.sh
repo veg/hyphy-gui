@@ -13,8 +13,6 @@ SAMPLES_FROM_EACH_CHAIN=$9
 MAXIMUM_PARENTS=${10}
 MINIMUM_SUBSTITUTIONS=${11}
 
-echo "got this far!"
-
 
 if [ $DATA_TYPE -eq 1 ]; then
   # Nucleotide data
