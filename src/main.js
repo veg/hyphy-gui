@@ -209,7 +209,23 @@ function runAnalysisScript(jobInfo) {
       jobInfo.concDirichletPrior,
       jobInfo.posteriorEstimationMethod
     ]);
-  } else {
+  } else if (jobInfo.method === "bgm") {
+    process = spawn("bash", [
+      scriptPath,
+      hyphyDirectory,
+      jobInfo.msaPath,
+      jobInfo.treePath,
+      jobInfo.geneticCode,
+      jobInfo.substitutionModel,
+      jobInfo.dataType,
+      jobInfo.chainLength,
+      jobInfo.burnInSamples,
+      jobInfo.samplesFromEachChain,
+      jobInfo.NumberParents,
+      jobInfo.MinNumberSubsPerSite
+    ]);
+  }
+  {
     process = spawn("bash", [
       scriptPath,
       hyphyDirectory,

@@ -21,9 +21,7 @@ class ChooseSiteRateVariation extends Component {
           Site-to-site rate variation<a
             href="/help#relax-analysis-types"
             target="_blank"
-          >
-            <sup>?</sup>
-          </a>
+          />
         </label>
         <select defaultValue="1" onChange={this.handleChange}>
           <option value="1">None</option>
