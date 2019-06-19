@@ -6,8 +6,8 @@ class ChoosePosteriorEstimationMethod extends Component {
   }
 
   componentDidMount() {
-    // Set the substitution model of the parent JobSubmittal component to 1 (LG) when ChooseSubStitutionModel mounts.
-    this.props.updateJobInfo("posteriorEstimationMethod", "1");
+    // Set the substitution model of the parent JobSubmittal component to Variational-Bayes when ChooseSubStitutionModel mounts.
+    this.props.updateJobInfo("posteriorEstimationMethod", "Variational-Bayes");
   }
 
   handleChange = event => {
@@ -22,17 +22,17 @@ class ChoosePosteriorEstimationMethod extends Component {
         </label>
         <select
           name="posterior-estimation-method"
-          defaultValue="1"
+          defaultValue="Variational-Bayes"
           onChange={this.handleChange}
         >
-          <option value="1">
+          <option value="MetropolisHastings">
             Metropolis-Hastings - Full Metropolis-Hastings MCMC algorithm
             (slowest, original 2013 paper implementation)
           </option>
-          <option value="2">
+          <option value="Collapsed-Gibbs">
             Collapsed Gibbs - Collapsed Gibbs sampler (intermediate speed)
           </option>
-          <option value="3">
+          <option value="Variational-Bayes">
             Variational Bayes - 0-th order Variational Bayes approximations
             (fastest, recommended default)
           </option>

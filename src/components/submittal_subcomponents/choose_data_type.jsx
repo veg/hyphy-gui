@@ -12,7 +12,7 @@ class ChooseDataType extends Component {
 
   componentDidMount() {
     // Set the data type of the parent JobSubmittal component to 3 (Codon) when ChooseDataType mounts.
-    this.props.updateJobInfo("dataType", "3");
+    this.props.updateJobInfo("dataType", "codon");
   }
 
   handleDataTypeChange = event => {

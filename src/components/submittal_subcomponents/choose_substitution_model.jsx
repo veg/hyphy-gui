@@ -7,7 +7,7 @@ class ChooseSubstitutionModel extends Component {
 
   componentDidMount() {
     // Set the substitution model of the parent JobSubmittal component to 1 (LG) when ChooseSubStitutionModel mounts.
-    this.props.updateJobInfo("substitutionModel", "1");
+    this.props.updateJobInfo("substitutionModel", "LG");
   }
 
   handleChange = event => {
