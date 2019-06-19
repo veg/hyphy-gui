@@ -1,5 +1,6 @@
 node_modules
 .hyphy
+.hyphy-2_3_14
 bundle.js
 *.log
 *.woff

@@ -1,7 +1,5 @@
-HYPHY_DIR=$1
-LIB_PATH=$HYPHY_DIR/res
-BATCH_FILE_PATH=$HYPHY_DIR/res/TemplateBatchFiles/SelectionAnalyses/BUSTED.bf
-DATA_PATH=$2
-TREE_PATH=$3
-GENETIC_CODE=$4
-(echo $GENETIC_CODE; echo $DATA_PATH;echo $TREE_PATH; echo 5; echo 4;) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
+hyphyDir=$1
+dataPath=$2
+treePath=$3
+geneticCode=$4
+$hyphyDir/hyphy LIBPATH=$hyphyDir/res busted --alignment $dataPath --tree $treePath --code $geneticCode --branches FG

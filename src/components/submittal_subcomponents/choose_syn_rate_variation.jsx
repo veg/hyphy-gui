@@ -6,8 +6,8 @@ class ChooseSynRateVariation extends Component {
   }
 
   componentWillMount() {
-    // Set the synRateVariation of the parent JobSubmittal component to 1 (yes) when ChooseAnalysisType mounts.
-    this.props.updateJobInfo("synRateVariation", "1");
+    // Set the synRateVariation of the parent JobSubmittal component to Yes when ChooseAnalysisType mounts.
+    this.props.updateJobInfo("synRateVariation", "Yes");
   }
 
   handleChange = event => {
@@ -23,9 +23,9 @@ class ChooseSynRateVariation extends Component {
             target="_blank"
           />
         </label>
-        <select defaultValue={1} onChange={this.handleChange}>
-          <option value={1}>Yes</option>
-          <option value={2}>No</option>
+        <select defaultValue="Yes" onChange={this.handleChange}>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
         </select>
       </div>
     );

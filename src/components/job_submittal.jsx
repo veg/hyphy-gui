@@ -25,7 +25,7 @@ class JobSubmittal extends PureComponent {
     this.state = {
       jobInfo: {
         method: this.props.method,
-        geneticCode: "1",
+        geneticCode: "Universal",
         // Note that initial/default value for other job info fields (i.e. the analysis type for RELAX) are set by
         // those specific field/button components (ChooseAnalysisType for RELAX) when those components mount.
         // This was done to allow for initial/default value for the fields to be set without creating an entry

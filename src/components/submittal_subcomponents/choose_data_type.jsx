@@ -6,7 +6,7 @@ class ChooseDataType extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataType: "3"
+      dataType: "codon"
     };
   }
 
@@ -23,10 +23,10 @@ class ChooseDataType extends Component {
   render() {
     return (
       <div>
-        {this.state.dataType == "3" ? (
+        {this.state.dataType == "codon" ? (
           <ChooseGeneticCode updateJobInfo={this.props.updateJobInfo} />
         ) : null}
-        {this.state.dataType == "2" ? (
+        {this.state.dataType == "amino-acid" ? (
           <ChooseSubstitutionModel updateJobInfo={this.props.updateJobInfo} />
         ) : null}
 
@@ -36,12 +36,12 @@ class ChooseDataType extends Component {
           </label>
           <select
             id="data-type"
-            defaultValue="3"
+            defaultValue="codon"
             onChange={this.handleDataTypeChange}
           >
-            <option value="1">Nucleotide</option>
-            <option value="2">Amino acid</option>
-            <option value="3">Codon</option>
+            <option value="nucleotide">Nucleotide</option>
+            <option value="amino-acid">Amino acid</option>
+            <option value="codon">Codon</option>
           </select>
         </div>
       </div>
