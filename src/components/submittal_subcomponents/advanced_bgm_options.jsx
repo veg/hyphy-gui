@@ -36,6 +36,11 @@ class AdvancedBgmOptions extends Component {
       "samplesFromEachChain",
       this.state.samplesFromEachChain
     );
+    this.props.updateJobInfo("numberParents", this.state.numberParents);
+    this.props.updateJobInfo(
+      "minNumberSubsPerSite",
+      this.state.minNumberSubsPerSite
+    );
   }
 
   toggleShow = () => {

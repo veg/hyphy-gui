@@ -1,19 +1,17 @@
-HYPHY_DIR=$1
-LIB_PATH=$HYPHY_DIR/res
-BATCH_FILE_PATH=$HYPHY_DIR/res/TemplateBatchFiles/SelectionAnalyses/RELAX.bf
-DATA_PATH=$2
-TREE_PATH=$3
-GENETIC_CODE=$4
-ANALYSIS_TYPE=$5
+hyphyDir=$1
+dataPath=$2
+treePath=$3
+geneticCode=$4
+analysisType=$5
 
-GETCOUNT=$HYPHY_DIR/../src/helpers/bfs/getAnnotatedCount.bf
+GETCOUNT=$hyphyDir/../src/helpers/bfs/getAnnotatedCount.bf
 
-output=$(echo $TREE_PATH | $HYPHY_DIR/HYPHYMP $GETCOUNT)
+output=$(echo $treePath | $hyphyDir/hyphy $GETCOUNT)
 count=$(echo "${output: -1}")
 
 if [ $count -eq 2 ]
 then
-  (echo $GENETIC_CODE; echo $DATA_PATH; echo $TREE_PATH; echo 2; echo $ANALYSIS_TYPE;) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
+  $hyphyDir/hyphy LIBPATH=$hyphyDir/res relax --alignment $dataPath --tree $treePath --code $geneticCode --models $analysisType --mode Classic --test FG --referece-group 'Unlabeled branches' 
 else
-  (echo $GENETIC_CODE; echo $DATA_PATH; echo $TREE_PATH; echo 3; echo 2; echo $ANALYSIS_TYPE;) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
+  $hyphyDir/hyphy LIBPATH=$hyphyDir/res relax --alignment $dataPath --tree $treePath --code $geneticCode --models $analysisType --mode Classic --test FG --reference-group
 fi

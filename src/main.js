@@ -221,8 +221,8 @@ function runAnalysisScript(jobInfo) {
       jobInfo.chainLength,
       jobInfo.burnInSamples,
       jobInfo.samplesFromEachChain,
-      jobInfo.NumberParents,
-      jobInfo.MinNumberSubsPerSite
+      jobInfo.numberParents,
+      jobInfo.minNumberSubsPerSite
     ]);
   }
   /*
