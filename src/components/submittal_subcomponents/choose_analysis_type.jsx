@@ -18,9 +18,7 @@ class ChooseAnalysisType extends Component {
     return (
       <div className="select-element">
         <label id="analysis-content">
-          Analysis Type<a href="/help#relax-analysis-types" target="_blank">
-            <sup>?</sup>
-          </a>
+          Analysis Type<a href="/help#relax-analysis-types" target="_blank" />
         </label>
         <select
           id="analysis-type"

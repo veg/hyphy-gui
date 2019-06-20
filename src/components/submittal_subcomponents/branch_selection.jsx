@@ -145,6 +145,14 @@ class BranchSelection extends React.Component {
   };
 
   submit(tree, callback) {
+    // Remove any existing FG labels (this is only for FADE at the momement as labels get stripped from trees by the datareader batch file in other methods).
+    tree.get_newick(function(node) {
+      const labelToRemove = "{" + "FG" + "}";
+      if (node.name.includes(labelToRemove)) {
+        node.name = node.name.replace(labelToRemove, "");
+      }
+    });
+
     function exportNewick(tree) {
       return tree.get_newick(function(node) {
         var tags = [];

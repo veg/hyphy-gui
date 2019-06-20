@@ -1,13 +1,17 @@
 import React, { PureComponent } from "react";
 import { GetMSAPath } from "./submittal_subcomponents/get_msa_path.jsx";
 import { ChooseGeneticCode } from "./submittal_subcomponents/choose_genetic_code.jsx";
+import { ChooseSubstitutionModel } from "./submittal_subcomponents/choose_substitution_model.jsx";
+import { ChoosePosteriorEstimationMethod } from "./submittal_subcomponents/choose_posterior_estimation_method.jsx";
 import { ChooseAnalysisType } from "./submittal_subcomponents/choose_analysis_type.jsx";
 import { ChooseSynRateVariation } from "./submittal_subcomponents/choose_syn_rate_variation.jsx";
 import { ChooseSiteRateVariation } from "./submittal_subcomponents/choose_site_rate_variation.jsx";
 import { ChooseNumRateClasses } from "./submittal_subcomponents/choose_num_rate_classes.jsx";
 import { AdvancedFubarOptions } from "./submittal_subcomponents/advanced_fubar_options.jsx";
+import { AdvancedBgmOptions } from "./submittal_subcomponents/advanced_bgm_options.jsx";
 import { ParseAndValidateMSA } from "./submittal_subcomponents/parse_and_validate_msa.jsx";
 import { BranchSelection } from "./submittal_subcomponents/branch_selection.jsx";
+import { ChooseDataType } from "./submittal_subcomponents/choose_data_type.jsx";
 import methodSpecificInfo from "./../helpers/method_specific_info";
 
 /**
@@ -32,6 +36,13 @@ class JobSubmittal extends PureComponent {
       filePassedValidation: false,
       branchSelectionSaved: false
     };
+  }
+
+  componentDidMount() {
+    // Set the genetic code to null for FADE so that it can skip the datareader bach file.
+    if (this.props.method === "fade") {
+      this.updateJobInfo("geneticCode", null);
+    }
   }
 
   updateJobInfo = (key, value) => {
@@ -77,25 +88,39 @@ class JobSubmittal extends PureComponent {
 
   render() {
     const self = this;
+
     return (
       <div style={{ paddingRight: "20px", paddingLeft: "20px" }}>
         <h1>{methodSpecificInfo[self.props.method].name}</h1>
         <p>{methodSpecificInfo[self.props.method].description}</p>
         <GetMSAPath updateJobInfo={self.updateJobInfo} comm={self.props.comm} />
-        <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
 
         {/* Method Specific Options */}
+        {self.props.method != "fade" && self.props.method != "bgm" ? (
+          <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
+        ) : null}
+        {self.props.method === "fade" ? (
+          <div>
+            <p>
+              Uploaded file must contain both an amino acid multiple sequence
+              alignment and a rooted tree
+            </p>
+            <ChooseSubstitutionModel updateJobInfo={self.updateJobInfo} />
+          </div>
+        ) : null}
+        {self.props.method === "fade" || self.props.method === "fubar" ? (
+          <ChoosePosteriorEstimationMethod updateJobInfo={self.updateJobInfo} />
+        ) : null}
         {self.props.method === "fel" ? (
           <ChooseSynRateVariation updateJobInfo={self.updateJobInfo} />
         ) : null}
-        {self.props.method === "gard"
-          ? [
-              <ChooseSiteRateVariation updateJobInfo={self.updateJobInfo} />,
-              <ChooseNumRateClasses updateJobInfo={self.updateJobInfo} />,
-              <div>Can't run gard yet... need an MPI environment to run.</div>
-            ]
-          : null}
-        {self.props.method === "fubar" ? (
+        {self.props.method === "bgm" ? (
+          <ChooseDataType updateJobInfo={self.updateJobInfo} />
+        ) : null}
+        {self.props.method === "bgm" ? (
+          <AdvancedBgmOptions updateJobInfo={self.updateJobInfo} />
+        ) : null}
+        {self.props.method === "fubar" || self.props.method === "fade" ? (
           <AdvancedFubarOptions updateJobInfo={self.updateJobInfo} />
         ) : null}
         {self.props.method === "relax" ? (

@@ -191,9 +191,41 @@ function runAnalysisScript(jobInfo) {
       jobInfo.MCMCChains,
       jobInfo.burnInSamples,
       jobInfo.samplesFromEachChain,
-      jobInfo.concDirichletPrior
+      jobInfo.concDirichletPrior,
+      jobInfo.posteriorEstimationMethod
     ]);
-  } else {
+  } else if (jobInfo.method === "fade") {
+    process = spawn("bash", [
+      scriptPath,
+      hyphyDirectory,
+      jobInfo.msaPath,
+      jobInfo.treePath,
+      jobInfo.substitutionModel,
+      jobInfo.gridPoints,
+      jobInfo.chainLength,
+      jobInfo.MCMCChains,
+      jobInfo.burnInSamples,
+      jobInfo.samplesFromEachChain,
+      jobInfo.concDirichletPrior,
+      jobInfo.posteriorEstimationMethod
+    ]);
+  } else if (jobInfo.method === "bgm") {
+    process = spawn("bash", [
+      scriptPath,
+      hyphyDirectory,
+      jobInfo.msaPath,
+      jobInfo.treePath,
+      jobInfo.geneticCode,
+      jobInfo.substitutionModel,
+      jobInfo.dataType,
+      jobInfo.chainLength,
+      jobInfo.burnInSamples,
+      jobInfo.samplesFromEachChain,
+      jobInfo.NumberParents,
+      jobInfo.MinNumberSubsPerSite
+    ]);
+  }
+  {
     process = spawn("bash", [
       scriptPath,
       hyphyDirectory,

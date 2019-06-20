@@ -8,6 +8,8 @@ const FUBAR = hyphyVision.fubar.FUBAR;
 const MEME = hyphyVision.meme.MEME;
 const RELAX = hyphyVision.relax.RELAX;
 const SLAC = hyphyVision.slac.SLAC;
+const FADE = hyphyVision.fade.FADE;
+const BGM = hyphyVision.bgm.BGM;
 
 class Results extends Component {
   constructor(props) {
@@ -64,6 +66,12 @@ class Results extends Component {
         ) : null}
         {method === "slac" ? (
           <SLAC data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
+        {method === "fade" ? (
+          <FADE data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
+        {method === "bgm" ? (
+          <BGM data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
       </div>
     );

@@ -38,6 +38,17 @@ const methodSpecificInfo = {
     name: "SLAC",
     description: "Single-Likelihood Ancestor Counting",
     branchSelection: true
+  },
+  fade: {
+    name: "FADE",
+    description:
+      "A FUBAR* Approach to Directional Evolution (*Fast, Unconstrained Bayesian AppRoximation for Inferring Selection)",
+    branchSelection: true
+  },
+  bgm: {
+    name: "BGM",
+    description: "Bayesian Graphical Models for co-evolving sites",
+    branchSelection: true
   }
 };
 
