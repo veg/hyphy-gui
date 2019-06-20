@@ -11,7 +11,7 @@ count=$(echo "${output: -1}")
 
 if [ $count -eq 2 ]
 then
-  $hyphyDir/hyphy LIBPATH=$hyphyDir/res relax --alignment $dataPath --tree $treePath --code $geneticCode --models $analysisType --mode Classic --test FG --referece-group 'Unlabeled branches' 
+  $hyphyDir/hyphy LIBPATH=$hyphyDir/res relax --alignment $dataPath --tree $treePath --code $geneticCode --models $analysisType --mode Classic --test TEST --referece-group 'Unlabeled branches' 
 else
-  $hyphyDir/hyphy LIBPATH=$hyphyDir/res relax --alignment $dataPath --tree $treePath --code $geneticCode --models $analysisType --mode Classic --test FG --reference-group
+  $hyphyDir/hyphy LIBPATH=$hyphyDir/res relax --alignment $dataPath --tree $treePath --code $geneticCode --models $analysisType --mode Classic --test TEST --reference-group REFERENCE
 fi

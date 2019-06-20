@@ -224,9 +224,7 @@ function runAnalysisScript(jobInfo) {
       jobInfo.numberParents,
       jobInfo.minNumberSubsPerSite
     ]);
-  }
-  /*
-  {
+  } else {
     process = spawn("bash", [
       scriptPath,
       hyphyDirectory,
@@ -235,7 +233,6 @@ function runAnalysisScript(jobInfo) {
       jobInfo.geneticCode
     ]);
   }
-  */
 
   // Send the stdout to the render window which can listen for 'stdout'.
   process.stdout.on("data", data => {

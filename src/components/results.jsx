@@ -42,13 +42,9 @@ class Results extends Component {
     let method = self.props.jobInfo.method;
     return (
       <div>
-        {method === "absrel"
-          ? [
-              <div>
-                <BSREL data={self.state.jsonData} fasta={self.state.fasta} />
-              </div>
-            ]
-          : null}
+        {method === "absrel" ? (
+          <BSREL data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
         {method === "busted" ? (
           <BUSTED data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
