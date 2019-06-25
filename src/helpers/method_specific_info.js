@@ -22,6 +22,11 @@ const methodSpecificInfo = {
       "A Fast, Unconstrained Bayesian AppRoximation for Inferring Selection",
     branchSelection: false
   },
+  gard: {
+    name: "GARD",
+    description: "Genetic Algorithm for Recombination Detection",
+    branchSelection: false
+  },
   meme: {
     name: "MEME",
     description:

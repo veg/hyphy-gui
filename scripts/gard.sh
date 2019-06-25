@@ -1,8 +1,34 @@
-HYPHY_DIR=$1
-LIB_PATH=$HYPHY_DIR/res
-BATCH_FILE_PATH=$HYPHY_DIR/res/TemplateBatchFiles/GARD.bf
-DATA_PATH=$2
-GENETIC_CODE=$3
-SITE_RATE_VARIATION=$4
-NUM_RATE_CLASSES=$5
-(echo $GENETIC_CODE; echo $DATA_PATH; echo 3; echo 1; echo $SITE_RATE_VARIATION; echo $NUM_RATE_CLASSES:) | $HYPHY_DIR/HYPHYMPI LIBPATH=$LIB_PATH $BATCH_FILE_PATH
+hyphyDir=$1
+dataPath=$2
+geneticCode=$3
+substitutionModel=$4
+dataType=$5
+rateVariation=$6
+rateClasses=$7
+
+# To be changed after gard and bgm keyword args are made consistent (https://github.com/veg/hyphy/pull/985)
+if [ $dataType = 'nucleotide' ]
+then
+  dataType=Nucleotide
+fi
+if [ $dataType = 'codon' ]
+then
+  dataType=Codon
+fi
+if [ $dataType = 'amino-acid' ]
+then
+  dataType=Protein
+fi
+
+# Test if geneticCode or substitutionModel are defined... if not asign them to placeholder values
+if [ -z $geneticCode ]
+then
+  geneticCode='Universal'
+fi
+if [ -z $substitutionModel ]
+then
+  substitutionModel='LG'
+fi
+
+$hyphyDir/hyphy LIBPATH=$hyphyDir/res gard --alignment $dataPath --type $dataType --code $geneticCode --baseline_model $substitutionModel --rv $rateVariation --rate-classes $rateClasses
+

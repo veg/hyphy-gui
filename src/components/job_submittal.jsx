@@ -12,6 +12,7 @@ import { AdvancedBgmOptions } from "./submittal_subcomponents/advanced_bgm_optio
 import { ParseAndValidateMSA } from "./submittal_subcomponents/parse_and_validate_msa.jsx";
 import { BranchSelection } from "./submittal_subcomponents/branch_selection.jsx";
 import { ChooseDataType } from "./submittal_subcomponents/choose_data_type.jsx";
+import { ChooseRateVariation } from "./submittal_subcomponents/choose_rate_variation.jsx";
 import methodSpecificInfo from "./../helpers/method_specific_info";
 
 /**
@@ -96,7 +97,9 @@ class JobSubmittal extends PureComponent {
         <GetMSAPath updateJobInfo={self.updateJobInfo} comm={self.props.comm} />
 
         {/* Method Specific Options */}
-        {self.props.method != "fade" && self.props.method != "bgm" ? (
+        {self.props.method != "fade" &&
+        self.props.method != "bgm" &&
+        self.props.method != "gard" ? (
           <ChooseGeneticCode updateJobInfo={self.updateJobInfo} />
         ) : null}
         {self.props.method === "fade" ? (
@@ -114,11 +117,14 @@ class JobSubmittal extends PureComponent {
         {self.props.method === "fel" ? (
           <ChooseSynRateVariation updateJobInfo={self.updateJobInfo} />
         ) : null}
-        {self.props.method === "bgm" ? (
+        {self.props.method === "bgm" || self.props.method == "gard" ? (
           <ChooseDataType updateJobInfo={self.updateJobInfo} />
         ) : null}
         {self.props.method === "bgm" ? (
           <AdvancedBgmOptions updateJobInfo={self.updateJobInfo} />
+        ) : null}
+        {self.props.method === "gard" ? (
+          <ChooseRateVariation updateJobInfo={self.updateJobInfo} />
         ) : null}
         {self.props.method === "fubar" || self.props.method === "fade" ? (
           <AdvancedFubarOptions updateJobInfo={self.updateJobInfo} />

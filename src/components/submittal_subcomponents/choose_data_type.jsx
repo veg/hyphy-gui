@@ -18,6 +18,9 @@ class ChooseDataType extends Component {
   handleDataTypeChange = event => {
     this.setState({ dataType: event.target.value });
     this.props.updateJobInfo("dataType", event.target.value);
+    if (event.target.value == "amino-acid") {
+      this.props.updateJobInfo("geneticCode", null);
+    }
   };
 
   render() {

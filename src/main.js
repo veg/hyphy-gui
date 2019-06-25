@@ -224,6 +224,17 @@ function runAnalysisScript(jobInfo) {
       jobInfo.numberParents,
       jobInfo.minNumberSubsPerSite
     ]);
+  } else if (jobInfo.method === "gard") {
+    process = spawn("bash", [
+      scriptPath,
+      hyphyDirectory,
+      jobInfo.msaPath,
+      jobInfo.geneticCode,
+      jobInfo.substitutionModel,
+      jobInfo.dataType,
+      jobInfo.rateVariation,
+      jobInfo.numRateClasses
+    ]);
   } else {
     process = spawn("bash", [
       scriptPath,
