@@ -1,22 +1,18 @@
-HYPHY_DIR=$1
-LIB_PATH=$HYPHY_DIR/res
-BATCH_FILE_PATH=$HYPHY_DIR/res/TemplateBatchFiles/SelectionAnalyses/FUBAR.bf
-DATA_PATH=$2
-TREE_PATH=$3
-GENETIC_CODE=$4
-POSTERIORESTIMATIONMETHOD=${11}
-GRID_POINTS=$5
-CHAIN_LENGTH=$6
-MCMC_CHAINS=$7
-BURN_IN_SAMPLES=$8
-SAMPLES_FROM_EACH_CHAIN=$9
-CONC_DIRICHLET_PRIOR=${10}
+hyphyDir=$1
+dataPath=$2
+treePath=$3
+geneticCode=$4
+posteriorEstimationMethod=${11}
+gridPoints=$5
+chainLength=$6
+mcmcChains=$7
+burnIn=$8
+samples=$9
+concDirichletPrior=${10}
 
-
-# The if then statment is to deal with the different (reduced) menue options if variational bayes is selected as the posterior estimation method
-if [ $POSTERIORESTIMATIONMETHOD -eq 3 ]
+if [ $posteriorEstimationMethod == "Variational-Bayes" ]
 then
-  (echo $GENETIC_CODE; echo $DATA_PATH; echo $TREE_PATH; echo $GRID_POINTS; echo $POSTERIORESTIMATIONMETHOD; echo $CONC_DIRICHLET_PRIOR;) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
+  $hyphyDir/hyphy LIBPATH=$hyphyDir/res fubar --alignment $dataPath --tree $treePath --code $geneticCode --method $posteriorEstimationMethod --grid $gridPoints --concentration_parameter $concDirichletPrior
 else
-  (echo $GENETIC_CODE; echo $DATA_PATH; echo $TREE_PATH; echo $GRID_POINTS; echo $POSTERIORESTIMATIONMETHOD; echo $MCMC_CHAINS; echo $CHAIN_LENGTH; echo $BURN_IN_SAMPLES; echo $SAMPLES_FROM_EACH_CHAIN; echo $CONC_DIRICHLET_PRIOR;) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
+  $hyphyDir/hyphy LIBPATH=$hyphyDir/res fubar --alignment $dataPath --tree $treePath --code $geneticCode --method $posteriorEstimationMethod --grid $gridPoints --concentration_parameter $concDirichletPrior --chains $mcmcChains --chain-length $chainLength --burn-in $burnIn --samples $samples
 fi

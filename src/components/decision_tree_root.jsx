@@ -553,20 +553,8 @@ function GARD(props) {
       title="GARD"
       href="gard"
       gui={props.gui}
-      changeAppState={() =>
-        alert(
-          "GARD is not implemented in the desktop version of HyPhy. Please use the command line version of HyPhy or datamonkey.org"
-        )
-      }
+      changeAppState={props.changeAppState}
     >
-      {props.gui ? (
-        <h4>
-          <strong>NOTE: </strong>GARD requires the message passing interface
-          (MPI) version of HyPhy which is not included in the desktop HyPhy
-          application. GARD is available at datamonkey.org or the command line
-          implementation of HyPhy
-        </h4>
-      ) : null}
       <p>
         GARD (<strong>Genetic</strong> <strong>Algorithm</strong> for{" "}
         <strong>Recombination</strong> <strong>Detection</strong>) is a method

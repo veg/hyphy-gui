@@ -10,6 +10,7 @@ const RELAX = hyphyVision.relax.RELAX;
 const SLAC = hyphyVision.slac.SLAC;
 const FADE = hyphyVision.fade.FADE;
 const BGM = hyphyVision.bgm.BGM;
+const GARD = hyphyVision.gard.GARD;
 
 class Results extends Component {
   constructor(props) {
@@ -42,13 +43,9 @@ class Results extends Component {
     let method = self.props.jobInfo.method;
     return (
       <div>
-        {method === "absrel"
-          ? [
-              <div>
-                <BSREL data={self.state.jsonData} fasta={self.state.fasta} />
-              </div>
-            ]
-          : null}
+        {method === "absrel" ? (
+          <BSREL data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
         {method === "busted" ? (
           <BUSTED data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
@@ -72,6 +69,9 @@ class Results extends Component {
         ) : null}
         {method === "bgm" ? (
           <BGM data={self.state.jsonData} fasta={self.state.fasta} />
+        ) : null}
+        {method === "gard" ? (
+          <GARD data={self.state.jsonData} fasta={self.state.fasta} />
         ) : null}
       </div>
     );

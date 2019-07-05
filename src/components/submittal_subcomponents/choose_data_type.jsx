@@ -6,27 +6,30 @@ class ChooseDataType extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataType: "3"
+      dataType: "codon"
     };
   }
 
   componentDidMount() {
     // Set the data type of the parent JobSubmittal component to 3 (Codon) when ChooseDataType mounts.
-    this.props.updateJobInfo("dataType", "3");
+    this.props.updateJobInfo("dataType", "codon");
   }
 
   handleDataTypeChange = event => {
     this.setState({ dataType: event.target.value });
     this.props.updateJobInfo("dataType", event.target.value);
+    if (event.target.value == "amino-acid") {
+      this.props.updateJobInfo("geneticCode", null);
+    }
   };
 
   render() {
     return (
       <div>
-        {this.state.dataType == "3" ? (
+        {this.state.dataType == "codon" ? (
           <ChooseGeneticCode updateJobInfo={this.props.updateJobInfo} />
         ) : null}
-        {this.state.dataType == "2" ? (
+        {this.state.dataType == "amino-acid" ? (
           <ChooseSubstitutionModel updateJobInfo={this.props.updateJobInfo} />
         ) : null}
 
@@ -36,12 +39,12 @@ class ChooseDataType extends Component {
           </label>
           <select
             id="data-type"
-            defaultValue="3"
+            defaultValue="codon"
             onChange={this.handleDataTypeChange}
           >
-            <option value="1">Nucleotide</option>
-            <option value="2">Amino acid</option>
-            <option value="3">Codon</option>
+            <option value="nucleotide">Nucleotide</option>
+            <option value="amino-acid">Amino acid</option>
+            <option value="codon">Codon</option>
           </select>
         </div>
       </div>

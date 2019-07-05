@@ -7,7 +7,7 @@ class ChooseAnalysisType extends Component {
 
   componentDidMount() {
     // Set the analysis type of the parent JobSubmittal component to 1 (all) when ChooseAnalysisType mounts.
-    this.props.updateJobInfo("analysisType", "1");
+    this.props.updateJobInfo("analysisType", "All");
   }
 
   handleChange = event => {
@@ -22,11 +22,11 @@ class ChooseAnalysisType extends Component {
         </label>
         <select
           id="analysis-type"
-          defaultValue="1"
+          defaultValue="All"
           onChange={this.handleChange}
         >
-          <option value="1">All</option>
-          <option value="2">Minimal</option>
+          <option value="All">All</option>
+          <option value="Minimal">Minimal</option>
         </select>
       </div>
     );

@@ -97,6 +97,15 @@ class HyPhyGUINavBar extends Component {
                 <a
                   className="dropdown-item"
                   href="#"
+                  onClick={() => this.openNewJobSubmittalPage("gard")}
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show"
+                >
+                  GARD
+                </a>
+                <a
+                  className="dropdown-item"
+                  href="#"
                   onClick={() => this.openNewJobSubmittalPage("meme")}
                   data-toggle="collapse"
                   data-target=".navbar-collapse.show"

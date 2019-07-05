@@ -1,29 +1,14 @@
-HYPHY_DIR=$1
-LIB_PATH=$HYPHY_DIR/res
-BATCH_FILE_PATH=$HYPHY_DIR/res/TemplateBatchFiles/BGM.bf
-DATA_PATH=$2
-TREE_PATH=$3
-GENETIC_CODE=$4
-SUBSTITUTION_MODEL=$5
-DATA_TYPE=$6
-CHAIN_LENGTH=$7
-BURN_IN_SAMPLES=$8
-SAMPLES_FROM_EACH_CHAIN=$9
+hyphyDir=$1
+dataPath=$2
+treePath=$3
+geneticCode=$4
+substitutionModel=$5
+dataType=$6
+chainLength=$7
+burnInSamples=$8
+samplesFromEachChain=$9
+maximumParents=${10}
+minimumSubstitutions=${11}
 
-MAXIMUM_PARENTS=${10}
-MINIMUM_SUBSTITUTIONS=${11}
+$hyphyDir/hyphy LIBPATH=$hyphyDir/res bgm --alignment $dataPath --tree $treePath --run_type $dataType --branches FG --code $geneticCode --baseline_model $substitutionModel --steps $chainLength --burn-in $burnInSamples --samples $samplesFromEachChain --max-parents $maximumParents --min-subs $minimumSubstitutions 
 
-
-if [ $DATA_TYPE -eq 1 ]; then
-  # Nucleotide data
-  echo "(echo $DATA_TYPE; echo $DATA_PATH; echo $TREE_PATH; echo 1; echo $CHAIN_LENGTH; echo $BURN_IN_SAMPLES; echo $SAMPLES_FROM_EACH_CHAN; echo $MAXIMUM_PARENTS; echo $MINIMUM_SUBSTITUTIONS; ) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH"
-  (echo $DATA_TYPE; echo $DATA_PATH; echo $TREE_PATH;  echo 1; echo $CHAIN_LENGTH; echo $BURN_IN_SAMPLES; echo $SAMPLES_FROM_EACH_CHAIN; echo $MAXIMUM_PARENTS; echo $MINIMUM_SUBSTITUTIONS; ) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
-elif [ $DATA_TYPE -eq 2 ]; then
-  # Amino acid
-  echo "(echo $DATA_TYPE; echo $DATA_PATH; echo $SUBSTITUTION_MODEL; echo $TREE_PATH;  echo 1; echo $CHAIN_LENGTH; echo $BURN_IN_SAMPLES; echo $SAMPLES_FROM_EACH_CHAIN; echo $MAXIMUM_PARENTS; echo $MINIMUM_SUBSTITUTIONS; ) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH"
-  (echo $DATA_TYPE; echo $DATA_PATH; echo $SUBSTITUTION_MODEL; echo $TREE_PATH;  echo 1; echo $CHAIN_LENGTH; echo $BURN_IN_SAMPLES; echo $SAMPLES_FROM_EACH_CHAIN; echo $MAXIMUM_PARENTS; echo $MINIMUM_SUBSTITUTIONS; ) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
-else
-  # Codon
-  echo "(echo $DATA_TYPE; echo $GENETIC_CODE; echo $DATA_PATH; echo $TREE_PATH;  echo 1; echo $CHAIN_LENGTH; echo $BURN_IN_SAMPLES; echo $SAMPLES_FROM_EACH_CHAIN; echo $MAXIMUM_PARENTS; echo $MINIMUM_SUBSTITUTIONS; ) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH"
-  (echo $DATA_TYPE; echo $GENETIC_CODE; echo $DATA_PATH; echo $TREE_PATH;  echo 1; echo $CHAIN_LENGTH; echo $BURN_IN_SAMPLES; echo $SAMPLES_FROM_EACH_CHAIN; echo $MAXIMUM_PARENTS; echo $MINIMUM_SUBSTITUTIONS; ) | $HYPHY_DIR/HYPHYMP LIBPATH=$LIB_PATH $BATCH_FILE_PATH
-fi
